@@ -1,11 +1,10 @@
 const AppRoute = {
   ROOT: `/`,
   CONVERTER: `/converter`,
-  INFO: `/info`,
+  SERVICES: `/services`,
   LOAN: `/loan`,
   CONTACTS: `/contacts`,
   QUESTION: `/question`,
-  LOGIN: `/login`,
 };
 
 const APIRoute = {

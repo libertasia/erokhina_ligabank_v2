@@ -1,0 +1,28 @@
+.header {
+  flex: 0 0 auto;
+  background-color: $background-color;
+  margin: 0;
+}
+
+.header__navigation {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.header__navigation-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 1016px;
+}
+
+.header__navigation-btn {
+  display: none;
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    display: block;
+  }
+}

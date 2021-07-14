@@ -1,0 +1,31 @@
+.site-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  width: 502px;
+  margin: 0;
+  margin-top: 35px;
+  padding: 0;
+}
+
+.site-navigation__item {
+  list-style: none;
+  margin: 0;
+  margin-bottom: 35px;
+  margin-right: 20px;
+}
+
+.site-navigation__item:last-child {
+  margin-right: 0;
+}
+
+.site-navigation__link {
+  padding: 5px;
+  color: $basic-text-color;
+
+  &:hover {
+    color: $basic-bright;
+  }
+  &:active {
+    color: $basic-bright;
+  }
+}

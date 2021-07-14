@@ -6,10 +6,10 @@ import {createStore} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {Router as BrowserRouter} from 'react-router-dom';
 import App from './components/app/app';
-import rootReducer from './store/root-reducer';
+// import rootReducer from './store/root-reducer';
 
 const store = createStore(
-    rootReducer,
+    // rootReducer,
     composeWithDevTools(),
 );
 
