@@ -17,6 +17,7 @@ const MainScreen = () => {
   const hiddenUserNavListClassName = isMenuOpened ? `user-navigation--opened` : ``;
   const hiddenUserNavItemClassName = isMenuOpened ? `user-navigation__item--opened` : ``;
   const hiddenUserNavTextClassName = isMenuOpened ? `user-navigation__text--opened` : ``;
+  const hiddenHeaderClassName = isMenuOpened ? `header__navigation--menu-opened` : ``;
 
   const handleOpenMenuBtnClick = () => {
     setIsMenuOpened(true);
@@ -43,7 +44,7 @@ const MainScreen = () => {
   return (
     <React.Fragment>
       <header className="header">
-        <nav className="header__navigation container">
+        <nav className={`header__navigation ${hiddenHeaderClassName} container`}>
           <button className="header__navigation-btn" type="button" onClick={handleOpenMenuBtnClick}>
             <span className="visually-hidden">Открыть меню</span>
             <svg width={16} height={10}>

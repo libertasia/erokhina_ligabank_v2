@@ -19,8 +19,14 @@
   align-items: center;
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
     position: relative;
+  }
+}
+
+.header__navigation--menu-opened {
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    flex-wrap: wrap;
   }
 }
 
