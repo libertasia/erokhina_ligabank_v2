@@ -2,6 +2,14 @@
   flex: 0 0 auto;
   background-color: $background-color;
   margin: 0;
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    font-size: 14px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    font-size: 16px;
+  }
 }
 
 .header__navigation {
@@ -9,6 +17,11 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    flex-wrap: wrap;
+    position: relative;
+  }
 }
 
 .header__navigation-wrapper {
@@ -22,8 +35,43 @@
 
 .header__navigation-btn {
   display: none;
+  width: 16px;
+  height: 10px;
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
     display: block;
+    margin: 0;
+    margin-top: 19px;
+    margin-bottom: 19px;
+    margin-right: 14px;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+  }
+}
+
+.header__navigation-wrapper--opened {
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex: 1 0 auto;
+  }
+}
+
+.header__navigation-btn-close {
+  display: none;
+
+  &--showed {
+    @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+      display: block;
+      margin: 0;
+      padding: 0;
+      border: none;
+      background-color: transparent;
+      position: absolute;
+      top: 16px;
+      right: 19px;
+    }
   }
 }

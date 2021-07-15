@@ -10,6 +10,24 @@
   @media (min-width: $desktop) and (max-width: $large-breakpoint) {
     width: 483px;
   }
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    margin-top: 27px;
+    width: 421px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    display: none;
+  }
+}
+
+.site-navigation--opened {
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 32px;
+  }
 }
 
 .site-navigation__item {
@@ -20,6 +38,19 @@
 
   @media (min-width: $desktop) and (max-width: $large-breakpoint) {
     margin-right: 15px;
+  }
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    margin-bottom: 23px;
+    margin-right: 10px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    margin: 0;
+    padding-top: 25px;
+    padding-left: 15px;
+    padding-bottom: 24px;
+    border-top: 1px solid $light-grey;
   }
 }
 

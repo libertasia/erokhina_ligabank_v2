@@ -1,35 +1,78 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from "react-router-dom";
 import logo from '../../img/logo.svg';
 import sprite from '../../img/sprite.svg';
 import {AppRoute} from '../../const';
 
-const ConversionScreen = () => {
+const ESC_KEY_CODE = 27;
+
+const KEY_DOWN = `keydown`;
+
+const MainScreen = () => {
+  const [isMenuOpened, setIsMenuOpened] = useState(false);
+
+  const hiddenCloseBtnClassName = isMenuOpened ? `header__navigation-btn-close--showed` : ``;
+  const hiddenNavigationWrapperClassName = isMenuOpened ? `header__navigation-wrapper--opened` : ``;
+  const hiddenSiteNavListClassName = isMenuOpened ? `site-navigation--opened` : ``;
+  const hiddenUserNavListClassName = isMenuOpened ? `user-navigation--opened` : ``;
+  const hiddenUserNavItemClassName = isMenuOpened ? `user-navigation__item--opened` : ``;
+  const hiddenUserNavTextClassName = isMenuOpened ? `user-navigation__text--opened` : ``;
+
+  const handleOpenMenuBtnClick = () => {
+    setIsMenuOpened(true);
+  };
+
+  const handleCloseMenuBtnClick = () => {
+    setIsMenuOpened(false);
+  };
+
+  const handleEscPress = (evt) => {
+    if (evt.keyCode === ESC_KEY_CODE) {
+      setIsMenuOpened(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener(KEY_DOWN, handleEscPress);
+
+    return () => {
+      document.removeEventListener(KEY_DOWN, handleEscPress);
+    };
+  }, []);
 
   return (
     <React.Fragment>
       <header className="header">
         <nav className="header__navigation container">
-          <button className="header__navigation-btn" type="button">
+          <button className="header__navigation-btn" type="button" onClick={handleOpenMenuBtnClick}>
             <span className="visually-hidden">Открыть меню</span>
+            <svg width={16} height={10}>
+              <use href={sprite + `#menu`} />
+            </svg>
+          </button>
+          <button className={`header__navigation-btn-close ${hiddenCloseBtnClassName}`} type="button" onClick={handleCloseMenuBtnClick}>
+            <span className="visually-hidden">Закрыть меню</span>
+            <svg width={13} height={13}>
+              <use href={sprite + `#menu-close`} />
+            </svg>
           </button>
           <a className="logo" href="#">
             <img className="logo__image" src={logo} width={150} height={27} alt="Логотип Лига Банк»" />
           </a>
-          <div className="header__navigation-wrapper">
-            <ul className="site-navigation">
+          <div className={`header__navigation-wrapper ${hiddenNavigationWrapperClassName}`}>
+            <ul className={`site-navigation ${hiddenSiteNavListClassName}`}>
               <li className="site-navigation__item"><Link className="site-navigation__link" to={AppRoute.SERVICES}>Услуги</Link></li>
               <li className="site-navigation__item"><Link className="site-navigation__link" to={AppRoute.LOAN}>Рассчитать кредит</Link></li>
               <li className="site-navigation__item"><Link className="site-navigation__link" to={AppRoute.CONVERTER}>Конвертер валют</Link></li>
               <li className="site-navigation__item"><Link className="site-navigation__link" to={AppRoute.CONTACTS}>Контакты</Link></li>
             </ul>
-            <ul className="user-navigation">
-              <li className="user-navigation__item">
+            <ul className={`user-navigation ${hiddenUserNavListClassName}`}>
+              <li className={`user-navigation__item ${hiddenUserNavItemClassName}`}>
                 <a className="user-navigation__link" href="#" aria-label="Войти в Интернет-банк">
                   <svg className="user-navigation__icon" width={20} height={22}>
                     <use href={sprite + `#icon-login`} />
                   </svg>
-                  <span className="user-navigation__text">Войти в Интернет-банк</span>
+                  <span className={`user-navigation__text ${hiddenUserNavTextClassName}`}>Войти в Интернет-банк</span>
                 </a>
               </li>
             </ul>
@@ -116,4 +159,4 @@ const ConversionScreen = () => {
   );
 };
 
-export default ConversionScreen;
+export default MainScreen;

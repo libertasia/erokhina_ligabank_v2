@@ -11,9 +11,33 @@
   @media (min-width: $desktop) and (max-width: $large-breakpoint) {
     margin-right: 45px;
   }
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    width: 133px;
+    margin-right: 61px;
+    padding-top: 23px;
+    padding-bottom: 24px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    width: 115px;
+    margin: 0;
+    padding-top: 15px;
+    padding-bottom: 16px;
+  }
 }
 
 .logo__image {
   width: 150px;
   height: 27px;
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    width: 133px;
+    height: 22px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    width: 115px;
+    height: 17px;
+  }
 }
