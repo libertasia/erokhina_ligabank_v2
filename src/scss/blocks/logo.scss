@@ -1,9 +1,12 @@
 .logo {
+  display: flex;
+  flex: 0 0 auto;
+  width: 150px;
   margin: 0;
   margin-right: 104px;
   padding: 0;
   padding-top: 27px;
-  padding-bottom: 39px;
+  padding-bottom: 33px;
 
   @media (min-width: $desktop) and (max-width: $large-breakpoint) {
     margin-right: 45px;
