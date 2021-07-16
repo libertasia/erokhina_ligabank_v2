@@ -15,32 +15,34 @@ const MAP_COORDINATES = [59.968137, 30.316272];
 
 const MainMap = () => {
   return (
-    <section className="map container">
-      <h2 className="map__title">Отделения Лига Банка</h2>
-      <YMaps>
-        <Map className="map__yandex"
-          defaultState={{
-            center: MAP_COORDINATES,
-            zoom: 15
-          }}
-          width={1170}
-          height={462}>
-          <Placemark
-            geometry={MAP_COORDINATES}
-            options={{
-              iconLayout: `default#image`,
-              iconImageHref: location
+    <div className="container">
+      <section className="map">
+        <h2 className="map__title">Отделения Лига Банка</h2>
+        <YMaps>
+          <Map className="map__yandex"
+            defaultState={{
+              center: MAP_COORDINATES,
+              zoom: 15
             }}
-          />
-        </Map>
-        <picture>
-          <source type="image/webp" media="(max-width: 767px)" srcSet={`${mobilemap1xwebp} 1x, ${mobilemap2xwebp} 2x`} />
-          <source type="image/webp" media="(max-width: 1023px)" srcSet={`${tabletmap1xwebp} 1x, ${tabletmap2xwebp} 2x`} />
-          <source type="image/webp" media="(min-width: 1024px)" srcSet={`${desktopmap1xwebp} 1x, ${desktopmap2xwebp} 2x`} />
-          <img className="map__image" src={desktopmap1xpng} srcSet={`${desktopmap2xpng} 2x`} width={1170} height={462} alt="Карта отделений Лига Банка" />
-        </picture>
-      </YMaps>
-    </section>
+            width={1170}
+            height={462}>
+            <Placemark
+              geometry={MAP_COORDINATES}
+              options={{
+                iconLayout: `default#image`,
+                iconImageHref: location
+              }}
+            />
+          </Map>
+          <picture>
+            <source type="image/webp" media="(max-width: 767px)" srcSet={`${mobilemap1xwebp} 1x, ${mobilemap2xwebp} 2x`} />
+            <source type="image/webp" media="(max-width: 1023px)" srcSet={`${tabletmap1xwebp} 1x, ${tabletmap2xwebp} 2x`} />
+            <source type="image/webp" media="(min-width: 1024px)" srcSet={`${desktopmap1xwebp} 1x, ${desktopmap2xwebp} 2x`} />
+            <img className="map__image" src={desktopmap1xpng} srcSet={`${desktopmap2xpng} 2x`} width={1170} height={462} alt="Карта отделений Лига Банка" />
+          </picture>
+        </YMaps>
+      </section>
+    </div>
   );
 };
 
