@@ -95,27 +95,24 @@ const MainScreen = () => {
         </div> */}
       </main>
       <footer className="footer">
-        {/* <div className="container footer__container">
-          <div className="footer__copyright copyright">
-            <Link className="copyright__logo logo" to={AppRoute.INFO} >
-              <img className="logo__image" src={logo} width={28} height={25} alt="Логотип Лига Банк»" />
-              <p className="logo__text"><span className="logo__text--first">Лига</span> Банк</p>
-            </Link>
-            <p className="copyright__text">150015, г. Москва, ул. Московская, д. 32 Генеральная лицензия Банка России №1050 © Лига Банк, 2019</p>
-          </div>
+        <div className="container footer__container">
+          <a className="logo footer__logo" href="#">
+            <img className="logo__image" src={logo} width={150} height={27} alt="Логотип Лига Банк»" />
+          </a>
+          <p className="footer__copyright">150015, г. Москва, ул. Московская, д. 32 Генеральная лицензия Банка России №1050<br />© Лига Банк, 2019</p>
           <ul className="footer__navigation footer-navigation">
-            <li className="footer-navigation__item"><Link className="footer-navigation__link" to={AppRoute.INFO}>Услуги</Link></li>
+            <li className="footer-navigation__item"><Link className="footer-navigation__link" to={AppRoute.SERVICES}>Услуги</Link></li>
             <li className="footer-navigation__item"><Link className="footer-navigation__link" to={AppRoute.LOAN}>Рассчитать кредит</Link></li>
             <li className="footer-navigation__item"><Link className="footer-navigation__link" to={AppRoute.CONTACTS}>Контакты</Link></li>
             <li className="footer-navigation__item"><Link className="footer-navigation__link" to={AppRoute.QUESTION}>Задать вопрос</Link></li>
           </ul>
           <div className="footer__contacts-mobile contacts">
             <span className="contacts__number">*0904</span>
-            <p className="contacts__text">Бесплатно для абонентов МТС, Билайн, Мегафон, Теле2</p>
+            <p className="contacts__text">Бесплатно для абонентов<br />МТС, Билайн, Мегафон, Теле2</p>
           </div>
           <div className="footer__contacts contacts">
             <span className="contacts__number">8 800 111 22 33</span>
-            <p className="contacts__text">Бесплатный для всех городов России</p>
+            <p className="contacts__text">Бесплатный для всех<br />городов России</p>
           </div>
           <section className="footer__social social">
             <h2 className="visually-hidden">Ссылки на соцсети</h2>
@@ -154,7 +151,7 @@ const MainScreen = () => {
               </li>
             </ul>
           </section>
-        </div> */}
+        </div>
       </footer>
     </React.Fragment>
   );
