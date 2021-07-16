@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import logo from '../../img/logo.svg';
 import sprite from '../../img/sprite.svg';
 import {AppRoute} from '../../const';
+import MainMap from '../main-map/main-map';
 
 const ESC_KEY_CODE = 27;
 
@@ -93,6 +94,7 @@ const MainScreen = () => {
           <ConversionForm />
           <ConversionHistory />
         </div> */}
+        <MainMap />
       </main>
       <footer className="footer">
         <div className="container footer__container">
