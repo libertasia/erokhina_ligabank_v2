@@ -20,7 +20,7 @@
   height: 462px;
 
   @media (min-width: $tablet) and (max-width: $large-breakpoint) {
-    width: calc(100% - 90px);
+    max-width: calc(100% - 90px);
   }
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
