@@ -1,13 +1,20 @@
 .contacts__number {
-    font-weight: 500;
-    margin: 0;
-    margin-bottom: 20px;
+  font-weight: 500;
+  margin: 0;
+  margin-bottom: 20px;
+  text-decoration: none;
+  color: $basic-text-color;
+  cursor: pointer;
+
+  &:hover {
+    color: $basic-bright;
+  }
 }
 
 .contacts__text {
-    font-size: 12px;
-    line-height: 1.4;
-    color: $grey;
-    padding: 0;
-    margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: $grey;
+  padding: 0;
+  margin: 0;
 }

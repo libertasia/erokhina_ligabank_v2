@@ -109,11 +109,11 @@ const MainScreen = () => {
             <li className="footer-navigation__item"><Link className="footer-navigation__link" to={AppRoute.QUESTION}>Задать вопрос</Link></li>
           </ul>
           <div className="footer__contacts-mobile contacts">
-            <span className="contacts__number">*0904</span>
+            <a className="contacts__number" href="tel:*0904">*0904</a>
             <p className="contacts__text">Бесплатно для абонентов<br />МТС, Билайн, Мегафон, Теле2</p>
           </div>
           <div className="footer__contacts contacts">
-            <span className="contacts__number">8 800 111 22 33</span>
+            <a className="contacts__number" href="tel:+78001112233">8 800 111 22 33</a>
             <p className="contacts__text">Бесплатный для всех<br />городов России</p>
           </div>
           <section className="footer__social social">
