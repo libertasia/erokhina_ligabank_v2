@@ -21,7 +21,11 @@ const MainScreen = () => {
   const hiddenHeaderClassName = isMenuOpened ? `header__navigation--menu-opened` : ``;
 
   const handleOpenMenuBtnClick = () => {
-    setIsMenuOpened(true);
+    if (!isMenuOpened) {
+      setIsMenuOpened(true);
+    } else {
+      setIsMenuOpened(false);
+    }
   };
 
   const handleCloseMenuBtnClick = () => {
