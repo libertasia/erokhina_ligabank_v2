@@ -17,8 +17,16 @@
   &:last-child {
     margin-right: 0;
   }
+}
 
-  &:hover {
-    opacity: 0.3;
+.social__icon {
+  fill: $basic-text-color;
+
+  .social__link:hover & {
+    fill: $basic-bright;
+  }
+
+  .social__link:active & {
+    fill: $basic-bright;
   }
 }

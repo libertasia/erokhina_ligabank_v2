@@ -122,7 +122,7 @@ const MainScreen = () => {
               <li className="social__item">
                 <a className="social__link social__link--facebook" href="https://www.facebook.com/" aria-label="Мы в Фейсбуке">
                   <span className="visually-hidden">Фейсбук</span>
-                  <svg className="social__icon-facebook" width={9} height={16}>
+                  <svg className="social__icon" width={9} height={16}>
                     <use href={sprite + `#icon-facebook`} />
                   </svg>
                 </a>
@@ -130,7 +130,7 @@ const MainScreen = () => {
               <li className="social__item">
                 <a className="social__link social__link--instagram" href="https://www.instagram.com/" aria-label="Мы в Инстаграме">
                   <span className="visually-hidden">Инстаграм</span>
-                  <svg className="social__icon-instagram" width={16} height={16}>
+                  <svg className="social__icon" width={16} height={16}>
                     <use href={sprite + `#icon-instagram`} />
                   </svg>
                 </a>
@@ -138,7 +138,7 @@ const MainScreen = () => {
               <li className="social__item">
                 <a className="social__link social__link--twitter" href="https://twitter.com/" aria-label="Мы в Твиттере">
                   <span className="visually-hidden">Твиттер</span>
-                  <svg className="social__icon-twitter" width={16} height={13}>
+                  <svg className="social__icon" width={16} height={13}>
                     <use href={sprite + `#icon-twitter`} />
                   </svg>
                 </a>
@@ -146,7 +146,7 @@ const MainScreen = () => {
               <li className="social__item">
                 <a className="social__link social__link--youtube" href="https://www.youtube.com/" aria-label="Мы на Ютюб">
                   <span className="visually-hidden">Ютюб</span>
-                  <svg className="social__icon-youtube" width={16} height={13}>
+                  <svg className="social__icon" width={16} height={13}>
                     <use href={sprite + `#icon-youtube`} />
                   </svg>
                 </a>
