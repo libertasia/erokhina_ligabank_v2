@@ -156,17 +156,17 @@ const LoginPopup = () => {
             <label className="login-popup__form-label" htmlFor="user-email">Логин</label>
             <input className="login-popup__form-input" type="email" id="user-email" name="user-email"/>
           </div>
-          <div className="login-popup__form-field">
+          <div className="login-popup__form-field login-popup__form-field--password">
             <label className="login-popup__form-label" htmlFor="user-password">Пароль</label>
             <input className="login-popup__form-input" type="password" id="user-password" name="user-password"/>
+            <button className="login-popup__show-password-btn" type="button">
+              <span className="visually-hidden">Показать пароль</span>
+              <svg width={22} height={12}>
+                <use href={sprite + `#password-show`} />
+              </svg>
+            </button>
           </div>
           <a className="login-popup__password-link" href="#">Забыли пароль?</a>
-          <button className="login-popup__show-password-btn" type="button">
-            <span className="visually-hidden">Показать пароль</span>
-            <svg width={22} height={12}>
-              <use href={sprite + `#password-show`} />
-            </svg>
-          </button>
           <button className="login-popup__submit-btn" type="submit">Войти</button>
         </form>
       </section>
