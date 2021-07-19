@@ -1,0 +1,20 @@
+.login-popup {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 544px;
+  min-height: 493px;
+  margin: 0;
+  padding: 60px 60px;
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    min-width: 678px;
+    width: calc(100% - 90px);
+    padding: 60px 88px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    width: 290px;
+    padding: 50px 20px 75px 20px;
+  }
+}

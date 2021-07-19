@@ -4,6 +4,7 @@ import logo from '../../img/logo.svg';
 import sprite from '../../img/sprite.svg';
 import {AppRoute} from '../../const';
 import MainMap from '../main-map/main-map';
+import LoginPopup from '../login-popup/login-popup';
 
 const ESC_KEY_CODE = 27;
 
@@ -159,6 +160,7 @@ const MainScreen = () => {
           </section>
         </div>
       </footer>
+      <LoginPopup />
     </React.Fragment>
   );
 };
