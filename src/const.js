@@ -1,3 +1,7 @@
+const ESC_KEY_CODE = 27;
+
+const ENTER_KEY_CODE = 13;
+
 const AppRoute = {
   ROOT: `/`,
   CONVERTER: `/converter`,
@@ -11,14 +15,4 @@ const APIRoute = {
   ROOT: `/`,
 };
 
-// const Currency = {
-//   RUB: `RUB`,
-//   USD: `USD`,
-//   EUR: `EUR`,
-//   GBP: `GBP`,
-//   CNY: `CNY`,
-// };
-
-// const APIKey = `498eb836c87d82b00421`;
-
-export {AppRoute, APIRoute};
+export {AppRoute, APIRoute, ESC_KEY_CODE, ENTER_KEY_CODE};

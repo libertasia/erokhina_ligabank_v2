@@ -4,10 +4,8 @@ import sprite from '../../img/sprite.svg';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {onOverlayClick} from '../../utils';
-// import {ActionCreator} from '../../store/action';
 import {login} from "../../store/api-actions";
-
-const ENTER_KEY_CODE = 13;
+import {ENTER_KEY_CODE} from '../../const';
 
 const PasswordType = {
   PASSWORD: `password`,
@@ -23,15 +21,20 @@ const LoginPopup = (props) => {
   const {isVisible, handleClose, onLoginFormSubmit} = props;
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+
   const [isLoginMissing, setIsLoginMissing] = useState(false);
+
   const [isPasswordMissing, setIsPasswordMissing] = useState(false);
+
   const [userData, setUserData] = useState({
     login: ``,
     password: ``,
   });
 
   const hiddenClassName = isVisible ? `popup-wrapper--display-block` : `popup-wrapper--display-none`;
+
   const hiddenMessageLoginClassName = isLoginMissing ? `` : `visually-hidden`;
+
   const hiddenMessagePasswordClassName = isPasswordMissing ? `` : `visually-hidden`;
 
   const passwordInput = document.getElementById(`user-password`);
@@ -41,7 +44,6 @@ const LoginPopup = (props) => {
     localStorage.setItem(UserLoginData.LOGIN, evt.target.value);
   };
   const setPassword = (evt) => {
-    console.log(`setting password to ${evt.target.value}`)
     setUserData({...userData, password: evt.target.value});
     localStorage.setItem(UserLoginData.PASSWORD, evt.target.value);
   };

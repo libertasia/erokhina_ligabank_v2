@@ -35,8 +35,6 @@ const MainMap = () => {
             center: MAP_COORDINATES,
             zoom: 5
           }}
-          // width={1170}
-          // height={462}
         >
           {Placemarks.map((element, index) => (
             <Placemark
