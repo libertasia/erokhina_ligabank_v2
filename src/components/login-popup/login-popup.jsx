@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import logoLogin from '../../img/logo-login.svg';
 import sprite from '../../img/sprite.svg';
 // import React, {useRef, useEffect, useState} from 'react';
@@ -8,10 +8,15 @@ import {onOverlayClick} from '../../utils';
 // import {ActionCreator} from '../../store/action';
 // import {Rating} from '../../const';
 
-
+const ENTER_KEY_CODE = 13;
 // const RATINGS_COUNT = 5;
 
 // const RADIX = 10;
+
+const PasswordType = {
+  PASSWORD: `password`,
+  TEXT: `text`,
+};
 
 // const ReviewField = {
 //   NAME: `name`,
@@ -24,6 +29,8 @@ import {onOverlayClick} from '../../utils';
 
 const LoginPopup = (props) => {
   const {isVisible, handleClose} = props;
+
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   // const {isVisible, handleClose, onReviewSubmit} = props;
 
@@ -68,6 +75,7 @@ const LoginPopup = (props) => {
   useEffect(() => {
     if (isVisible) {
       inputEl.current.focus();
+      hidePassword();
     }
     // const reviewName = localStorage.getItem(ReviewField.NAME);
     // const pros = localStorage.getItem(ReviewField.PROS);
@@ -119,6 +127,27 @@ const LoginPopup = (props) => {
   //   onReviewSubmit(review);
   //   handleClose();
   // };
+  const passwordInput = document.getElementById(`user-password`);
+
+  const showPassword = () => {
+    passwordInput.type = PasswordType.TEXT;
+    setIsPasswordVisible(true);
+  };
+
+  const hidePassword = () => {
+    passwordInput.type = PasswordType.PASSWORD;
+    setIsPasswordVisible(false);
+  };
+
+  const handleEnterKeyPress = (evt) => {
+    if (evt.keyCode === ENTER_KEY_CODE) {
+      if (isPasswordVisible) {
+        hidePassword();
+      } else {
+        showPassword();
+      }
+    }
+  };
 
   return (
     <div className={`popup-wrapper ${hiddenClassName}`}>
@@ -144,7 +173,7 @@ const LoginPopup = (props) => {
           <div className="login-popup__form-field login-popup__form-field--password">
             <label className="login-popup__form-label" htmlFor="user-password">Пароль</label>
             <input className="login-popup__form-input" type="password" id="user-password" name="user-password"/>
-            <button className="login-popup__show-password-btn" type="button">
+            <button className="login-popup__show-password-btn" type="button" onMouseDown={showPassword} onMouseUp={hidePassword} onKeyDown={handleEnterKeyPress}>
               <span className="visually-hidden">Показать пароль</span>
               <svg width={22} height={12}>
                 <use href={sprite + `#password-show`} />
