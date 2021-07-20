@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useEffect} from 'react';
 import logoLogin from '../../img/logo-login.svg';
 import sprite from '../../img/sprite.svg';
 // import React, {useRef, useEffect, useState} from 'react';
@@ -61,28 +61,30 @@ const LoginPopup = (props) => {
 
   const ref = useRef();
 
-  // const inputEl = useRef(null);
+  const inputEl = useRef(null);
 
   onOverlayClick(ref, () => handleClose(false));
 
-  // useEffect(() => {
-  //   inputEl.current.focus();
-  //   const reviewName = localStorage.getItem(ReviewField.NAME);
-  //   const pros = localStorage.getItem(ReviewField.PROS);
-  //   const cons = localStorage.getItem(ReviewField.CONS);
-  //   const savedRating = localStorage.getItem(ReviewField.RATING);
-  //   const rating = savedRating ? parseInt(localStorage.getItem(ReviewField.RATING), 10) : Rating.THREE;
+  useEffect(() => {
+    if (isVisible) {
+      inputEl.current.focus();
+    }
+    // const reviewName = localStorage.getItem(ReviewField.NAME);
+    // const pros = localStorage.getItem(ReviewField.PROS);
+    // const cons = localStorage.getItem(ReviewField.CONS);
+    // const savedRating = localStorage.getItem(ReviewField.RATING);
+    // const rating = savedRating ? parseInt(localStorage.getItem(ReviewField.RATING), 10) : Rating.THREE;
 
-  //   const comment = localStorage.getItem(ReviewField.COMMENT);
-  //   setReview({
-  //     ...review,
-  //     name: reviewName !== null ? reviewName : ``,
-  //     pros: pros !== null ? pros : ``,
-  //     cons: cons !== null ? cons : ``,
-  //     rating: rating !== null ? rating : Rating.THREE,
-  //     comment: comment !== null ? comment : ``,
-  //   });
-  // }, []);
+    // const comment = localStorage.getItem(ReviewField.COMMENT);
+    // setReview({
+    //   ...review,
+    //   name: reviewName !== null ? reviewName : ``,
+    //   pros: pros !== null ? pros : ``,
+    //   cons: cons !== null ? cons : ``,
+    //   rating: rating !== null ? rating : Rating.THREE,
+    //   comment: comment !== null ? comment : ``,
+    // });
+  }, [isVisible]);
 
   const hiddenClassName = isVisible ? `popup-wrapper--display-block` : `popup-wrapper--display-none`;
 
@@ -137,7 +139,7 @@ const LoginPopup = (props) => {
         <form className="login-popup__form" action="#" method="post">
           <div className="login-popup__form-field">
             <label className="login-popup__form-label" htmlFor="user-email">Логин</label>
-            <input className="login-popup__form-input" type="email" id="user-email" name="user-email"/>
+            <input className="login-popup__form-input" type="email" id="user-email" name="user-email" ref={inputEl} autoFocus={true}/>
           </div>
           <div className="login-popup__form-field login-popup__form-field--password">
             <label className="login-popup__form-label" htmlFor="user-password">Пароль</label>
