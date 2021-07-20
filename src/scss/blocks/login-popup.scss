@@ -72,6 +72,12 @@
   margin-bottom: 10px;
 }
 
+.login-popup__form-label span {
+  margin: 0;
+  margin-left: 20px;
+  color: red;
+}
+
 .login-popup__form-input {
   background-color: $background-color;
   border: 1px solid $basic-text-color;
@@ -154,6 +160,10 @@
   }
 
   &:hover {
+    opacity: 0.7;
+  }
+
+  &:focus {
     opacity: 0.7;
   }
 }
