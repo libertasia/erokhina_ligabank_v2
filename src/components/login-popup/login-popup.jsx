@@ -1,13 +1,13 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import logoLogin from '../../img/logo-login.svg';
 import sprite from '../../img/sprite.svg';
 // import React, {useRef, useEffect, useState} from 'react';
 // import {connect} from 'react-redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import {onOverlayClick} from '../../utils';
 // import {ActionCreator} from '../../store/action';
 // import {Rating} from '../../const';
 
-// const MOUSE_DOWN = `mousedown`;
 
 // const RATINGS_COUNT = 5;
 
@@ -21,26 +21,9 @@ import sprite from '../../img/sprite.svg';
 //   COMMENT: `comment`,
 // };
 
-// function useOnClick(ref, handler) {
-//   useEffect(() => {
-//     const listener = (event) => {
-//       // Do nothing if clicking ref's element or descendent elements
-//       if (!ref.current || ref.current.contains(event.target)) {
-//         return;
-//       }
 
-//       handler(event);
-//     };
-
-//     document.addEventListener(MOUSE_DOWN, listener);
-
-//     return () => {
-//       document.removeEventListener(MOUSE_DOWN, listener);
-//     };
-//   }, []); // Empty array ensures that effect is only run on mount and unmount
-// }
-
-const LoginPopup = () => {
+const LoginPopup = (props) => {
+  const {isVisible, handleClose} = props;
 
   // const {isVisible, handleClose, onReviewSubmit} = props;
 
@@ -76,11 +59,11 @@ const LoginPopup = () => {
   //   localStorage.setItem(ReviewField.COMMENT, evt.target.value);
   // };
 
-  // const ref = useRef();
+  const ref = useRef();
 
   // const inputEl = useRef(null);
 
-  // useOnClick(ref, () => handleClose(false));
+  onOverlayClick(ref, () => handleClose(false));
 
   // useEffect(() => {
   //   inputEl.current.focus();
@@ -101,7 +84,7 @@ const LoginPopup = () => {
   //   });
   // }, []);
 
-  // const hiddenClassName = isVisible ? `reviews__form-wrapper--display-block` : `reviews__form-wrapper--display-none`;
+  const hiddenClassName = isVisible ? `popup-wrapper--display-block` : `popup-wrapper--display-none`;
 
   // const hiddenNameClassName = isNameMissing ? `` : `visually-hidden`;
 
@@ -136,14 +119,14 @@ const LoginPopup = () => {
   // };
 
   return (
-    <div className="popup-wrapper">
-      <section className="popup-wrapper__section login-popup">
+    <div className={`popup-wrapper ${hiddenClassName}`}>
+      <section ref={ref} className="popup-wrapper__section login-popup">
         <h2 className="visually-hidden">Вход в интернет-банк</h2>
         <div className="login-popup__header">
           <a className="login-popup__logo" href="#">
             <img className="login-popup__image" src={logoLogin} width={150} height={27} alt="Логотип Лига Банк»" />
           </a>
-          <button className="login-popup__btn-close" type="button">
+          <button className="login-popup__btn-close" type="button" onClick={handleClose}>
             <span className="visually-hidden">Закрыть попап</span>
             <svg width={16} height={16}>
               <use href={sprite + `#popup-close`} />
@@ -225,11 +208,11 @@ const LoginPopup = () => {
   );
 };
 
-// AddReviewForm.propTypes = {
-//   isVisible: PropTypes.bool.isRequired,
-//   handleClose: PropTypes.func.isRequired,
-//   onReviewSubmit: PropTypes.func.isRequired,
-// };
+LoginPopup.propTypes = {
+  isVisible: PropTypes.bool.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  // onReviewSubmit: PropTypes.func.isRequired,
+};
 
 
 // const mapDispatchToProps = (dispatch) => ({

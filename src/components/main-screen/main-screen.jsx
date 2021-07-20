@@ -12,6 +12,7 @@ const KEY_DOWN = `keydown`;
 
 const MainScreen = () => {
   const [isMenuOpened, setIsMenuOpened] = useState(false);
+  const [isLoginPopupVisible, setIsLoginPopupVisible] = useState(false);
 
   const hiddenCloseBtnClassName = isMenuOpened ? `header__navigation-btn-close--showed` : ``;
   const hiddenNavigationWrapperClassName = isMenuOpened ? `header__navigation-wrapper--opened` : ``;
@@ -36,7 +37,16 @@ const MainScreen = () => {
   const handleEscPress = (evt) => {
     if (evt.keyCode === ESC_KEY_CODE) {
       setIsMenuOpened(false);
+      setIsLoginPopupVisible(false);
     }
+  };
+
+  const handleLoginBtnClick = () => {
+    setIsLoginPopupVisible(true);
+  };
+
+  const handleCloseLoginPopupBtnClick = () => {
+    setIsLoginPopupVisible(false);
   };
 
   useEffect(() => {
@@ -75,7 +85,7 @@ const MainScreen = () => {
             </ul>
             <ul className={`user-navigation ${hiddenUserNavListClassName}`}>
               <li className={`user-navigation__item ${hiddenUserNavItemClassName}`}>
-                <a className="user-navigation__link" href="#" aria-label="Войти в Интернет-банк">
+                <a className="user-navigation__link" href="#" aria-label="Войти в Интернет-банк" onClick={handleLoginBtnClick}>
                   <svg className="user-navigation__icon" width={20} height={22}>
                     <use href={sprite + `#icon-login`} />
                   </svg>
@@ -160,7 +170,7 @@ const MainScreen = () => {
           </section>
         </div>
       </footer>
-      <LoginPopup />
+      <LoginPopup isVisible={isLoginPopupVisible} handleClose={handleCloseLoginPopupBtnClick}/>
     </React.Fragment>
   );
 };
