@@ -111,6 +111,19 @@ const LoginPopup = (props) => {
     handleClose();
   };
 
+  const handleOverlayScroll = (evt) => {
+    evt.preventDefault();
+  };
+
+  useEffect(() => {
+    if (isVisible) {
+      window.addEventListener(`wheel`, handleOverlayScroll, {passive: false});
+    }
+    return () => {
+      window.removeEventListener(`wheel`, handleOverlayScroll);
+    };
+  }, [isVisible]);
+
   return (
     <div className={`popup-wrapper ${hiddenClassName}`}>
       <section ref={ref} className="popup-wrapper__section login-popup">

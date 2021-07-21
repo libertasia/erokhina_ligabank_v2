@@ -95,6 +95,7 @@ const MainScreen = () => {
         </nav>
       </header>
       <main className="main">
+        <h1 className="visually-hidden">Лига Банк</h1>
         {/* <div className="promo">
           <div className="container promo__container">
             <p className="promo__bank-title">Лига Банк</p>
