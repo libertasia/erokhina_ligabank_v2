@@ -5,6 +5,7 @@ import sprite from '../../img/sprite.svg';
 import {AppRoute, ESC_KEY_CODE} from '../../const';
 import MainMap from '../main-map/main-map';
 import LoginPopup from '../login-popup/login-popup';
+import Calculator from '../calculator/calculator';
 
 const KEY_DOWN = `keydown`;
 
@@ -96,18 +97,14 @@ const MainScreen = () => {
       </header>
       <main className="main">
         <h1 className="visually-hidden">Лига Банк</h1>
-        {/* <div className="promo">
+        {/* {/* <div className="promo">
           <div className="container promo__container">
             <p className="promo__bank-title">Лига Банк</p>
             <p className="promo__text">Кредиты на любой случай</p>
             <Link className="promo__link" to={AppRoute.LOAN}>Рассчитать кредит</Link>
           </div>
-        </div>
-        <div className="container">
-          <h1 className="main__header">Конвертер валют</h1>
-          <ConversionForm />
-          <ConversionHistory />
         </div> */}
+        <Calculator />
         <MainMap />
       </main>
       <footer className="footer">

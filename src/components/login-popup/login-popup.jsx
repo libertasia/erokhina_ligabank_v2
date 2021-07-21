@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {onOverlayClick} from '../../utils';
 import {login} from "../../store/api-actions";
-import {ENTER_KEY_CODE} from '../../const';
+import {ENTER_KEY_CODE, ClassName} from '../../const';
 
 const PasswordType = {
   PASSWORD: `password`,
@@ -31,11 +31,11 @@ const LoginPopup = (props) => {
     password: ``,
   });
 
-  const hiddenClassName = isVisible ? `popup-wrapper--display-block` : `popup-wrapper--display-none`;
+  const hiddenClassName = isVisible ? ClassName.DISPLAY_BLOCK : ClassName.DISPLAY_NONE;
 
-  const hiddenMessageLoginClassName = isLoginMissing ? `` : `visually-hidden`;
+  const hiddenMessageLoginClassName = isLoginMissing ? `` : ClassName.VISUALLY_HIDDEN;
 
-  const hiddenMessagePasswordClassName = isPasswordMissing ? `` : `visually-hidden`;
+  const hiddenMessagePasswordClassName = isPasswordMissing ? `` : ClassName.VISUALLY_HIDDEN;
 
   const passwordInput = document.getElementById(`user-password`);
 

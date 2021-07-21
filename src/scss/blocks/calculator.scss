@@ -1,0 +1,101 @@
+.calculator {
+  margin-bottom: 110px;
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    margin-bottom: 80px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    margin-bottom: 60px;
+  }
+}
+
+.calculator__title {
+  font-weight: 700;
+  font-size: 41px;
+  line-height: 1.4;
+  margin: 0;
+  margin-bottom: 70px;
+  padding: 0;
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    font-size: 32px;
+    margin-bottom: 45px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    font-size: 22px;
+    margin-bottom: 35px;
+  }
+}
+
+.calculator__first-step {
+  display: flex;
+  flex-direction: column;
+}
+
+.calculator__loan-purpose-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  min-height: 60px;
+  border: 1px solid $basic-text-color;
+  border-radius: 4px;
+}
+
+.calculator__loan-purpose-btn {
+  display: flex;
+  align-items: center;
+  background: none;
+  background-image: url("../../img/arrow-down.svg");
+  background-size: 16px 8px;
+  background-repeat: no-repeat;
+  background-position: bottom 26px right 26px;
+  border: none;
+  padding: 10px 24px;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+  min-height: 60px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $background-color;
+  }
+}
+
+.calculator__loan-purpose-btn--close {
+  background-image: url("../../img/arrow-up.svg");
+}
+
+.calculator__select-list {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.4;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid #0A1E32;
+}
+
+.calculator__select-list-item {
+  border-bottom: 1px solid $light-grey;
+  min-height: 60px;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.calculator__select-list-item a {
+  display: flex;
+  padding: 10px 24px;
+  align-items: center;
+  text-decoration: none;
+  color: $basic-text-color;
+  min-height: 60px;
+
+  &:hover {
+    background-color: $background-color;
+  }
+}

@@ -15,4 +15,10 @@ const APIRoute = {
   ROOT: `/`,
 };
 
-export {AppRoute, APIRoute, ESC_KEY_CODE, ENTER_KEY_CODE};
+const ClassName = {
+  DISPLAY_BLOCK: `display-block`,
+  DISPLAY_NONE: `display-none`,
+  VISUALLY_HIDDEN: `visually-hidden`,
+};
+
+export {AppRoute, APIRoute, ClassName, ESC_KEY_CODE, ENTER_KEY_CODE};
