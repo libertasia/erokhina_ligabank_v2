@@ -48,7 +48,7 @@ const Calculator = () => {
       <h2 className="calculator__title">Кредитный калькулятор</h2>
       <form className="calculator__form" action="#" method="post">
         <div className="calculator__first-step">
-          <h3 className="calculator__first-step-title">Шаг 1. Цель кредита</h3>
+          <h3 className="calculator__step-title">Шаг 1. Цель кредита</h3>
           <div className="calculator__loan-purpose-wrapper">
             <button className={`calculator__loan-purpose-btn ${closeListBtnClassName}`} type="button" onClick={handleLoanPurposeBtnClick}>{loanSelectButtonText}</button>
             <ul className={`calculator__select-list ${hiddenSelectListClassName}`}>
@@ -58,11 +58,11 @@ const Calculator = () => {
           </div>
 
           <div className={`calculator__second-step ${hiddenSecondStepClassName}`}>
-            <h3 className="calculator__second-step-title">Шаг 2. Введите параметры кредита</h3>
+            <h3 className="calculator__step-title">Шаг 2. Введите параметры кредита</h3>
           </div>
 
           <div className={`calculator__third-step ${hiddenThirdStepClassName}`}>
-            <h3 className="calculator__third-step-title">Шаг 3. Оформление заявки</h3>
+            <h3 className="calculator__step-title calculator__step-title--third">Шаг 3. Оформление заявки</h3>
           </div>
         </div>
       </form>

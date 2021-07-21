@@ -34,6 +34,24 @@
   flex-direction: column;
 }
 
+.calculator__step-title {
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.4;
+  margin: 0;
+  margin-bottom: 30px;
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    font-size: 18px;
+    margin-bottom: 25px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+}
+
 .calculator__loan-purpose-wrapper {
   display: flex;
   flex-direction: column;
@@ -41,6 +59,16 @@
   min-height: 60px;
   border: 1px solid $basic-text-color;
   border-radius: 4px;
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    min-width: 678px;
+    width: 100%;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    min-width: 290px;
+    width: 100%;
+  }
 }
 
 .calculator__loan-purpose-btn {
