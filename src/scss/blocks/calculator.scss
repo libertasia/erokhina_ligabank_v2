@@ -13,7 +13,6 @@
 .calculator__title {
   font-weight: 700;
   font-size: 41px;
-  line-height: 1.4;
   margin: 0;
   margin-bottom: 70px;
   padding: 0;
@@ -29,6 +28,12 @@
   }
 }
 
+.calculator__form {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
 .calculator__first-step {
   display: flex;
   flex-direction: column;
@@ -37,7 +42,6 @@
 .calculator__step-title {
   font-weight: 500;
   font-size: 22px;
-  line-height: 1.4;
   margin: 0;
   margin-bottom: 30px;
 
@@ -83,7 +87,6 @@
   padding: 10px 24px;
   font-weight: 500;
   font-size: 16px;
-  line-height: 1.4;
   min-height: 60px;
   cursor: pointer;
 
@@ -99,7 +102,6 @@
 .calculator__select-list {
   font-weight: 400;
   font-size: 16px;
-  line-height: 1.4;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -125,5 +127,141 @@
 
   &:hover {
     background-color: $background-color;
+  }
+}
+
+.calculator__second-step {
+  margin: 0;
+  margin-top: 40px;
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    margin-top: 30px;
+  }
+}
+
+.calculator__loan-parameters-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.calculator__offer {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  min-height: 389px;
+  background-color: $background-color;
+  border-radius: 4px;
+  padding: 60px 59px;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    position: static;
+    min-width: 678px;
+    width: 100%;
+    padding: 60px 60px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    position: static;
+    min-width: 290px;
+    width: 100%;
+    min-height: 433px;
+    padding: 40px 15px;
+  }
+}
+
+.calculator__offer-title {
+  margin: 0;
+  margin-bottom: 40px;
+  padding: 0;
+  font-weight: 500;
+  font-size: 22px;
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    margin-bottom: 35px;
+    font-size: 18px;
+  }
+}
+
+.calculator__offer-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.calculator__offer-item {
+  width: 50%;
+  margin-bottom: 40px;
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    width: 177px;
+    margin-right: 50px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    margin-bottom: 25px;
+  }
+}
+
+.calculator__offer-item--percent,
+.calculator__offer-item--income {
+  padding-left: 35px;
+
+  @media (min-width: $mobile) and (max-width: $desktop-breakpoint) {
+    padding-left: 0;
+  }
+}
+
+.calculator__offer-amount {
+  font-weight: 500;
+  font-size: 22px;
+  margin: 0;
+  margin-bottom: 15px;
+  padding: 0;
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    margin-bottom: 12px;
+    font-size: 18px;
+  }
+}
+
+.calculator__offer-description-text {
+  color: $dark;
+  margin: 0;
+  padding: 0;
+}
+
+.calculator__offer-btn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 51px;
+  padding: 10px;
+  background-color: $basic-bright;
+  color: $background-color;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: $main-font;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.4;
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    font-size: 14px;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:focus {
+    opacity: 0.7;
   }
 }
