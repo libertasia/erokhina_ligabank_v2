@@ -64,6 +64,10 @@
   border: 1px solid $basic-text-color;
   border-radius: 4px;
 
+  @media (min-width: $desktop) and (max-width: $max-content-breakpoint) {
+    width: 450px;
+  }
+
   @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
     min-width: 678px;
     width: 100%;
@@ -156,6 +160,11 @@
   top: 0;
   right: 0;
 
+  @media (min-width: $desktop) and (max-width: $max-content-breakpoint) {
+    width: 450px;
+    padding: 60px 30px;
+  }
+
   @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
     position: static;
     min-width: 678px;
@@ -192,6 +201,15 @@
   margin: 0;
   padding: 0;
   list-style: none;
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    width: 454px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
 }
 
 .calculator__offer-item {
@@ -204,6 +222,7 @@
   }
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    width: 100%;
     margin-bottom: 25px;
   }
 }
@@ -263,5 +282,58 @@
 
   &:focus {
     opacity: 0.7;
+  }
+}
+
+.calculator__message {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  background-color: $background-color;
+  border-radius: 4px;
+  padding: 60px 91px 60px 59px;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  @media (min-width: $desktop) and (max-width: $max-content-breakpoint) {
+    width: 450px;
+    padding: 60px 30px;
+  }
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    position: static;
+    min-width: 678px;
+    width: 100%;
+    padding: 60px 268px 60px 60px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    position: static;
+    min-width: 290px;
+    width: 100%;
+    padding: 40px 15px;
+  }
+}
+
+.calculator__message-loan-too-small {
+  font-weight: 500;
+  font-size: 22px;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 25px;
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    font-size: 18px;
+    padding-right: 52px;
+  }
+}
+
+.calculator__message-change-calc-params {
+  margin: 0;
+  color: $dark;
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    br {display:none}
   }
 }

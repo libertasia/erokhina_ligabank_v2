@@ -25,6 +25,8 @@ const Calculator = () => {
   let purchaseValueText = ``;
   let hiddenCheckboxForMortgageClassName = ``;
   let hiddenCheckboxForAutoClassName = ``;
+  let offerDescriptionText = ``;
+  let loanTooSmallText = ``;
 
   if (loanType === LoanType.MORTGAGE) {
     loanSelectButtonText = `Ипотечное кредитование`;
@@ -32,12 +34,16 @@ const Calculator = () => {
     purchaseValueText = `От 1 200 000  до 25 000 000 рублей`;
     hiddenCheckboxForMortgageClassName = ClassName.DISPLAY_BLOCK;
     hiddenCheckboxForAutoClassName = ClassName.DISPLAY_NONE;
+    offerDescriptionText = `Сумма ипотеки`;
+    loanTooSmallText = `Наш банк не выдаёт ипотечные кредиты меньше 500 000 рублей.`;
   } else if (loanType === LoanType.AUTO) {
     loanSelectButtonText = `Автомобильное кредитование`;
     loanParametersLabelText = `Стоимость автомобиля`;
     purchaseValueText = `От 500 000  до 5 000 000 рублей`;
     hiddenCheckboxForMortgageClassName = ClassName.DISPLAY_NONE;
     hiddenCheckboxForAutoClassName = ClassName.DISPLAY_BLOCK;
+    offerDescriptionText = `Сумма автокредита`;
+    loanTooSmallText = `Наш банк не выдаёт автокредиты меньше 200 000 рублей.`;
   }
 
   const handleLoanPurposeBtnClick = (evt) => {
@@ -60,6 +66,10 @@ const Calculator = () => {
 
   const handleOfferBtnClick = () => {
     setIsThirdStepShowed(true);
+  };
+
+  const handleSubmitBtnClick = (evt) => {
+    evt.preventDefault();
   };
 
   return (
@@ -126,32 +136,81 @@ const Calculator = () => {
             </div>
           </div>
 
-          <div className="calculator__offer">
-            <h3 className="calculator__offer-title">Наше предложение</h3>
-            <ul className="calculator__offer-list">
-              <li className="calculator__offer-item">
-                <p className="calculator__offer-amount">1 330 000 рублей</p>
-                <p className="calculator__offer-description-text">Сумма ипотеки</p>
-              </li>
-              <li className="calculator__offer-item calculator__offer-item--percent">
-                <p className="calculator__offer-amount">9,40%</p>
-                <p className="calculator__offer-description-text">Процентная ставка</p>
-              </li>
-              <li className="calculator__offer-item">
-                <p className="calculator__offer-amount">27 868 рублей</p>
-                <p className="calculator__offer-description-text">Ежемесячный платеж</p>
-              </li>
-              <li className="calculator__offer-item calculator__offer-item--income">
-                <p className="calculator__offer-amount">61 929 рублей</p>
-                <p className="calculator__offer-description-text">Необходимый доход</p>
-              </li>
-            </ul>
-            <button className="calculator__offer-btn" type="button" onClick={handleOfferBtnClick}>Оформить заявку</button>
+          <div className="display-block">
+            <div className="calculator__offer">
+              <h3 className="calculator__offer-title">Наше предложение</h3>
+              <ul className="calculator__offer-list">
+                <li className="calculator__offer-item">
+                  <p className="calculator__offer-amount">1 330 000 рублей</p>
+                  <p className="calculator__offer-description-text">{offerDescriptionText}</p>
+                </li>
+                <li className="calculator__offer-item calculator__offer-item--percent">
+                  <p className="calculator__offer-amount">9,40%</p>
+                  <p className="calculator__offer-description-text">Процентная ставка</p>
+                </li>
+                <li className="calculator__offer-item">
+                  <p className="calculator__offer-amount">27 868 рублей</p>
+                  <p className="calculator__offer-description-text">Ежемесячный платеж</p>
+                </li>
+                <li className="calculator__offer-item calculator__offer-item--income">
+                  <p className="calculator__offer-amount">61 929 рублей</p>
+                  <p className="calculator__offer-description-text">Необходимый доход</p>
+                </li>
+              </ul>
+              <button className="calculator__offer-btn" type="button" onClick={handleOfferBtnClick}>Оформить заявку</button>
+            </div>
+          </div>
+
+          <div className="display-none">
+            <div className="calculator__message">
+              <p className="calculator__message-loan-too-small">{loanTooSmallText}</p>
+              <p className="calculator__message-change-calc-params">Попробуйте использовать другие <br />параметры для расчёта.</p>
+            </div>
           </div>
         </div>
 
         <div className={`calculator__third-step ${hiddenThirdStepClassName}`}>
           <h3 className="calculator__step-title calculator__step-title--third">Шаг 3. Оформление заявки</h3>
+          <div className="calculator__application-wrapper application">
+            <ul className="application__list">
+              <li className="application__list-item">
+                <p className="application__list-item-title">Номер заявки</p>
+                <p className="application__list-item-value">№ 0010</p>
+              </li>
+              <li className="application__list-item">
+                <p className="application__list-item-title">Цель кредита</p>
+                <p className="application__list-item-value">Ипотека</p>
+              </li>
+              <li className="application__list-item">
+                <p className="application__list-item-title">Стоимость недвижимости</p>
+                <p className="application__list-item-value">2 000 000 рублей</p>
+              </li>
+              <li className="application__list-item">
+                <p className="application__list-item-title">Первоначальный взнос</p>
+                <p className="application__list-item-value">200 000 рублей</p>
+              </li>
+              <li className="application__list-item">
+                <p className="application__list-item-title">Срок кредитования</p>
+                <p className="application__list-item-value">5 лет</p>
+              </li>
+            </ul>
+
+            <div className="application__fields-wrapper">
+              <div className="application__field-name">
+                <label className="visually-hidden" htmlFor="name">Укажите ваше имя</label>
+                <input type="text" id="name" name="name" placeholder="ФИО"/>
+              </div>
+              <div className="application__field-tel">
+                <label className="visually-hidden" htmlFor="tel">Укажите ваш телефон</label>
+                <input type="tel" id="tel" name="tel" placeholder="Телефон"/>
+              </div>
+              <div className="application__field-email">
+                <label className="visually-hidden" htmlFor="email">Укажите ваш адрес электронной почты</label>
+                <input type="email" id="email" name="email" placeholder="E-mail"/>
+              </div>
+            </div>
+            <button className="application__submit-btn" type="submit" onClick={handleSubmitBtnClick}>Отправить</button>
+          </div>
         </div>
       </form>
     </section>

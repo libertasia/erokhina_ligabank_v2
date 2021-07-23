@@ -8,6 +8,10 @@
     margin-bottom: 0;
   }
 
+  @media (min-width: $desktop) and (max-width: $max-content-breakpoint) {
+    width: 450px;
+  }
+
   @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
     min-width: 678px;
     width: 100%;
