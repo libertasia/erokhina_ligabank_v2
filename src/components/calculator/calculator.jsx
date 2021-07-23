@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
+import InputMask from 'react-input-mask';
 import {ClassName} from '../../const';
 import sprite from '../../img/sprite.svg';
 
@@ -13,6 +14,8 @@ const Calculator = () => {
   const [isSelectListShowed, setIsSelectListShowed] = useState(false);
   const [isSecondStepShowed, setIsSecondStepShowed] = useState(false);
   const [isThirdStepShowed, setIsThirdStepShowed] = useState(false);
+
+  const inputNameEl = useRef(null);
 
   const closeListBtnClassName = isSelectListShowed ? `calculator__loan-purpose-btn--close` : ``;
   const hiddenSelectListClassName = isSelectListShowed ? ClassName.DISPLAY_BLOCK : ClassName.DISPLAY_NONE;
@@ -71,6 +74,12 @@ const Calculator = () => {
   const handleSubmitBtnClick = (evt) => {
     evt.preventDefault();
   };
+
+  useEffect(() => {
+    if (isThirdStepShowed) {
+      inputNameEl.current.focus();
+    }
+  }, [isThirdStepShowed]);
 
   return (
     <section className="calculator container">
@@ -197,9 +206,16 @@ const Calculator = () => {
 
             <div className="application__fields-wrapper">
               <label className="visually-hidden" htmlFor="name">Укажите ваше имя</label>
-              <input className="application__field-name" type="text" id="name" name="name" placeholder="ФИО"/>
+              <input className="application__field-name" type="text" id="name" name="name" placeholder="ФИО" minLength="1" ref={inputNameEl} autoFocus={true}/>
               <label className="visually-hidden" htmlFor="tel">Укажите ваш телефон</label>
-              <input className="application__field-tel" type="tel" id="tel" name="tel" placeholder="Телефон"/>
+              <InputMask
+              mask="+7 (999) 999-99-99"
+              className="application__field-tel"
+              type="tel"
+              id="tel"
+              name="tel"
+              placeholder="Телефон"
+              />
               <label className="visually-hidden" htmlFor="email">Укажите ваш адрес электронной почты</label>
               <input className="application__field-email" type="email" id="email" name="email" placeholder="E-mail"/>
             </div>
