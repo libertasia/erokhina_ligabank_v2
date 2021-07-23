@@ -3,6 +3,13 @@ import InputMask from 'react-input-mask';
 import {ClassName} from '../../const';
 import sprite from '../../img/sprite.svg';
 
+const MIN_MORTGAGE_INITIAL_PAYMENT_PERCANTAGE = 10;
+const MIN_AUTO_INITIAL_PAYMENT_PERCANTAGE = 20;
+const MIN_MORTGAGE_LOAN_DURATION_YEARS = 5;
+const MAX_MORTGAGE_LOAN_DURATION_YEARS = 30;
+const MIN_AUTO_LOAN_DURATION_YEARS = 1;
+const MAX_AUTO_LOAN_DURATION_YEARS = 5;
+
 const LoanType = {
   NONE: `none`,
   MORTGAGE: `mortgage`,
@@ -32,6 +39,9 @@ const Calculator = () => {
   let loanTooSmallText = ``;
   let loanPurposeText = ``;
   let loanPriceText = ``;
+  let loanInitialPaymentPercentText = ``;
+  let loanMinDurationText = ``;
+  let loanMaxDurationText = ``;
 
   if (loanType === LoanType.MORTGAGE) {
     loanSelectButtonText = `Ипотечное кредитование`;
@@ -43,6 +53,9 @@ const Calculator = () => {
     loanTooSmallText = `Наш банк не выдаёт ипотечные кредиты меньше 500 000 рублей.`;
     loanPurposeText = `Ипотека`;
     loanPriceText = `Стоимость недвижимости`;
+    loanInitialPaymentPercentText = `${MIN_MORTGAGE_INITIAL_PAYMENT_PERCANTAGE}`;
+    loanMinDurationText = `${MIN_MORTGAGE_LOAN_DURATION_YEARS}`;
+    loanMaxDurationText = `${MAX_MORTGAGE_LOAN_DURATION_YEARS}`;
   } else if (loanType === LoanType.AUTO) {
     loanSelectButtonText = `Автомобильное кредитование`;
     loanParametersLabelText = `Стоимость автомобиля`;
@@ -53,6 +66,9 @@ const Calculator = () => {
     loanTooSmallText = `Наш банк не выдаёт автокредиты меньше 200 000 рублей.`;
     loanPurposeText = `Автокредит`;
     loanPriceText = `Стоимость автомобиля`;
+    loanInitialPaymentPercentText = `${MIN_AUTO_INITIAL_PAYMENT_PERCANTAGE}`;
+    loanMinDurationText = `${MIN_AUTO_LOAN_DURATION_YEARS}`;
+    loanMaxDurationText = `${MAX_AUTO_LOAN_DURATION_YEARS}`;
   }
 
   const handleLoanPurposeBtnClick = (evt) => {
@@ -126,11 +142,24 @@ const Calculator = () => {
             <div className="loan-parameters__item">
               <label className="loan-parameters__label" htmlFor="itinial-payment">Первоначальный взнос</label>
               <input className="loan-parameters__input" id="itinial-payment" name="itinial-payment" defaultValue="200 000 рублей" />
+              <div className="loan-parameters__slider">
+                <div className="loan-parameters__level-line">
+                  <button className="loan-parameters__level-btn" type="button" aria-label="Изменить сумму первоначального взноса"></button>
+                </div>
+                <span className="loan-parameters__slider-min-value">{loanInitialPaymentPercentText}%</span>
+              </div>
             </div>
 
             <div className="loan-parameters__item">
               <label className="loan-parameters__label" htmlFor="loan-duration">Срок кредитования</label>
               <input className="loan-parameters__input" id="loan-duration" name="loan-duration" defaultValue="5 лет" />
+              <div className="loan-parameters__slider">
+                <div className="loan-parameters__level-line">
+                  <button className="loan-parameters__level-btn" type="button" aria-label="Изменить срок кредитования"></button>
+                </div>
+                <span className="loan-parameters__slider-min-value">{loanMinDurationText} лет</span>
+                <span className="loan-parameters__slider-max-value">{loanMaxDurationText} лет</span>
+              </div>
             </div>
 
             <div className="loan-parameters__item loan-parameters__item--additional">
