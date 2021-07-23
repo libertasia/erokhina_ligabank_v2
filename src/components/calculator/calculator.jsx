@@ -30,6 +30,8 @@ const Calculator = () => {
   let hiddenCheckboxForAutoClassName = ``;
   let offerDescriptionText = ``;
   let loanTooSmallText = ``;
+  let loanPurposeText = ``;
+  let loanPriceText = ``;
 
   if (loanType === LoanType.MORTGAGE) {
     loanSelectButtonText = `Ипотечное кредитование`;
@@ -39,6 +41,8 @@ const Calculator = () => {
     hiddenCheckboxForAutoClassName = ClassName.DISPLAY_NONE;
     offerDescriptionText = `Сумма ипотеки`;
     loanTooSmallText = `Наш банк не выдаёт ипотечные кредиты меньше 500 000 рублей.`;
+    loanPurposeText = `Ипотека`;
+    loanPriceText = `Стоимость недвижимости`;
   } else if (loanType === LoanType.AUTO) {
     loanSelectButtonText = `Автомобильное кредитование`;
     loanParametersLabelText = `Стоимость автомобиля`;
@@ -47,6 +51,8 @@ const Calculator = () => {
     hiddenCheckboxForAutoClassName = ClassName.DISPLAY_BLOCK;
     offerDescriptionText = `Сумма автокредита`;
     loanTooSmallText = `Наш банк не выдаёт автокредиты меньше 200 000 рублей.`;
+    loanPurposeText = `Автокредит`;
+    loanPriceText = `Стоимость автомобиля`;
   }
 
   const handleLoanPurposeBtnClick = (evt) => {
@@ -188,10 +194,10 @@ const Calculator = () => {
               </li>
               <li className="application__list-item">
                 <p className="application__list-item-title">Цель кредита</p>
-                <p className="application__list-item-value">Ипотека</p>
+                <p className="application__list-item-value">{loanPurposeText}</p>
               </li>
               <li className="application__list-item">
-                <p className="application__list-item-title">Стоимость недвижимости</p>
+                <p className="application__list-item-title">{loanPriceText}</p>
                 <p className="application__list-item-value">2 000 000 рублей</p>
               </li>
               <li className="application__list-item">
