@@ -196,18 +196,12 @@ const Calculator = () => {
             </ul>
 
             <div className="application__fields-wrapper">
-              <div className="application__field-name">
-                <label className="visually-hidden" htmlFor="name">Укажите ваше имя</label>
-                <input type="text" id="name" name="name" placeholder="ФИО"/>
-              </div>
-              <div className="application__field-tel">
-                <label className="visually-hidden" htmlFor="tel">Укажите ваш телефон</label>
-                <input type="tel" id="tel" name="tel" placeholder="Телефон"/>
-              </div>
-              <div className="application__field-email">
-                <label className="visually-hidden" htmlFor="email">Укажите ваш адрес электронной почты</label>
-                <input type="email" id="email" name="email" placeholder="E-mail"/>
-              </div>
+              <label className="visually-hidden" htmlFor="name">Укажите ваше имя</label>
+              <input className="application__field-name" type="text" id="name" name="name" placeholder="ФИО"/>
+              <label className="visually-hidden" htmlFor="tel">Укажите ваш телефон</label>
+              <input className="application__field-tel" type="tel" id="tel" name="tel" placeholder="Телефон"/>
+              <label className="visually-hidden" htmlFor="email">Укажите ваш адрес электронной почты</label>
+              <input className="application__field-email" type="email" id="email" name="email" placeholder="E-mail"/>
             </div>
             <button className="application__submit-btn" type="submit" onClick={handleSubmitBtnClick}>Отправить</button>
           </div>

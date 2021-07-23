@@ -337,3 +337,41 @@
     br {display:none}
   }
 }
+
+.calculator__third-step {
+  margin: 0;
+  margin-top: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 70px;
+  width: 770px;
+  background-color: $background-color;
+  border-radius: 4px;
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    margin: 0;
+    margin-top: 60px;
+    padding: 0;
+    width: 100%;
+    background: none;
+    border: none;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    margin: 0;
+    margin-top: 48px;
+    padding: 0;
+    width: 100%;
+    background: none;
+    border: none;
+  }
+}
+
+.calculator__step-title--third {
+  text-align: center;
+}
+
+.calculator__application-wrapper {
+  display: flex;
+  flex-direction: column;
+}
