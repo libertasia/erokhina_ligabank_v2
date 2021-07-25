@@ -54,9 +54,34 @@
   }
 }
 
+.loan-parameters__input-invalid {
+  border: 1px solid $red;
+}
+
+/* Chrome, Safari, Edge, Opera */
+
+.loan-parameters__input::-webkit-outer-spin-button,
+.loan-parameters__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.loan-parameters__input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .loan-parameters__purchase-value-input-wrapper {
   position: relative;
   margin-bottom: 10px;
+}
+
+.loan-parameters__wrong-value {
+  position: absolute;
+  color: $red;
+  top: 0;
+  left: 10px;
+  font-size: 12px;
 }
 
 .loan-parameters__purchase-value-btn {

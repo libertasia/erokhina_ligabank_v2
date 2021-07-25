@@ -3,12 +3,20 @@ import InputMask from 'react-input-mask';
 import {ClassName} from '../../const';
 import sprite from '../../img/sprite.svg';
 
-const MIN_MORTGAGE_INITIAL_PAYMENT_PERCANTAGE = 10;
-const MIN_AUTO_INITIAL_PAYMENT_PERCANTAGE = 20;
+const MIN_MORTGAGE_TOTAL_COST = 1200000;
+const MAX_MORTGAGE_TOTAL_COST = 25000000;
+const MIN_AUTO_TOTAL_COST = 500000;
+const MAX_AUTO_TOTAL_COST = 5000000;
+const MIN_MORTGAGE_INITIAL_PAYMENT_PERCENTAGE = 10;
+const MIN_AUTO_INITIAL_PAYMENT_PERCENTAGE = 20;
 const MIN_MORTGAGE_LOAN_DURATION_YEARS = 5;
 const MAX_MORTGAGE_LOAN_DURATION_YEARS = 30;
 const MIN_AUTO_LOAN_DURATION_YEARS = 1;
 const MAX_AUTO_LOAN_DURATION_YEARS = 5;
+const MORTGAGE_STEP = 100000;
+const AUTO_STEP = 50000;
+
+const DEFAULT_LOCALE = "ru";
 
 const LoanType = {
   NONE: `none`,
@@ -16,11 +24,21 @@ const LoanType = {
   AUTO: `auto`,
 };
 
+const InputType = {
+  TEXT: `text`,
+  NUMBER: `number`,
+};
+
 const Calculator = () => {
   const [loanType, setLoanType] = useState(LoanType.NONE);
   const [isSelectListShowed, setIsSelectListShowed] = useState(false);
   const [isSecondStepShowed, setIsSecondStepShowed] = useState(false);
   const [isThirdStepShowed, setIsThirdStepShowed] = useState(false);
+
+  const [totalCost, setTotalCost] = useState(2000000);
+  const [totalCostValue, setTotalCostValue] = useState(`${totalCost.toLocaleString(DEFAULT_LOCALE)} рублей`);
+  const [totalCostType, setTotalCostType] = useState(InputType.TEXT);
+  const [isTotalCostInvalid, setIsTotalCostInvalid] = useState(false);
 
   const inputNameEl = useRef(null);
 
@@ -53,7 +71,7 @@ const Calculator = () => {
     loanTooSmallText = `Наш банк не выдаёт ипотечные кредиты меньше 500 000 рублей.`;
     loanPurposeText = `Ипотека`;
     loanPriceText = `Стоимость недвижимости`;
-    loanInitialPaymentPercentText = `${MIN_MORTGAGE_INITIAL_PAYMENT_PERCANTAGE}`;
+    loanInitialPaymentPercentText = `${MIN_MORTGAGE_INITIAL_PAYMENT_PERCENTAGE}`;
     loanMinDurationText = `${MIN_MORTGAGE_LOAN_DURATION_YEARS}`;
     loanMaxDurationText = `${MAX_MORTGAGE_LOAN_DURATION_YEARS}`;
   } else if (loanType === LoanType.AUTO) {
@@ -66,7 +84,7 @@ const Calculator = () => {
     loanTooSmallText = `Наш банк не выдаёт автокредиты меньше 200 000 рублей.`;
     loanPurposeText = `Автокредит`;
     loanPriceText = `Стоимость автомобиля`;
-    loanInitialPaymentPercentText = `${MIN_AUTO_INITIAL_PAYMENT_PERCANTAGE}`;
+    loanInitialPaymentPercentText = `${MIN_AUTO_INITIAL_PAYMENT_PERCENTAGE}`;
     loanMinDurationText = `${MIN_AUTO_LOAN_DURATION_YEARS}`;
     loanMaxDurationText = `${MAX_AUTO_LOAN_DURATION_YEARS}`;
   }
@@ -87,6 +105,7 @@ const Calculator = () => {
     if (selectedLoanType !== LoanType.NONE) {
       setIsSecondStepShowed(true);
     }
+    updateTotalCost(totalCost, selectedLoanType);
   };
 
   const handleOfferBtnClick = () => {
@@ -102,6 +121,62 @@ const Calculator = () => {
       inputNameEl.current.focus();
     }
   }, [isThirdStepShowed]);
+
+  const handleTotalCostFocus = () => {
+    setTotalCostType(InputType.NUMBER);
+    setTotalCostValue(totalCost);
+  };
+
+  const handleTotalCostBlur = () => {
+    setTotalCostType(InputType.TEXT);
+    setTotalCostValue(`${totalCost.toLocaleString(DEFAULT_LOCALE)} рублей`);
+  };
+
+  const updateTotalCost = (newTotalCost, currentLoanType) => {
+    setTotalCost(newTotalCost);
+    if (totalCostType === InputType.NUMBER) {
+      setTotalCostValue(newTotalCost);
+    } else {
+      setTotalCostValue(`${newTotalCost.toLocaleString(DEFAULT_LOCALE)} рублей`);
+    }
+    switch (currentLoanType) {
+      case LoanType.MORTGAGE:
+        if (newTotalCost < MIN_MORTGAGE_TOTAL_COST || newTotalCost > MAX_MORTGAGE_TOTAL_COST) {
+          setIsTotalCostInvalid(true);
+        } else {
+          setIsTotalCostInvalid(false);
+        }
+        break;
+      case LoanType.AUTO:
+        if (newTotalCost < MIN_AUTO_TOTAL_COST || newTotalCost > MAX_AUTO_TOTAL_COST) {
+          setIsTotalCostInvalid(true);
+        } else {
+          setIsTotalCostInvalid(false);
+        }
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleTotalCostChange = (evt) => {
+    const newTotalCost = parseInt(evt.target.value);
+    updateTotalCost(newTotalCost, loanType);
+  };
+
+  const handleTotalCostMinusClick = () => {
+    const step = loanType === LoanType.MORTGAGE ? MORTGAGE_STEP : AUTO_STEP;
+    let newTotalCost = totalCost - step;
+    if (newTotalCost < 0) {
+      newTotalCost = 0;
+    }
+    updateTotalCost(newTotalCost, loanType);
+  };
+
+  const handleTotalCostPlusClick = () => {
+    const step = loanType === LoanType.MORTGAGE ? MORTGAGE_STEP : AUTO_STEP;
+    updateTotalCost(totalCost + step, loanType);
+  };
 
   return (
     <section className="calculator container">
@@ -124,13 +199,14 @@ const Calculator = () => {
             <div className="loan-parameters__item">
               <label className="loan-parameters__label" htmlFor="purchase-value">{loanParametersLabelText}</label>
               <div className="loan-parameters__purchase-value-input-wrapper">
-                <input className="loan-parameters__input" id="purchase-value" name="purchase-value" defaultValue="2 000 000 рублей" />
-                <button className="loan-parameters__purchase-value-btn loan-parameters__purchase-value-btn--minus" type="button" aria-label="Уменьшить стоимость">
+                <span className={`loan-parameters__wrong-value ${isTotalCostInvalid ? ClassName.DISPLAY_BLOCK : ClassName.DISPLAY_NONE}`}>Некорректное значение</span>
+                <input className={`loan-parameters__input ${isTotalCostInvalid ? `loan-parameters__input-invalid` : ``}`} id="purchase-value" name="purchase-value" type={totalCostType} value={totalCostValue} onFocus={handleTotalCostFocus} onBlur={handleTotalCostBlur} onChange={handleTotalCostChange}/>
+                <button className="loan-parameters__purchase-value-btn loan-parameters__purchase-value-btn--minus" type="button" aria-label="Уменьшить стоимость" onClick={handleTotalCostMinusClick}>
                   <svg className="loan-parameters__purchase-value-btn-icon" width={16} height={2}>
                     <use href={sprite + `#icon-minus`} />
                   </svg>
                 </button>
-                <button className="loan-parameters__purchase-value-btn loan-parameters__purchase-value-btn--plus" type="button" aria-label="Увеличить стоимость">
+                <button className="loan-parameters__purchase-value-btn loan-parameters__purchase-value-btn--plus" type="button" aria-label="Увеличить стоимость" onClick={handleTotalCostPlusClick}>
                   <svg className="loan-parameters__purchase-value-btn-icon" width={16} height={16}>
                     <use href={sprite + `#icon-plus`} />
                   </svg>
