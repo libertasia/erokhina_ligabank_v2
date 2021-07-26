@@ -1,8 +1,12 @@
 import React, {useRef, useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import InputMask from 'react-input-mask';
 import {ClassName} from '../../const';
 import sprite from '../../img/sprite.svg';
+import {ActionCreator} from '../../store/action';
 
+const DEFAULT_TOTAL_COST = 2000000;
 const MIN_MORTGAGE_TOTAL_COST = 1200000;
 const MAX_MORTGAGE_TOTAL_COST = 25000000;
 const MIN_AUTO_TOTAL_COST = 500000;
@@ -16,7 +20,9 @@ const MAX_AUTO_LOAN_DURATION_YEARS = 5;
 const MORTGAGE_STEP = 100000;
 const AUTO_STEP = 50000;
 
-const DEFAULT_LOCALE = "ru";
+const DEFAULT_LOCALE = `ru`;
+
+const RADIX = 10;
 
 const LoanType = {
   NONE: `none`,
@@ -29,13 +35,15 @@ const InputType = {
   NUMBER: `number`,
 };
 
-const Calculator = () => {
+const Calculator = (props) => {
+  const {onSubmitBtnClick} = props;
+
   const [loanType, setLoanType] = useState(LoanType.NONE);
   const [isSelectListShowed, setIsSelectListShowed] = useState(false);
   const [isSecondStepShowed, setIsSecondStepShowed] = useState(false);
   const [isThirdStepShowed, setIsThirdStepShowed] = useState(false);
 
-  const [totalCost, setTotalCost] = useState(2000000);
+  const [totalCost, setTotalCost] = useState(DEFAULT_TOTAL_COST);
   const [totalCostValue, setTotalCostValue] = useState(`${totalCost.toLocaleString(DEFAULT_LOCALE)} рублей`);
   const [totalCostType, setTotalCostType] = useState(InputType.TEXT);
   const [isTotalCostInvalid, setIsTotalCostInvalid] = useState(false);
@@ -89,7 +97,7 @@ const Calculator = () => {
     loanMaxDurationText = `${MAX_AUTO_LOAN_DURATION_YEARS}`;
   }
 
-  const handleLoanPurposeBtnClick = (evt) => {
+  const handleLoanPurposeBtnClick = () => {
     if (!isSelectListShowed) {
       setIsSelectListShowed(true);
     } else {
@@ -110,10 +118,6 @@ const Calculator = () => {
 
   const handleOfferBtnClick = () => {
     setIsThirdStepShowed(true);
-  };
-
-  const handleSubmitBtnClick = (evt) => {
-    evt.preventDefault();
   };
 
   useEffect(() => {
@@ -160,7 +164,7 @@ const Calculator = () => {
   };
 
   const handleTotalCostChange = (evt) => {
-    const newTotalCost = parseInt(evt.target.value);
+    const newTotalCost = parseInt(evt.target.value, RADIX);
     updateTotalCost(newTotalCost, loanType);
   };
 
@@ -176,6 +180,11 @@ const Calculator = () => {
   const handleTotalCostPlusClick = () => {
     const step = loanType === LoanType.MORTGAGE ? MORTGAGE_STEP : AUTO_STEP;
     updateTotalCost(totalCost + step, loanType);
+  };
+
+  const handleSubmitBtnClick = (evt) => {
+    evt.preventDefault();
+    onSubmitBtnClick(true);
   };
 
   return (
@@ -239,20 +248,20 @@ const Calculator = () => {
             </div>
 
             <div className="loan-parameters__item loan-parameters__item--additional">
-             <ul className="loan-parameters__additional-list">
-               <li className={`loan-parameters__additional-item ${hiddenCheckboxForMortgageClassName}`}>
-                 <input className="loan-parameters__additional-item-checkbox visually-hidden" type="checkbox" id="maternal-discount" name="maternal-discount" defaultChecked/>
-                 <label className="loan-parameters__additional-item-label" htmlFor="maternal-discount">Использовать материнский капитал</label>
-               </li>
-               <li className={`loan-parameters__additional-item ${hiddenCheckboxForAutoClassName}`}>
-                 <input className="loan-parameters__additional-item-checkbox visually-hidden" type="checkbox" id="casco-insurance" name="casco-insurance" defaultChecked/>
-                 <label className="loan-parameters__additional-item-label" htmlFor="casco-insurance">Оформить КАСКО в нашем банке</label>
-               </li>
-               <li className={`loan-parameters__additional-item ${hiddenCheckboxForAutoClassName}`}>
-                 <input className="loan-parameters__additional-item-checkbox visually-hidden" type="checkbox" id="life-insurance" name="life-insurance" defaultChecked/>
-                 <label className="loan-parameters__additional-item-label" htmlFor="life-insurance">Оформить Страхование жизни в нашем банке</label>
-               </li>
-             </ul>
+              <ul className="loan-parameters__additional-list">
+                <li className={`loan-parameters__additional-item ${hiddenCheckboxForMortgageClassName}`}>
+                  <input className="loan-parameters__additional-item-checkbox visually-hidden" type="checkbox" id="maternal-discount" name="maternal-discount" defaultChecked/>
+                  <label className="loan-parameters__additional-item-label" htmlFor="maternal-discount">Использовать материнский капитал</label>
+                </li>
+                <li className={`loan-parameters__additional-item ${hiddenCheckboxForAutoClassName}`}>
+                  <input className="loan-parameters__additional-item-checkbox visually-hidden" type="checkbox" id="casco-insurance" name="casco-insurance" defaultChecked/>
+                  <label className="loan-parameters__additional-item-label" htmlFor="casco-insurance">Оформить КАСКО в нашем банке</label>
+                </li>
+                <li className={`loan-parameters__additional-item ${hiddenCheckboxForAutoClassName}`}>
+                  <input className="loan-parameters__additional-item-checkbox visually-hidden" type="checkbox" id="life-insurance" name="life-insurance" defaultChecked/>
+                  <label className="loan-parameters__additional-item-label" htmlFor="life-insurance">Оформить Страхование жизни в нашем банке</label>
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -320,12 +329,12 @@ const Calculator = () => {
               <input className="application__field-name" type="text" id="name" name="name" placeholder="ФИО" minLength="1" ref={inputNameEl} autoFocus={true}/>
               <label className="visually-hidden" htmlFor="tel">Укажите ваш телефон</label>
               <InputMask
-              mask="+7 (999) 999-99-99"
-              className="application__field-tel"
-              type="tel"
-              id="tel"
-              name="tel"
-              placeholder="Телефон"
+                mask="+7 (999) 999-99-99"
+                className="application__field-tel"
+                type="tel"
+                id="tel"
+                name="tel"
+                placeholder="Телефон"
               />
               <label className="visually-hidden" htmlFor="email">Укажите ваш адрес электронной почты</label>
               <input className="application__field-email" type="email" id="email" name="email" placeholder="E-mail"/>
@@ -338,4 +347,15 @@ const Calculator = () => {
   );
 };
 
-export default Calculator;
+Calculator.propTypes = {
+  onSubmitBtnClick: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  onSubmitBtnClick(payload) {
+    dispatch(ActionCreator.setIsThanksPopupVisible(payload));
+  },
+});
+
+export {Calculator};
+export default connect(null, mapDispatchToProps)(Calculator);

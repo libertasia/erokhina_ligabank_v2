@@ -5,7 +5,7 @@ env:
   commonjs: true
   jest: true
 
-# extends: ['htmlacademy/es6', 'plugin:react/recommended']
+extends: ['htmlacademy/es6', 'plugin:react/recommended']
 
 parserOptions:
   ecmaFeatures:

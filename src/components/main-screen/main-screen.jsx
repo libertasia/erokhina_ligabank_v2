@@ -1,4 +1,6 @@
 import React, {useState, useEffect} from 'react';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 import logo from '../../img/logo.svg';
 import sprite from '../../img/sprite.svg';
@@ -6,10 +8,15 @@ import {AppRoute, ESC_KEY_CODE} from '../../const';
 import MainMap from '../main-map/main-map';
 import LoginPopup from '../login-popup/login-popup';
 import Calculator from '../calculator/calculator';
+import ThanksPopup from '../thanks-popup/thanks-popup';
+import {getIsThanksPopupVisibleStatus} from '../../store/selectors';
+import {ActionCreator} from '../../store/action';
 
 const KEY_DOWN = `keydown`;
 
-const MainScreen = () => {
+const MainScreen = (props) => {
+  const {isThanksPopupVisible, handleCloseThanksPopup} = props;
+
   const [isMenuOpened, setIsMenuOpened] = useState(false);
   const [isLoginPopupVisible, setIsLoginPopupVisible] = useState(false);
 
@@ -37,6 +44,7 @@ const MainScreen = () => {
     if (evt.keyCode === ESC_KEY_CODE) {
       setIsMenuOpened(false);
       setIsLoginPopupVisible(false);
+      handleCloseThanksPopup(false);
     }
   };
 
@@ -167,8 +175,25 @@ const MainScreen = () => {
         </div>
       </footer>
       <LoginPopup isVisible={isLoginPopupVisible} handleClose={handleCloseLoginPopupBtnClick}/>
+      <ThanksPopup isVisible={isThanksPopupVisible}/>
     </React.Fragment>
   );
 };
 
-export default MainScreen;
+MainScreen.propTypes = {
+  isThanksPopupVisible: PropTypes.bool.isRequired,
+  handleCloseThanksPopup: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  isThanksPopupVisible: getIsThanksPopupVisibleStatus(state),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  handleCloseThanksPopup(payload) {
+    dispatch(ActionCreator.setIsThanksPopupVisible(payload));
+  },
+});
+
+export {MainScreen};
+export default connect(mapStateToProps, mapDispatchToProps)(MainScreen);

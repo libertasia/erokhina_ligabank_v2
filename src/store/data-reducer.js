@@ -2,6 +2,7 @@ import {ActionType} from './action';
 // import {Rating, TabTypes} from '../const';
 
 const initialState = {
+  isThanksPopupVisible: false,
   // activeTab: TabTypes.CHARACTERISTICS,
   // reviews: [
   //   {
@@ -23,21 +24,26 @@ const initialState = {
 
 const dataReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ActionType.SET_ACTIVE_TAB:
+    case ActionType.SET_IS_THANKS_POPUP_VISIBLE:
       return {
         ...state,
-        activeTab: action.payload,
+        isThanksPopupVisible: action.payload,
       };
-    case ActionType.ADD_REVIEW:
-      return {
-        ...state,
-        reviews: [...state.reviews, action.payload],
-      };
-    case ActionType.GET_REVIEWS:
-      return {
-        ...state,
-        reviews: action.payload,
-      };
+    // case ActionType.SET_ACTIVE_TAB:
+    //   return {
+    //     ...state,
+    //     activeTab: action.payload,
+    //   };
+    // case ActionType.ADD_REVIEW:
+    //   return {
+    //     ...state,
+    //     reviews: [...state.reviews, action.payload],
+    //   };
+    // case ActionType.GET_REVIEWS:
+    //   return {
+    //     ...state,
+    //     reviews: action.payload,
+    //   };
   }
 
   return state;

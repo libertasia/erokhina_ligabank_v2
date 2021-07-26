@@ -1,0 +1,65 @@
+.thanks-popup {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  min-height: 193px;
+  margin: 0;
+  padding: 60px 67px;
+  border-radius: 4px;
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    min-width: 678px;
+    width: calc(100% - 90px);
+    padding: 60px 156px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    width: 290px;
+    padding: 40px 26px;
+  }
+}
+
+.thanks-popup__btn-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    top: 15px;
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.thanks-popup__btn-close svg {
+  stroke: $basic-text-color;
+
+  &:hover {
+    stroke: $basic-bright;
+  }
+}
+
+.thanks-popup__title {
+  text-align: center;
+  font-weight: 500;
+  font-size: 22px;
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    font-size: 18px;
+  }
+}
+
+.thanks-popup__text {
+  text-align: center;
+  color: $dark;
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    br {display:none}
+  }
+}
