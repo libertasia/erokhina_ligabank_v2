@@ -73,6 +73,10 @@ const Calculator = (props) => {
   const [loanDurationValue, setloanDurationValue] = useState(`${loanDuration.toLocaleString(DEFAULT_LOCALE)} лет`);
   const [loanDurationInputType, setloanDurationInputType] = useState(InputType.TEXT);
 
+  const [isMaternalDiscountChecked, setIsMaternalDiscountChecked] = useState(false);
+  const [isCascoInsuranceChecked, setIsCascoInsuranceChecked] = useState(false);
+  const [isLifeInsuranceChecked, setIsLifeInsuranceChecked] = useState(false);
+
   const inputNameEl = useRef(null);
 
   const closeListBtnClassName = isSelectListShowed ? `calculator__loan-purpose-btn--close` : ``;
@@ -147,6 +151,10 @@ const Calculator = (props) => {
     const minLoanDuration = getMinLoanDuration(selectedLoanType);
     setloanDuration(minLoanDuration);
     updateLoanDuration(minLoanDuration, selectedLoanType);
+
+    setIsMaternalDiscountChecked(false);
+    setIsCascoInsuranceChecked(false);
+    setIsLifeInsuranceChecked(false);
   };
 
   const handleOfferBtnClick = () => {
@@ -299,6 +307,30 @@ const Calculator = (props) => {
     updateLoanDuration(newLoanDuration, loanType, false);
   };
 
+  const handleMaternalDiscountChange = () => {
+    if (!isMaternalDiscountChecked) {
+      setIsMaternalDiscountChecked(true);
+    } else {
+      setIsMaternalDiscountChecked(false);
+    }
+  };
+
+  const handleCascoInsuranceChange = () => {
+    if (!isCascoInsuranceChecked) {
+      setIsCascoInsuranceChecked(true);
+    } else {
+      setIsCascoInsuranceChecked(false);
+    }
+  };
+
+  const handleLifeInsuranceChange = () => {
+    if (!isLifeInsuranceChecked) {
+      setIsLifeInsuranceChecked(true);
+    } else {
+      setIsLifeInsuranceChecked(false);
+    }
+  };
+
   const handleSubmitBtnClick = (evt) => {
     evt.preventDefault();
     onSubmitBtnClick(true);
@@ -380,15 +412,15 @@ const Calculator = (props) => {
             <div className="loan-parameters__item loan-parameters__item--additional">
               <ul className="loan-parameters__additional-list">
                 <li className={`loan-parameters__additional-item ${hiddenCheckboxForMortgageClassName}`}>
-                  <input className="loan-parameters__additional-item-checkbox visually-hidden" type="checkbox" id="maternal-discount" name="maternal-discount" defaultChecked/>
+                  <input className="loan-parameters__additional-item-checkbox visually-hidden" type="checkbox" id="maternal-discount" name="maternal-discount" checked={isMaternalDiscountChecked} onChange={handleMaternalDiscountChange}/>
                   <label className="loan-parameters__additional-item-label" htmlFor="maternal-discount">Использовать материнский капитал</label>
                 </li>
                 <li className={`loan-parameters__additional-item ${hiddenCheckboxForAutoClassName}`}>
-                  <input className="loan-parameters__additional-item-checkbox visually-hidden" type="checkbox" id="casco-insurance" name="casco-insurance" defaultChecked/>
+                  <input className="loan-parameters__additional-item-checkbox visually-hidden" type="checkbox" id="casco-insurance" name="casco-insurance" checked={isCascoInsuranceChecked} onChange={handleCascoInsuranceChange}/>
                   <label className="loan-parameters__additional-item-label" htmlFor="casco-insurance">Оформить КАСКО в нашем банке</label>
                 </li>
                 <li className={`loan-parameters__additional-item ${hiddenCheckboxForAutoClassName}`}>
-                  <input className="loan-parameters__additional-item-checkbox visually-hidden" type="checkbox" id="life-insurance" name="life-insurance" defaultChecked/>
+                  <input className="loan-parameters__additional-item-checkbox visually-hidden" type="checkbox" id="life-insurance" name="life-insurance" checked={isLifeInsuranceChecked} onChange={handleLifeInsuranceChange}/>
                   <label className="loan-parameters__additional-item-label" htmlFor="life-insurance">Оформить Страхование жизни в нашем банке</label>
                 </li>
               </ul>
