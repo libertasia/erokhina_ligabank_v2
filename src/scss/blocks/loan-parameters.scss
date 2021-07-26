@@ -211,6 +211,7 @@
 .loan-parameters__slider {
   width: 600px;
   min-height: 48px;
+  padding-top: 22px;
   position: relative;
 
   @media (min-width: $desktop) and (max-width: $max-content-breakpoint) {

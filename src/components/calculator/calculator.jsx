@@ -2,6 +2,8 @@ import React, {useRef, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import InputMask from 'react-input-mask';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 import {ClassName} from '../../const';
 import sprite from '../../img/sprite.svg';
 import {ActionCreator} from '../../store/action';
@@ -24,6 +26,8 @@ const DEFAULT_LOCALE = `ru`;
 
 const RADIX = 10;
 
+const MULTIPLIER = 100;
+
 const LoanType = {
   NONE: `none`,
   MORTGAGE: `mortgage`,
@@ -33,6 +37,19 @@ const LoanType = {
 const InputType = {
   TEXT: `text`,
   NUMBER: `number`,
+};
+
+const getMinInitialPaymentValue = (loanType, totalCost) => {
+  const initialPaymentPercentage = loanType === LoanType.MORTGAGE ? MIN_MORTGAGE_INITIAL_PAYMENT_PERCENTAGE : MIN_AUTO_INITIAL_PAYMENT_PERCENTAGE;
+  return (totalCost * initialPaymentPercentage) / MULTIPLIER;
+};
+
+const getMinLoanDuration = (loanType) => {
+  return loanType === LoanType.MORTGAGE ? MIN_MORTGAGE_LOAN_DURATION_YEARS : MIN_AUTO_LOAN_DURATION_YEARS;
+};
+
+const getMaxLoanDuration = (loanType) => {
+  return loanType === LoanType.MORTGAGE ? MAX_MORTGAGE_LOAN_DURATION_YEARS : MAX_AUTO_LOAN_DURATION_YEARS;
 };
 
 const Calculator = (props) => {
@@ -45,8 +62,16 @@ const Calculator = (props) => {
 
   const [totalCost, setTotalCost] = useState(DEFAULT_TOTAL_COST);
   const [totalCostValue, setTotalCostValue] = useState(`${totalCost.toLocaleString(DEFAULT_LOCALE)} рублей`);
-  const [totalCostType, setTotalCostType] = useState(InputType.TEXT);
+  const [totalCostInputType, setTotalCostInputType] = useState(InputType.TEXT);
   const [isTotalCostInvalid, setIsTotalCostInvalid] = useState(false);
+
+  const [initialPayment, setInitialPayment] = useState(getMinInitialPaymentValue(loanType, totalCost));
+  const [initialPaymentValue, setInitialPaymentValue] = useState(`${initialPayment.toLocaleString(DEFAULT_LOCALE)} рублей`);
+  const [initialPaymentInputType, setInitialPaymentInputType] = useState(InputType.TEXT);
+
+  const [loanDuration, setloanDuration] = useState(getMinLoanDuration(LoanType.MORTGAGE));
+  const [loanDurationValue, setloanDurationValue] = useState(`${loanDuration.toLocaleString(DEFAULT_LOCALE)} лет`);
+  const [loanDurationInputType, setloanDurationInputType] = useState(InputType.TEXT);
 
   const inputNameEl = useRef(null);
 
@@ -114,6 +139,14 @@ const Calculator = (props) => {
       setIsSecondStepShowed(true);
     }
     updateTotalCost(totalCost, selectedLoanType);
+
+    const minPayment = getMinInitialPaymentValue(selectedLoanType, totalCost);
+    setInitialPayment(minPayment);
+    updateInitialPayment(minPayment, selectedLoanType);
+
+    const minLoanDuration = getMinLoanDuration(selectedLoanType);
+    setloanDuration(minLoanDuration);
+    updateLoanDuration(minLoanDuration, selectedLoanType);
   };
 
   const handleOfferBtnClick = () => {
@@ -127,18 +160,20 @@ const Calculator = (props) => {
   }, [isThirdStepShowed]);
 
   const handleTotalCostFocus = () => {
-    setTotalCostType(InputType.NUMBER);
+    setTotalCostInputType(InputType.NUMBER);
     setTotalCostValue(totalCost);
   };
 
   const handleTotalCostBlur = () => {
-    setTotalCostType(InputType.TEXT);
+    setTotalCostInputType(InputType.TEXT);
     setTotalCostValue(`${totalCost.toLocaleString(DEFAULT_LOCALE)} рублей`);
   };
 
   const updateTotalCost = (newTotalCost, currentLoanType) => {
     setTotalCost(newTotalCost);
-    if (totalCostType === InputType.NUMBER) {
+    const minPayment = getMinInitialPaymentValue(currentLoanType, newTotalCost);
+    updateInitialPayment(minPayment, currentLoanType);
+    if (totalCostInputType === InputType.NUMBER) {
       setTotalCostValue(newTotalCost);
     } else {
       setTotalCostValue(`${newTotalCost.toLocaleString(DEFAULT_LOCALE)} рублей`);
@@ -164,7 +199,10 @@ const Calculator = (props) => {
   };
 
   const handleTotalCostChange = (evt) => {
-    const newTotalCost = parseInt(evt.target.value, RADIX);
+    let newTotalCost = parseInt(evt.target.value, RADIX);
+    if (!newTotalCost) {
+      newTotalCost = 0;
+    }
     updateTotalCost(newTotalCost, loanType);
   };
 
@@ -180,6 +218,85 @@ const Calculator = (props) => {
   const handleTotalCostPlusClick = () => {
     const step = loanType === LoanType.MORTGAGE ? MORTGAGE_STEP : AUTO_STEP;
     updateTotalCost(totalCost + step, loanType);
+  };
+
+  const handleInitialPaymentFocus = () => {
+    setInitialPaymentInputType(InputType.NUMBER);
+    setInitialPaymentValue(initialPayment);
+  };
+
+  const handleInitialPaymentBlur = () => {
+    setInitialPaymentInputType(InputType.TEXT);
+    const newInitialPayment = validateInitialPayment(initialPayment, loanType, totalCost);
+    setInitialPayment(newInitialPayment);
+    setInitialPaymentValue(`${newInitialPayment.toLocaleString(DEFAULT_LOCALE)} рублей`);
+  };
+
+  const validateInitialPayment = (newInitialPayment, currentLoanType, totalCost) => {
+    const minPayment = getMinInitialPaymentValue(currentLoanType, totalCost);
+    return newInitialPayment < minPayment ? minPayment : newInitialPayment;
+  };
+
+  const updateInitialPayment = (newInitialPayment, currentLoanType, validate = true) => {
+    const minPayment = getMinInitialPaymentValue(currentLoanType, totalCost);
+    const updatedInitialPayment = validate ? validateInitialPayment(newInitialPayment, currentLoanType, totalCost) : newInitialPayment;
+    setInitialPayment(updatedInitialPayment);
+
+    if (initialPaymentInputType === InputType.NUMBER) {
+      setInitialPaymentValue(updatedInitialPayment);
+    } else {
+      setInitialPaymentValue(`${updatedInitialPayment.toLocaleString(DEFAULT_LOCALE)} рублей`);
+    }
+  };
+
+  const handleInitialPaymentChange = (evt) => {
+    let newInitialPayment = parseInt(evt.target.value, RADIX);
+    if (!newInitialPayment) {
+      newInitialPayment = 0;
+    }
+    updateInitialPayment(newInitialPayment, loanType, false);
+  };
+
+  const handleLoanDurationFocus = () => {
+    setloanDurationInputType(InputType.NUMBER);
+    setloanDurationValue(loanDuration);
+  };
+
+  const handleLoanDurationBlur = () => {
+    setloanDurationInputType(InputType.TEXT);
+    const newLoanDuration = validateLoanDuration(loanDuration, loanType);
+    setloanDuration(newLoanDuration);
+    setloanDurationValue(`${newLoanDuration.toLocaleString(DEFAULT_LOCALE)} лет`);
+  };
+
+  const validateLoanDuration = (newLoanDuration, currentLoanType) => {
+    let validatedDuration = newLoanDuration;
+    if (!validatedDuration) {
+      validatedDuration = 0;
+    }
+    const minLoanDuration = getMinLoanDuration(currentLoanType);
+    const maxLoanDuration = getMaxLoanDuration(currentLoanType);
+    if (validatedDuration < minLoanDuration) {
+      validatedDuration = minLoanDuration;
+    } else if (validatedDuration > maxLoanDuration) {
+      validatedDuration = maxLoanDuration;
+    }
+    return validatedDuration;
+  };
+
+  const updateLoanDuration = (newLoanDuration, currentLoanType, validate = true) => {
+    let updatedDuration = validate ? validateLoanDuration(newLoanDuration, currentLoanType) : newLoanDuration;
+    setloanDuration(updatedDuration);
+    if (loanDurationInputType === InputType.NUMBER) {
+      setloanDurationValue(updatedDuration);
+    } else {
+      setloanDurationValue(`${updatedDuration.toLocaleString(DEFAULT_LOCALE)} лет`);
+    }
+  };
+
+  const handleLoanDurationChange = (evt) => {
+    let newLoanDuration = parseInt(evt.target.value, RADIX);
+    updateLoanDuration(newLoanDuration, loanType, false);
   };
 
   const handleSubmitBtnClick = (evt) => {
@@ -209,7 +326,7 @@ const Calculator = (props) => {
               <label className="loan-parameters__label" htmlFor="purchase-value">{loanParametersLabelText}</label>
               <div className="loan-parameters__purchase-value-input-wrapper">
                 <span className={`loan-parameters__wrong-value ${isTotalCostInvalid ? ClassName.DISPLAY_BLOCK : ClassName.DISPLAY_NONE}`}>Некорректное значение</span>
-                <input className={`loan-parameters__input ${isTotalCostInvalid ? `loan-parameters__input-invalid` : ``}`} id="purchase-value" name="purchase-value" type={totalCostType} value={totalCostValue} onFocus={handleTotalCostFocus} onBlur={handleTotalCostBlur} onChange={handleTotalCostChange}/>
+                <input className={`loan-parameters__input ${isTotalCostInvalid ? `loan-parameters__input-invalid` : ``}`} id="purchase-value" name="purchase-value" type={totalCostInputType} value={totalCostValue} onFocus={handleTotalCostFocus} onBlur={handleTotalCostBlur} onChange={handleTotalCostChange}/>
                 <button className="loan-parameters__purchase-value-btn loan-parameters__purchase-value-btn--minus" type="button" aria-label="Уменьшить стоимость" onClick={handleTotalCostMinusClick}>
                   <svg className="loan-parameters__purchase-value-btn-icon" width={16} height={2}>
                     <use href={sprite + `#icon-minus`} />
@@ -226,18 +343,31 @@ const Calculator = (props) => {
 
             <div className="loan-parameters__item">
               <label className="loan-parameters__label" htmlFor="itinial-payment">Первоначальный взнос</label>
-              <input className="loan-parameters__input" id="itinial-payment" name="itinial-payment" defaultValue="200 000 рублей" />
+              <input className="loan-parameters__input" id="itinial-payment" name="itinial-payment" type={initialPaymentInputType} value={initialPaymentValue} onFocus={handleInitialPaymentFocus} onBlur={handleInitialPaymentBlur} onChange={handleInitialPaymentChange}/>
               <div className="loan-parameters__slider">
-                <div className="loan-parameters__level-line">
+              <Slider
+                defaultValue={30}
+                trackStyle={{ height: `1px`, backgroundColor: `#C1C2CA` }}
+                handleStyle={{
+                  borderColor: 'blue',
+                  height: 14,
+                  width: 14,
+                  marginLeft: 7,
+                  borderRadius: `50%`,
+                  backgroundColor: '#2C36F2',
+                }}
+                railStyle={{ height: `1px`, backgroundColor: `#C1C2CA` }}
+                />
+                {/* <div className="loan-parameters__level-line">
                   <button className="loan-parameters__level-btn" type="button" aria-label="Изменить сумму первоначального взноса"></button>
-                </div>
+                </div> */}
                 <span className="loan-parameters__slider-min-value">{loanInitialPaymentPercentText}%</span>
               </div>
             </div>
 
             <div className="loan-parameters__item">
               <label className="loan-parameters__label" htmlFor="loan-duration">Срок кредитования</label>
-              <input className="loan-parameters__input" id="loan-duration" name="loan-duration" defaultValue="5 лет" />
+              <input className="loan-parameters__input" id="loan-duration" name="loan-duration" type={loanDurationInputType} value={loanDurationValue} onFocus={handleLoanDurationFocus} onBlur={handleLoanDurationBlur} onChange={handleLoanDurationChange}/>
               <div className="loan-parameters__slider">
                 <div className="loan-parameters__level-line">
                   <button className="loan-parameters__level-btn" type="button" aria-label="Изменить срок кредитования"></button>
@@ -339,6 +469,7 @@ const Calculator = (props) => {
               <label className="visually-hidden" htmlFor="email">Укажите ваш адрес электронной почты</label>
               <input className="application__field-email" type="email" id="email" name="email" placeholder="E-mail"/>
             </div>
+            <button type="submit" disabled className={ClassName.DISPLAY_NONE} aria-hidden="true"></button>
             <button className="application__submit-btn" type="submit" onClick={handleSubmitBtnClick}>Отправить</button>
           </div>
         </div>
