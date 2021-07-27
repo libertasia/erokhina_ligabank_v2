@@ -39,6 +39,12 @@ const InputType = {
   NUMBER: `number`,
 };
 
+const UserApplicationData = {
+  NAME: `name`,
+  TEL: `tel`,
+  EMAIL: `email`,
+};
+
 const getMinInitialPaymentValue = (loanType, totalCost) => {
   const initialPaymentPercentage = loanType === LoanType.MORTGAGE ? MIN_MORTGAGE_INITIAL_PAYMENT_PERCENTAGE : MIN_AUTO_INITIAL_PAYMENT_PERCENTAGE;
   return (totalCost * initialPaymentPercentage) / MULTIPLIER;
@@ -77,12 +83,21 @@ const Calculator = (props) => {
   const [isCascoInsuranceChecked, setIsCascoInsuranceChecked] = useState(false);
   const [isLifeInsuranceChecked, setIsLifeInsuranceChecked] = useState(false);
 
+  const [isErrorinUserData, setIsErrorinUserData] = useState(false);
+
+  const [userData, setUserData] = useState({
+    userName: ``,
+    userTel: ``,
+    userEmail: ``,
+  });
+
   const inputNameEl = useRef(null);
 
   const closeListBtnClassName = isSelectListShowed ? `calculator__loan-purpose-btn--close` : ``;
   const hiddenSelectListClassName = isSelectListShowed ? ClassName.DISPLAY_BLOCK : ClassName.DISPLAY_NONE;
   const hiddenSecondStepClassName = isSecondStepShowed ? ClassName.DISPLAY_BLOCK : ClassName.DISPLAY_NONE;
   const hiddenThirdStepClassName = isThirdStepShowed ? ClassName.DISPLAY_BLOCK : ClassName.DISPLAY_NONE;
+  const hiddenErrorMessageClassName = isErrorinUserData ? `` : ClassName.VISUALLY_HIDDEN;
 
 
   let loanSelectButtonText = `Выберите цель кредита`;
@@ -160,12 +175,6 @@ const Calculator = (props) => {
   const handleOfferBtnClick = () => {
     setIsThirdStepShowed(true);
   };
-
-  useEffect(() => {
-    if (isThirdStepShowed) {
-      inputNameEl.current.focus();
-    }
-  }, [isThirdStepShowed]);
 
   const handleTotalCostFocus = () => {
     setTotalCostInputType(InputType.NUMBER);
@@ -331,15 +340,57 @@ const Calculator = (props) => {
     }
   };
 
-  const handleSubmitBtnClick = (evt) => {
+  const setUserName = (evt) => {
+    setUserData({...userData, userName: evt.target.value});
+    localStorage.setItem(UserApplicationData.NAME, evt.target.value);
+  };
+
+  const setUserTel = (evt) => {
+    setUserData({...userData, userTel: evt.target.value});
+    localStorage.setItem(UserApplicationData.TEL, evt.target.value);
+  };
+
+  const setUserEmail = (evt) => {
+    setUserData({...userData, userEmail: evt.target.value});
+    localStorage.setItem(UserApplicationData.EMAIL, evt.target.value);
+  };
+
+  useEffect(() => {
+    if (isThirdStepShowed) {
+      inputNameEl.current.focus();
+    }
+    const nameFromLocalStorage = localStorage.getItem(UserApplicationData.NAME);
+    const telFromLocalStorage = localStorage.getItem(UserApplicationData.TEL);
+    const emailFromLocalStorage = localStorage.getItem(UserApplicationData.EMAIL);
+
+    setUserData({
+      ...userData,
+      userName: nameFromLocalStorage !== null ? nameFromLocalStorage : ``,
+      userTel: telFromLocalStorage !== null ? telFromLocalStorage : ``,
+      userEmail: emailFromLocalStorage !== null ? emailFromLocalStorage : ``,
+    });
+  }, [isThirdStepShowed]);
+
+  const handleFormSubmit = (evt) => {
     evt.preventDefault();
+    let hasError = false;
+    if (!userData.userName || !userData.userName.trim() || !userData.userTel || !userData.userTel.trim() || !userData.userEmail || !userData.userEmail.trim()) {
+      setIsErrorinUserData(true);
+      hasError = true;
+    } else {
+      setIsErrorinUserData(false);
+    }
+
+    if (hasError) {
+      return;
+    }
     onSubmitBtnClick(true);
   };
 
   return (
     <section className="calculator container">
       <h2 className="calculator__title">Кредитный калькулятор</h2>
-      <form className="calculator__form" action="#" method="post">
+      <form className="calculator__form" action="#" method="post" onSubmit={handleFormSubmit}>
         <div className="calculator__first-step">
           <h3 className="calculator__step-title">Шаг 1. Цель кредита</h3>
           <div className="calculator__loan-purpose-wrapper">
@@ -487,8 +538,9 @@ const Calculator = (props) => {
             </ul>
 
             <div className="application__fields-wrapper">
+              <span className={hiddenErrorMessageClassName}>Все поля обязательны для заполнения</span>
               <label className="visually-hidden" htmlFor="name">Укажите ваше имя</label>
-              <input className="application__field-name" type="text" id="name" name="name" placeholder="ФИО" minLength="1" ref={inputNameEl} autoFocus={true}/>
+              <input className="application__field-name" type="text" id="name" name="name" placeholder="ФИО" minLength="1" ref={inputNameEl} autoFocus={true} value={userData.userName} onChange={setUserName} />
               <label className="visually-hidden" htmlFor="tel">Укажите ваш телефон</label>
               <InputMask
                 mask="+7 (999) 999-99-99"
@@ -497,12 +549,14 @@ const Calculator = (props) => {
                 id="tel"
                 name="tel"
                 placeholder="Телефон"
+                value={userData.userTel}
+                onChange={setUserTel}
               />
               <label className="visually-hidden" htmlFor="email">Укажите ваш адрес электронной почты</label>
-              <input className="application__field-email" type="email" id="email" name="email" placeholder="E-mail"/>
+              <input className="application__field-email" type="email" id="email" name="email" placeholder="E-mail" value={userData.userEmail} onChange={setUserEmail} />
             </div>
             <button type="submit" disabled className={ClassName.DISPLAY_NONE} aria-hidden="true"></button>
-            <button className="application__submit-btn" type="submit" onClick={handleSubmitBtnClick}>Отправить</button>
+            <button className="application__submit-btn" type="submit">Отправить</button>
           </div>
         </div>
       </form>

@@ -57,11 +57,24 @@
 
 
 .application__fields-wrapper input {
+  font-family: $main-font;
+  font-size: 18px;
   height: 60px;
   border: 1px solid $basic-text-color;
   border-radius: 4px;
   background-color: $background-color;
   padding: 24px;
+
+  &::placeholder {
+    font-family: $main-font;
+    font-size: 18px;
+    color: $grey;
+    letter-spacing: 0.3px;
+
+    @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+      font-size: 16px;
+    }
+  }
 
   @media (min-width: $mobile) and (max-width: $desktop-breakpoint) {
     background-color: $basic-white;
@@ -69,6 +82,14 @@
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
     padding: 24px 15px;
+  }
+}
+
+.application__fields-wrapper span {
+  color: red;
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    font-size: 12px;
   }
 }
 
