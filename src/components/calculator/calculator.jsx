@@ -7,6 +7,7 @@ import 'rc-slider/assets/index.css';
 import {ClassName} from '../../const';
 import sprite from '../../img/sprite.svg';
 import {ActionCreator} from '../../store/action';
+import {sendApplication} from '../../store/api-actions';
 
 const DEFAULT_TOTAL_COST = 2000000;
 const MIN_MORTGAGE_TOTAL_COST = 1200000;
@@ -59,7 +60,7 @@ const getMaxLoanDuration = (loanType) => {
 };
 
 const Calculator = (props) => {
-  const {onSubmitBtnClick} = props;
+  const {onSubmitBtnClick, onApplicationFormSubmit} = props;
 
   const [loanType, setLoanType] = useState(LoanType.NONE);
   const [isSelectListShowed, setIsSelectListShowed] = useState(false);
@@ -90,6 +91,18 @@ const Calculator = (props) => {
     userTel: ``,
     userEmail: ``,
   });
+
+  const closeForm = () => {
+    setLoanType(LoanType.NONE);
+    setIsSelectListShowed(false);
+    setIsSecondStepShowed(false);
+    setIsThirdStepShowed(false);
+
+    setTotalCost(DEFAULT_TOTAL_COST);
+    setTotalCostValue(`${totalCost.toLocaleString(DEFAULT_LOCALE)} рублей`);
+    setTotalCostInputType(InputType.TEXT);
+    setIsTotalCostInvalid(false);
+  };
 
   const inputNameEl = useRef(null);
 
@@ -384,6 +397,8 @@ const Calculator = (props) => {
     if (hasError) {
       return;
     }
+    onApplicationFormSubmit(userData);
+    closeForm();
     onSubmitBtnClick(true);
   };
 
@@ -566,11 +581,15 @@ const Calculator = (props) => {
 
 Calculator.propTypes = {
   onSubmitBtnClick: PropTypes.func.isRequired,
+  onApplicationFormSubmit: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmitBtnClick(payload) {
     dispatch(ActionCreator.setIsThanksPopupVisible(payload));
+  },
+  onApplicationFormSubmit(userData) {
+    dispatch(sendApplication(userData));
   },
 });
 
