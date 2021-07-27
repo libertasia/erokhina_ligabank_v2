@@ -318,6 +318,9 @@ const Calculator = (props) => {
     let updatedDuration = validate ? validateLoanDuration(newLoanDuration, currentLoanType) : newLoanDuration;
     setloanDuration(updatedDuration);
     if (loanDurationInputType === InputType.NUMBER) {
+      if (!updatedDuration) {
+        updatedDuration = ``;
+      }
       setloanDurationValue(updatedDuration);
     } else {
       setloanDurationValue(`${updatedDuration.toLocaleString(DEFAULT_LOCALE)} лет`);
