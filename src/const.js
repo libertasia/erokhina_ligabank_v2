@@ -2,6 +2,12 @@ const ESC_KEY_CODE = 27;
 
 const ENTER_KEY_CODE = 13;
 
+const DEFAULT_LOCALE = `ru`;
+
+const RADIX = 10;
+
+const MULTIPLIER = 100;
+
 const AppRoute = {
   ROOT: `/`,
   CONVERTER: `/converter`,
@@ -21,4 +27,4 @@ const ClassName = {
   VISUALLY_HIDDEN: `visually-hidden`,
 };
 
-export {AppRoute, APIRoute, ClassName, ESC_KEY_CODE, ENTER_KEY_CODE};
+export {AppRoute, APIRoute, ClassName, ESC_KEY_CODE, ENTER_KEY_CODE, DEFAULT_LOCALE, RADIX, MULTIPLIER};

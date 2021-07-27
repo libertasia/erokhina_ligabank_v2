@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import InputMask from 'react-input-mask';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import {ClassName} from '../../const';
+import {ClassName, DEFAULT_LOCALE, RADIX, MULTIPLIER} from '../../const';
 import sprite from '../../img/sprite.svg';
 import {ActionCreator} from '../../store/action';
 import {sendApplication} from '../../store/api-actions';
@@ -27,39 +27,39 @@ const MORTGAGE_STEP = 100000;
 const AUTO_STEP = 50000;
 const MATERNITY_DISCOUNT = 470000;
 const MONTHS_IN_YEAR = 12;
+const INITIAL_PAYMENT_SLIDER_STEP = 5;
+const LOAN_DURATION_SLIDER_STEP = 1;
+const MAX_SLIDER_PERCENTAGE_VALUE = 100;
+const MAX_MONTHLY_PAYMENT_RATIO = 0.45;
+const INITIAL_PAYMENT_THRESHOLD_PERCENT = 15;
+const INITIAL_PAYMENT_THRESHOLD_VALUE = 2000000;
 
 const SliderOptions = {
   Mortgage: {
     InitialPayment: {
-      MIN_VALUE: 10,
-      MAX_VALUE: 100,
-      STEP: 5
+      MIN_VALUE: MIN_MORTGAGE_INITIAL_PAYMENT_PERCENTAGE,
+      MAX_VALUE: MAX_SLIDER_PERCENTAGE_VALUE,
+      STEP: INITIAL_PAYMENT_SLIDER_STEP,
     },
     Duration: {
-      MIN_VALUE: 5,
-      MAX_VALUE: 30,
-      STEP: 1
+      MIN_VALUE: MIN_MORTGAGE_LOAN_DURATION_YEARS,
+      MAX_VALUE: MAX_MORTGAGE_LOAN_DURATION_YEARS,
+      STEP: LOAN_DURATION_SLIDER_STEP,
     }
   },
   Auto: {
     InitialPayment: {
-      MIN_VALUE: 20,
-      MAX_VALUE: 100,
-      STEP: 5
+      MIN_VALUE: MIN_AUTO_INITIAL_PAYMENT_PERCENTAGE,
+      MAX_VALUE: MAX_SLIDER_PERCENTAGE_VALUE,
+      STEP: INITIAL_PAYMENT_SLIDER_STEP,
     },
     Duration: {
-      MIN_VALUE: 1,
-      MAX_VALUE: 5,
-      STEP: 1
+      MIN_VALUE: MIN_AUTO_LOAN_DURATION_YEARS,
+      MAX_VALUE: MAX_AUTO_LOAN_DURATION_YEARS,
+      STEP: LOAN_DURATION_SLIDER_STEP,
     }
   }
-}
-
-const DEFAULT_LOCALE = `ru`;
-
-const RADIX = 10;
-
-const MULTIPLIER = 100;
+};
 
 const LoanType = {
   NONE: `none`,
@@ -84,7 +84,7 @@ const SliderLevelLineStyle = {
 };
 
 const SliderToggleStyle = {
-  borderColor: 'blue',
+  borderColor: `blue`,
   height: 14,
   width: 14,
   marginLeft: 7,
@@ -92,7 +92,19 @@ const SliderToggleStyle = {
   right: `auto`,
   transform: `translateX(-50%)`,
   borderRadius: `50%`,
-  backgroundColor: '#2C36F2',
+  backgroundColor: `#2C36F2`,
+};
+
+const MortgageRate = {
+  INITIAL_PAYMENT_LOW: 8.5,
+  INITIAL_PAYMENT_HIGH: 9.4,
+};
+
+const AutoLoanRate = {
+  HIGH: 16,
+  LOW: 15,
+  WITH_ALL_INSURANCE: 3.5,
+  WITH_INSURANCE: 8.5,
 };
 
 const getMinInitialPaymentValue = (loanType, totalCost) => {
@@ -113,18 +125,18 @@ const getOfferLoanAmount = (totalCost, initialPayment, discount) => {
 };
 
 const getOfferMortgageRate = (initialPaymentPercentage) => {
-  return initialPaymentPercentage < 15 ? 9.4 : 8.5;
+  return initialPaymentPercentage < INITIAL_PAYMENT_THRESHOLD_PERCENT ? MortgageRate.INITIAL_PAYMENT_HIGH : MortgageRate.INITIAL_PAYMENT_LOW;
 };
 
 const getOfferAutoRate = (totalCost, hasKasko, hasLifeInsurance) => {
   if (hasKasko && hasLifeInsurance) {
-    return 3.5;
+    return AutoLoanRate.WITH_ALL_INSURANCE;
   } else if (hasKasko || hasLifeInsurance) {
-    return 8.5;
-  } else if (totalCost >= 2000000) {
-    return 15;
+    return AutoLoanRate.WITH_INSURANCE;
+  } else if (totalCost >= INITIAL_PAYMENT_THRESHOLD_VALUE) {
+    return AutoLoanRate.LOW;
   }
-  return 16;
+  return AutoLoanRate.HIGH;
 };
 
 const getOfferMonthlyPayment = (loanAmount, loanRatePerYear, loanDurationYears) => {
@@ -134,7 +146,7 @@ const getOfferMonthlyPayment = (loanAmount, loanRatePerYear, loanDurationYears) 
 };
 
 const getOfferRequiredIncome = (monthlyPayment) => {
-  return Math.round(monthlyPayment / 0.45);
+  return Math.round(monthlyPayment / MAX_MONTHLY_PAYMENT_RATIO);
 };
 
 const Calculator = (props) => {
@@ -357,13 +369,13 @@ const Calculator = (props) => {
     setInitialPaymentValue(`${newInitialPayment.toLocaleString(DEFAULT_LOCALE)} рублей`);
   };
 
-  const validateInitialPayment = (newInitialPayment, currentLoanType, totalCost) => {
-    const minPayment = getMinInitialPaymentValue(currentLoanType, totalCost);
+  const validateInitialPayment = (newInitialPayment, currentLoanType, newTotalCost) => {
+    const minPayment = getMinInitialPaymentValue(currentLoanType, newTotalCost);
     return newInitialPayment < minPayment ? minPayment : newInitialPayment;
   };
 
-  const updateInitialPayment = (newInitialPayment, totalCost, currentLoanType, validate = true) => {
-    const updatedInitialPayment = validate ? validateInitialPayment(newInitialPayment, currentLoanType, totalCost) : newInitialPayment;
+  const updateInitialPayment = (newInitialPayment, newTotalCost, currentLoanType, validate = true) => {
+    const updatedInitialPayment = validate ? validateInitialPayment(newInitialPayment, currentLoanType, newTotalCost) : newInitialPayment;
     setInitialPayment(updatedInitialPayment);
 
     if (initialPaymentInputType === InputType.NUMBER) {
@@ -454,12 +466,12 @@ const Calculator = (props) => {
   const handleInitialPaymentSliderValueChange = (newValue) => {
     setInitialPaymentSliderValue(newValue);
     const newInitialPayment = totalCost * newValue / MULTIPLIER;
-    updateInitialPayment(newInitialPayment, totalCost, loanType)
+    updateInitialPayment(newInitialPayment, totalCost, loanType);
   };
 
   const handleLoanDurationSliderValueChange = (newValue) => {
     setLoanDurationSliderValue(newValue);
-    updateLoanDuration(newValue, loanType)
+    updateLoanDuration(newValue, loanType);
   };
 
   const setUserName = (evt) => {
@@ -518,7 +530,7 @@ const Calculator = (props) => {
       monthlyPayment,
       requiredIncome,
       isValid
-    })
+    });
   }, [loanType, totalCost, initialPayment, isMaternalDiscountChecked, isCascoInsuranceChecked, isLifeInsuranceChecked, loanDuration]);
 
   const handleFormSubmit = (evt) => {
@@ -600,15 +612,15 @@ const Calculator = (props) => {
               <input className="loan-parameters__input" id="loan-duration" name="loan-duration" type={loanDurationInputType} value={loanDurationValue} onFocus={handleLoanDurationFocus} onBlur={handleLoanDurationBlur} onChange={handleLoanDurationChange}/>
               <div className="loan-parameters__slider">
                 <Slider
-                    min={loanType === LoanType.MORTGAGE ? SliderOptions.Mortgage.Duration.MIN_VALUE : SliderOptions.Auto.Duration.MIN_VALUE}
-                    max={loanType === LoanType.MORTGAGE ? SliderOptions.Mortgage.Duration.MAX_VALUE : SliderOptions.Auto.Duration.MAX_VALUE}
-                    step={loanType === LoanType.MORTGAGE ? SliderOptions.Mortgage.Duration.STEP : SliderOptions.Auto.Duration.STEP}
-                    value={loanDurationSliderValue}
-                    onChange={handleLoanDurationSliderValueChange}
-                    trackStyle={SliderLevelLineStyle}
-                    handleStyle={SliderToggleStyle}
-                    railStyle={SliderLevelLineStyle}
-                  />
+                  min={loanType === LoanType.MORTGAGE ? SliderOptions.Mortgage.Duration.MIN_VALUE : SliderOptions.Auto.Duration.MIN_VALUE}
+                  max={loanType === LoanType.MORTGAGE ? SliderOptions.Mortgage.Duration.MAX_VALUE : SliderOptions.Auto.Duration.MAX_VALUE}
+                  step={loanType === LoanType.MORTGAGE ? SliderOptions.Mortgage.Duration.STEP : SliderOptions.Auto.Duration.STEP}
+                  value={loanDurationSliderValue}
+                  onChange={handleLoanDurationSliderValueChange}
+                  trackStyle={SliderLevelLineStyle}
+                  handleStyle={SliderToggleStyle}
+                  railStyle={SliderLevelLineStyle}
+                />
                 <span className="loan-parameters__slider-min-value">{loanMinDurationText} лет</span>
                 <span className="loan-parameters__slider-max-value">{loanMaxDurationText} лет</span>
               </div>
