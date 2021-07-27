@@ -8,6 +8,7 @@ import {ClassName} from '../../const';
 import sprite from '../../img/sprite.svg';
 import {ActionCreator} from '../../store/action';
 import {sendApplication} from '../../store/api-actions';
+import {zeroPad} from '../../utils';
 
 const DEFAULT_TOTAL_COST = 2000000;
 const MIN_MORTGAGE_TOTAL_COST = 1200000;
@@ -165,6 +166,8 @@ const Calculator = (props) => {
 
   const [initialPaymentSliderValue, setInitialPaymentSliderValue] = useState(0);
   const [loanDurationSliderValue, setLoanDurationSliderValue] = useState(0);
+
+  const [offerNumber, setOfferNumber] = useState(1);
 
   const [userData, setUserData] = useState({
     userName: ``,
@@ -533,6 +536,7 @@ const Calculator = (props) => {
     }
     onApplicationFormSubmit(userData);
     closeForm();
+    setOfferNumber(offerNumber + 1);
     onSubmitBtnClick(true);
   };
 
@@ -666,7 +670,7 @@ const Calculator = (props) => {
             <ul className="application__list">
               <li className="application__list-item">
                 <p className="application__list-item-title">Номер заявки</p>
-                <p className="application__list-item-value">№ 0010</p>
+                <p className="application__list-item-value">{`№ ${zeroPad(offerNumber, 4)}`}</p>
               </li>
               <li className="application__list-item">
                 <p className="application__list-item-title">Цель кредита</p>
@@ -674,15 +678,15 @@ const Calculator = (props) => {
               </li>
               <li className="application__list-item">
                 <p className="application__list-item-title">{loanPriceText}</p>
-                <p className="application__list-item-value">2 000 000 рублей</p>
+                <p className="application__list-item-value">{`${totalCost.toLocaleString(DEFAULT_LOCALE)} рублей`}</p>
               </li>
               <li className="application__list-item">
                 <p className="application__list-item-title">Первоначальный взнос</p>
-                <p className="application__list-item-value">200 000 рублей</p>
+                <p className="application__list-item-value">{`${initialPayment.toLocaleString(DEFAULT_LOCALE)} рублей`}</p>
               </li>
               <li className="application__list-item">
                 <p className="application__list-item-title">Срок кредитования</p>
-                <p className="application__list-item-value">5 лет</p>
+                <p className="application__list-item-value">{`${loanDuration} лет`}</p>
               </li>
             </ul>
 

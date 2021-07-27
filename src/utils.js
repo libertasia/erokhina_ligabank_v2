@@ -21,4 +21,6 @@ const onOverlayClick = (ref, handler) => {
   }, []); // Empty array ensures that effect is only run on mount and unmount
 };
 
-export {onOverlayClick};
+const zeroPad = (num, places) => String(num).padStart(places, '0')
+
+export {onOverlayClick, zeroPad};
