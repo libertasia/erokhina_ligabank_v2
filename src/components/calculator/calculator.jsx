@@ -23,6 +23,33 @@ const MAX_AUTO_LOAN_DURATION_YEARS = 5;
 const MORTGAGE_STEP = 100000;
 const AUTO_STEP = 50000;
 
+const SliderOptions = {
+  Mortgage: {
+    InitialPayment: {
+      MIN_VALUE: 10,
+      MAX_VALUE: 100,
+      STEP: 5
+    },
+    Duration: {
+      MIN_VALUE: 5,
+      MAX_VALUE: 30,
+      STEP: 1
+    }
+  },
+  Auto: {
+    InitialPayment: {
+      MIN_VALUE: 20,
+      MAX_VALUE: 100,
+      STEP: 5
+    },
+    Duration: {
+      MIN_VALUE: 1,
+      MAX_VALUE: 5,
+      STEP: 1
+    }
+  }
+}
+
 const DEFAULT_LOCALE = `ru`;
 
 const RADIX = 10;
@@ -44,6 +71,23 @@ const UserApplicationData = {
   NAME: `name`,
   TEL: `tel`,
   EMAIL: `email`,
+};
+
+const SliderLevelLineStyle = {
+  height: `1px`,
+  backgroundColor: `#C1C2CA`,
+};
+
+const SliderToggleStyle = {
+  borderColor: 'blue',
+  height: 14,
+  width: 14,
+  marginLeft: 7,
+  left: `100%`,
+  right: `auto`,
+  transform: `translateX(-50%)`,
+  borderRadius: `50%`,
+  backgroundColor: '#2C36F2',
 };
 
 const getMinInitialPaymentValue = (loanType, totalCost) => {
@@ -86,6 +130,9 @@ const Calculator = (props) => {
 
   const [isErrorinUserData, setIsErrorinUserData] = useState(false);
 
+  const [initialPaymentSliderValue, setInitialPaymentSliderValue] = useState(0);
+  const [loanDurationSliderValue, setLoanDurationSliderValue] = useState(0);
+
   const [userData, setUserData] = useState({
     userName: ``,
     userTel: ``,
@@ -122,7 +169,6 @@ const Calculator = (props) => {
   let loanTooSmallText = ``;
   let loanPurposeText = ``;
   let loanPriceText = ``;
-  let loanInitialPaymentPercentText = ``;
   let loanMinDurationText = ``;
   let loanMaxDurationText = ``;
 
@@ -136,7 +182,6 @@ const Calculator = (props) => {
     loanTooSmallText = `Наш банк не выдаёт ипотечные кредиты меньше 500 000 рублей.`;
     loanPurposeText = `Ипотека`;
     loanPriceText = `Стоимость недвижимости`;
-    loanInitialPaymentPercentText = `${MIN_MORTGAGE_INITIAL_PAYMENT_PERCENTAGE}`;
     loanMinDurationText = `${MIN_MORTGAGE_LOAN_DURATION_YEARS}`;
     loanMaxDurationText = `${MAX_MORTGAGE_LOAN_DURATION_YEARS}`;
   } else if (loanType === LoanType.AUTO) {
@@ -149,7 +194,6 @@ const Calculator = (props) => {
     loanTooSmallText = `Наш банк не выдаёт автокредиты меньше 200 000 рублей.`;
     loanPurposeText = `Автокредит`;
     loanPriceText = `Стоимость автомобиля`;
-    loanInitialPaymentPercentText = `${MIN_AUTO_INITIAL_PAYMENT_PERCENTAGE}`;
     loanMinDurationText = `${MIN_AUTO_LOAN_DURATION_YEARS}`;
     loanMaxDurationText = `${MAX_AUTO_LOAN_DURATION_YEARS}`;
   }
@@ -174,7 +218,7 @@ const Calculator = (props) => {
 
     const minPayment = getMinInitialPaymentValue(selectedLoanType, totalCost);
     setInitialPayment(minPayment);
-    updateInitialPayment(minPayment, selectedLoanType);
+    updateInitialPayment(minPayment, totalCost, selectedLoanType);
 
     const minLoanDuration = getMinLoanDuration(selectedLoanType);
     setloanDuration(minLoanDuration);
@@ -197,12 +241,14 @@ const Calculator = (props) => {
   const handleTotalCostBlur = () => {
     setTotalCostInputType(InputType.TEXT);
     setTotalCostValue(`${totalCost.toLocaleString(DEFAULT_LOCALE)} рублей`);
+    const newSliderValue = Math.round((initialPayment / totalCost) * MULTIPLIER);
+    setInitialPaymentSliderValue(newSliderValue);
   };
 
   const updateTotalCost = (newTotalCost, currentLoanType) => {
     setTotalCost(newTotalCost);
     const minPayment = getMinInitialPaymentValue(currentLoanType, newTotalCost);
-    updateInitialPayment(minPayment, currentLoanType);
+    updateInitialPayment(minPayment, newTotalCost, currentLoanType);
     if (totalCostInputType === InputType.NUMBER) {
       setTotalCostValue(newTotalCost);
     } else {
@@ -258,6 +304,8 @@ const Calculator = (props) => {
   const handleInitialPaymentBlur = () => {
     setInitialPaymentInputType(InputType.TEXT);
     const newInitialPayment = validateInitialPayment(initialPayment, loanType, totalCost);
+    const newSliderValue = Math.round((newInitialPayment / totalCost) * MULTIPLIER);
+    setInitialPaymentSliderValue(newSliderValue);
     setInitialPayment(newInitialPayment);
     setInitialPaymentValue(`${newInitialPayment.toLocaleString(DEFAULT_LOCALE)} рублей`);
   };
@@ -267,8 +315,7 @@ const Calculator = (props) => {
     return newInitialPayment < minPayment ? minPayment : newInitialPayment;
   };
 
-  const updateInitialPayment = (newInitialPayment, currentLoanType, validate = true) => {
-    const minPayment = getMinInitialPaymentValue(currentLoanType, totalCost);
+  const updateInitialPayment = (newInitialPayment, totalCost, currentLoanType, validate = true) => {
     const updatedInitialPayment = validate ? validateInitialPayment(newInitialPayment, currentLoanType, totalCost) : newInitialPayment;
     setInitialPayment(updatedInitialPayment);
 
@@ -284,7 +331,7 @@ const Calculator = (props) => {
     if (!newInitialPayment) {
       newInitialPayment = 0;
     }
-    updateInitialPayment(newInitialPayment, loanType, false);
+    updateInitialPayment(newInitialPayment, totalCost, loanType, false);
   };
 
   const handleLoanDurationFocus = () => {
@@ -297,6 +344,7 @@ const Calculator = (props) => {
     const newLoanDuration = validateLoanDuration(loanDuration, loanType);
     setloanDuration(newLoanDuration);
     setloanDurationValue(`${newLoanDuration.toLocaleString(DEFAULT_LOCALE)} лет`);
+    setLoanDurationSliderValue(newLoanDuration);
   };
 
   const validateLoanDuration = (newLoanDuration, currentLoanType) => {
@@ -354,6 +402,17 @@ const Calculator = (props) => {
     } else {
       setIsLifeInsuranceChecked(false);
     }
+  };
+
+  const handleInitialPaymentSliderValueChange = (newValue) => {
+    setInitialPaymentSliderValue(newValue);
+    const newInitialPayment = totalCost * newValue / MULTIPLIER;
+    updateInitialPayment(newInitialPayment, totalCost, loanType)
+  };
+
+  const handleLoanDurationSliderValueChange = (newValue) => {
+    setLoanDurationSliderValue(newValue);
+    updateLoanDuration(newValue, loanType)
   };
 
   const setUserName = (evt) => {
@@ -446,23 +505,17 @@ const Calculator = (props) => {
               <label className="loan-parameters__label" htmlFor="itinial-payment">Первоначальный взнос</label>
               <input className="loan-parameters__input" id="itinial-payment" name="itinial-payment" type={initialPaymentInputType} value={initialPaymentValue} onFocus={handleInitialPaymentFocus} onBlur={handleInitialPaymentBlur} onChange={handleInitialPaymentChange}/>
               <div className="loan-parameters__slider">
-              <Slider
-                defaultValue={30}
-                trackStyle={{ height: `1px`, backgroundColor: `#C1C2CA` }}
-                handleStyle={{
-                  borderColor: 'blue',
-                  height: 14,
-                  width: 14,
-                  marginLeft: 7,
-                  borderRadius: `50%`,
-                  backgroundColor: '#2C36F2',
-                }}
-                railStyle={{ height: `1px`, backgroundColor: `#C1C2CA` }}
+                <Slider
+                  min={loanType === LoanType.MORTGAGE ? SliderOptions.Mortgage.InitialPayment.MIN_VALUE : SliderOptions.Auto.InitialPayment.MIN_VALUE}
+                  max={loanType === LoanType.MORTGAGE ? SliderOptions.Mortgage.InitialPayment.MAX_VALUE : SliderOptions.Auto.InitialPayment.MAX_VALUE}
+                  step={loanType === LoanType.MORTGAGE ? SliderOptions.Mortgage.InitialPayment.STEP : SliderOptions.Auto.InitialPayment.STEP}
+                  value={initialPaymentSliderValue}
+                  onChange={handleInitialPaymentSliderValueChange}
+                  trackStyle={SliderLevelLineStyle}
+                  handleStyle={SliderToggleStyle}
+                  railStyle={SliderLevelLineStyle}
                 />
-                {/* <div className="loan-parameters__level-line">
-                  <button className="loan-parameters__level-btn" type="button" aria-label="Изменить сумму первоначального взноса"></button>
-                </div> */}
-                <span className="loan-parameters__slider-min-value">{loanInitialPaymentPercentText}%</span>
+                <span className="loan-parameters__slider-min-value">{initialPaymentSliderValue}%</span>
               </div>
             </div>
 
@@ -470,9 +523,16 @@ const Calculator = (props) => {
               <label className="loan-parameters__label" htmlFor="loan-duration">Срок кредитования</label>
               <input className="loan-parameters__input" id="loan-duration" name="loan-duration" type={loanDurationInputType} value={loanDurationValue} onFocus={handleLoanDurationFocus} onBlur={handleLoanDurationBlur} onChange={handleLoanDurationChange}/>
               <div className="loan-parameters__slider">
-                <div className="loan-parameters__level-line">
-                  <button className="loan-parameters__level-btn" type="button" aria-label="Изменить срок кредитования"></button>
-                </div>
+                <Slider
+                    min={loanType === LoanType.MORTGAGE ? SliderOptions.Mortgage.Duration.MIN_VALUE : SliderOptions.Auto.Duration.MIN_VALUE}
+                    max={loanType === LoanType.MORTGAGE ? SliderOptions.Mortgage.Duration.MAX_VALUE : SliderOptions.Auto.Duration.MAX_VALUE}
+                    step={loanType === LoanType.MORTGAGE ? SliderOptions.Mortgage.Duration.STEP : SliderOptions.Auto.Duration.STEP}
+                    value={loanDurationSliderValue}
+                    onChange={handleLoanDurationSliderValueChange}
+                    trackStyle={SliderLevelLineStyle}
+                    handleStyle={SliderToggleStyle}
+                    railStyle={SliderLevelLineStyle}
+                  />
                 <span className="loan-parameters__slider-min-value">{loanMinDurationText} лет</span>
                 <span className="loan-parameters__slider-max-value">{loanMaxDurationText} лет</span>
               </div>
