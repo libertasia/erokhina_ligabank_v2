@@ -14,6 +14,8 @@ const MIN_MORTGAGE_TOTAL_COST = 1200000;
 const MAX_MORTGAGE_TOTAL_COST = 25000000;
 const MIN_AUTO_TOTAL_COST = 500000;
 const MAX_AUTO_TOTAL_COST = 5000000;
+const MIN_AUTO_LOAN_AMOUNT = 200000;
+const MIN_MORTGAGE_LOAN_AMOUNT = 500000;
 const MIN_MORTGAGE_INITIAL_PAYMENT_PERCENTAGE = 10;
 const MIN_AUTO_INITIAL_PAYMENT_PERCENTAGE = 20;
 const MIN_MORTGAGE_LOAN_DURATION_YEARS = 5;
@@ -22,6 +24,8 @@ const MIN_AUTO_LOAN_DURATION_YEARS = 1;
 const MAX_AUTO_LOAN_DURATION_YEARS = 5;
 const MORTGAGE_STEP = 100000;
 const AUTO_STEP = 50000;
+const MATERNITY_DISCOUNT = 470000;
+const MONTHS_IN_YEAR = 12;
 
 const SliderOptions = {
   Mortgage: {
@@ -103,6 +107,35 @@ const getMaxLoanDuration = (loanType) => {
   return loanType === LoanType.MORTGAGE ? MAX_MORTGAGE_LOAN_DURATION_YEARS : MAX_AUTO_LOAN_DURATION_YEARS;
 };
 
+const getOfferLoanAmount = (totalCost, initialPayment, discount) => {
+  return totalCost - initialPayment - discount;
+};
+
+const getOfferMortgageRate = (initialPaymentPercentage) => {
+  return initialPaymentPercentage < 15 ? 9.4 : 8.5;
+};
+
+const getOfferAutoRate = (totalCost, hasKasko, hasLifeInsurance) => {
+  if (hasKasko && hasLifeInsurance) {
+    return 3.5;
+  } else if (hasKasko || hasLifeInsurance) {
+    return 8.5;
+  } else if (totalCost >= 2000000) {
+    return 15;
+  }
+  return 16;
+};
+
+const getOfferMonthlyPayment = (loanAmount, loanRatePerYear, loanDurationYears) => {
+  const loanDurationMonths = loanDurationYears * MONTHS_IN_YEAR;
+  const loanRatePerMonth = (loanRatePerYear / MULTIPLIER) / MONTHS_IN_YEAR;
+  return Math.round(loanAmount * (loanRatePerMonth + loanRatePerMonth / (Math.pow((1 + loanRatePerMonth), loanDurationMonths) - 1)));
+};
+
+const getOfferRequiredIncome = (monthlyPayment) => {
+  return Math.round(monthlyPayment / 0.45);
+};
+
 const Calculator = (props) => {
   const {onSubmitBtnClick, onApplicationFormSubmit} = props;
 
@@ -137,6 +170,14 @@ const Calculator = (props) => {
     userName: ``,
     userTel: ``,
     userEmail: ``,
+  });
+
+  const [offer, setOffer] = useState({
+    amount: 0,
+    rate: 0,
+    monthlyPayment: 0,
+    requiredIncome: 0,
+    isValid: true,
   });
 
   const closeForm = () => {
@@ -219,9 +260,12 @@ const Calculator = (props) => {
     const minPayment = getMinInitialPaymentValue(selectedLoanType, totalCost);
     setInitialPayment(minPayment);
     updateInitialPayment(minPayment, totalCost, selectedLoanType);
+    const newSliderValue = Math.round((minPayment / totalCost) * MULTIPLIER);
+    setInitialPaymentSliderValue(newSliderValue);
 
     const minLoanDuration = getMinLoanDuration(selectedLoanType);
     setloanDuration(minLoanDuration);
+    setLoanDurationSliderValue(minLoanDuration);
     updateLoanDuration(minLoanDuration, selectedLoanType);
 
     setIsMaternalDiscountChecked(false);
@@ -446,6 +490,34 @@ const Calculator = (props) => {
     });
   }, [isThirdStepShowed]);
 
+  useEffect(() => {
+    const discount = isMaternalDiscountChecked ? MATERNITY_DISCOUNT : 0;
+    const amount = getOfferLoanAmount(totalCost, initialPayment, discount);
+    let rate = 0;
+    if (loanType === LoanType.MORTGAGE) {
+      rate = getOfferMortgageRate(Math.round(initialPayment / totalCost) * MULTIPLIER);
+    } else {
+      rate = getOfferAutoRate(totalCost, isCascoInsuranceChecked, isLifeInsuranceChecked);
+    }
+    const monthlyPayment = getOfferMonthlyPayment(amount, rate, loanDuration);
+    const requiredIncome = getOfferRequiredIncome(monthlyPayment);
+    let isValid = true;
+    if (loanType === LoanType.MORTGAGE && amount < MIN_MORTGAGE_LOAN_AMOUNT) {
+      isValid = false;
+    } else if (loanType === LoanType.AUTO && amount < MIN_AUTO_LOAN_AMOUNT) {
+      isValid = false;
+    }
+
+    setOffer({
+      ...offer,
+      amount,
+      rate,
+      monthlyPayment,
+      requiredIncome,
+      isValid
+    })
+  }, [loanType, totalCost, initialPayment, isMaternalDiscountChecked, isCascoInsuranceChecked, isLifeInsuranceChecked, loanDuration]);
+
   const handleFormSubmit = (evt) => {
     evt.preventDefault();
     let hasError = false;
@@ -556,37 +628,36 @@ const Calculator = (props) => {
             </div>
           </div>
 
-          <div className="display-block">
+          {offer.isValid &&
             <div className="calculator__offer">
               <h3 className="calculator__offer-title">Наше предложение</h3>
               <ul className="calculator__offer-list">
                 <li className="calculator__offer-item">
-                  <p className="calculator__offer-amount">1 330 000 рублей</p>
+                  <p className="calculator__offer-amount">{`${offer.amount.toLocaleString(DEFAULT_LOCALE)} рублей`}</p>
                   <p className="calculator__offer-description-text">{offerDescriptionText}</p>
                 </li>
                 <li className="calculator__offer-item calculator__offer-item--percent">
-                  <p className="calculator__offer-amount">9,40%</p>
+                  <p className="calculator__offer-amount">{`${offer.rate}%`}</p>
                   <p className="calculator__offer-description-text">Процентная ставка</p>
                 </li>
                 <li className="calculator__offer-item">
-                  <p className="calculator__offer-amount">27 868 рублей</p>
+                  <p className="calculator__offer-amount">{`${offer.monthlyPayment.toLocaleString(DEFAULT_LOCALE)} рублей`}</p>
                   <p className="calculator__offer-description-text">Ежемесячный платеж</p>
                 </li>
                 <li className="calculator__offer-item calculator__offer-item--income">
-                  <p className="calculator__offer-amount">61 929 рублей</p>
+                  <p className="calculator__offer-amount">{`${offer.requiredIncome.toLocaleString(DEFAULT_LOCALE)} рублей`}</p>
                   <p className="calculator__offer-description-text">Необходимый доход</p>
                 </li>
               </ul>
               <button className="calculator__offer-btn" type="button" onClick={handleOfferBtnClick}>Оформить заявку</button>
             </div>
-          </div>
-
-          <div className="display-none">
+          }
+          {!offer.isValid &&
             <div className="calculator__message">
               <p className="calculator__message-loan-too-small">{loanTooSmallText}</p>
               <p className="calculator__message-change-calc-params">Попробуйте использовать другие <br />параметры для расчёта.</p>
             </div>
-          </div>
+          }
         </div>
 
         <div className={`calculator__third-step ${hiddenThirdStepClassName}`}>
