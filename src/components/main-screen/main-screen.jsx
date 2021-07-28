@@ -9,6 +9,7 @@ import MainMap from '../main-map/main-map';
 import LoginPopup from '../login-popup/login-popup';
 import Calculator from '../calculator/calculator';
 import ThanksPopup from '../thanks-popup/thanks-popup';
+import MainSwiper from '../main-swiper/main-swiper';
 import {getIsThanksPopupVisibleStatus} from '../../store/selectors';
 import {ActionCreator} from '../../store/action';
 
@@ -105,6 +106,7 @@ const MainScreen = (props) => {
       </header>
       <main className="main">
         <h1 className="visually-hidden">Лига Банк</h1>
+        <MainSwiper />
         {/* {/* <div className="promo">
           <div className="container promo__container">
             <p className="promo__bank-title">Лига Банк</p>
