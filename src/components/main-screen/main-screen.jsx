@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
@@ -28,6 +28,17 @@ const MainScreen = (props) => {
   const hiddenUserNavItemClassName = isMenuOpened ? `user-navigation__item--opened` : ``;
   const hiddenUserNavTextClassName = isMenuOpened ? `user-navigation__text--opened` : ``;
   const hiddenHeaderClassName = isMenuOpened ? `header__navigation--menu-opened` : ``;
+
+  const calculator = useRef();
+  const map = useRef();
+
+  const scrollToCalculator = () => {
+    calculator.current.scrollIntoView({behavior: `smooth`});
+  };
+
+  const scrollToMap = () => {
+    map.current.scrollIntoView({behavior: `smooth`});
+  };
 
   const handleOpenMenuBtnClick = () => {
     if (!isMenuOpened) {
@@ -106,16 +117,13 @@ const MainScreen = (props) => {
       </header>
       <main className="main">
         <h1 className="visually-hidden">Лига Банк</h1>
-        <MainSwiper />
-        {/* {/* <div className="promo">
-          <div className="container promo__container">
-            <p className="promo__bank-title">Лига Банк</p>
-            <p className="promo__text">Кредиты на любой случай</p>
-            <Link className="promo__link" to={AppRoute.LOAN}>Рассчитать кредит</Link>
-          </div>
-        </div> */}
-        <Calculator />
-        <MainMap />
+        <MainSwiper onLoanBtnClick={scrollToCalculator} onBranchesBtnClick={scrollToMap}/>
+        <div className="main__calculator" ref={calculator}>
+          <Calculator />
+        </div>
+        <div className="main__map" ref={map} >
+          <MainMap />
+        </div>
       </main>
       <footer className="footer">
         <div className="container footer__container">
