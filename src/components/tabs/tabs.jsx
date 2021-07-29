@@ -95,7 +95,7 @@ const Tabs = (props) => {
 
   const tabContentDeposits = (
     <div className="tabs__description tabs__description--deposits">
-      <p>{TabDescriptionData.DEPOSITS.title}</p>
+      <p className="tabs__description-title">{TabDescriptionData.DEPOSITS.title}</p>
       <ul className="tabs__description-list">
         {TabDescriptionData.DEPOSITS.details.map(
             (detail, index) => (
@@ -110,8 +110,8 @@ const Tabs = (props) => {
   );
 
   const tabContentLoans = (
-    <div className="tabs__description tabs__description--deposits">
-      <p>{TabDescriptionData.LOANS.title}</p>
+    <div className="tabs__description tabs__description--loans">
+      <p className="tabs__description-title">{TabDescriptionData.LOANS.title}</p>
       <ul className="tabs__description-list">
         {TabDescriptionData.LOANS.details.map(
             (detail, index) => (
@@ -126,8 +126,8 @@ const Tabs = (props) => {
   );
 
   const tabContentInsurance = (
-    <div className="tabs__description tabs__description--deposits">
-      <p>{TabDescriptionData.INSURANCE.title}</p>
+    <div className="tabs__description tabs__description--insurance">
+      <p className="tabs__description-title">{TabDescriptionData.INSURANCE.title}</p>
       <ul className="tabs__description-list">
         {TabDescriptionData.INSURANCE.details.map(
             (detail, index) => (
@@ -142,8 +142,8 @@ const Tabs = (props) => {
   );
 
   const tabContentOnlineServices = (
-    <div className="tabs__description tabs__description--deposits">
-      <p>{TabDescriptionData.ONLINE_SERVICES.title}</p>
+    <div className="tabs__description tabs__description--services">
+      <p className="tabs__description-title">{TabDescriptionData.ONLINE_SERVICES.title}</p>
       <ul className="tabs__description-list">
         {TabDescriptionData.ONLINE_SERVICES.details.map(
             (detail, index) => (
@@ -188,7 +188,7 @@ const Tabs = (props) => {
         </ul>
         {tabContent}
       </div>
-      <div className="tabs__swiper display-none">
+      <div className="tabs__swiper">
         <Swiper
           spaceBetween={0}
           slidesPerView={1}
@@ -196,23 +196,23 @@ const Tabs = (props) => {
             {clickable: false, bulletClass: `main-swiper__bullet`, bulletActiveClass: `main-swiper__bullet-active`}
           }
         >
-          <SwiperSlide>
-            <div className="container">
+          <SwiperSlide className="tabs__swiper-slide">
+            <div className="tabs__swiper-content container">
               {tabContentDeposits}
             </div>
           </SwiperSlide>
-          <SwiperSlide>
-            <div className="container">
+          <SwiperSlide className="tabs__swiper-slide">
+            <div className="tabs__swiper-content container">
               {tabContentLoans}
             </div>
           </SwiperSlide>
-          <SwiperSlide>
-            <div className="container">
+          <SwiperSlide className="tabs__swiper-slide">
+            <div className="tabs__swiper-content container">
               {tabContentInsurance}
             </div>
           </SwiperSlide>
-          <SwiperSlide>
-            <div className="container">
+          <SwiperSlide className="tabs__swiper-slide">
+            <div className="tabs__swiper-content container">
               {tabContentOnlineServices}
             </div>
           </SwiperSlide>

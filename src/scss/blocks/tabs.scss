@@ -1,6 +1,16 @@
 .tabs__desktop {
   display: flex;
   flex-direction: column;
+
+  @media (max-width: $desktop-breakpoint) {
+    display: none;
+  }
+}
+
+.tabs__swiper {
+  @media (min-width: $desktop) {
+    display: none;
+  }
 }
 
 .tabs__list {
@@ -98,4 +108,292 @@
     background-image: url("../../img/services-tab-icon.svg");
     display: inline-block;
   }
+}
+
+.tabs__description {
+  background-color: $background-color;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 410px;
+  margin: 0;
+  padding: 60px 70px;
+
+  @media (min-width: $tablet) and (max-width: $large-breakpoint) {
+    min-height: 380px;
+    padding: 60px 0;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    min-height: 362px;
+    padding: 60px 0;
+  }
+}
+
+.tabs__description--deposits {
+  background-image: url("../../img/piggybank-desktop@1x.jpg");
+  background-repeat: no-repeat;
+  background-size: 440px 290px;
+  background-position: top 60px right 135px;
+
+  @media (min-resolution: 2dppx) {
+    background-image: url("../../img/piggybank-desktop@2x.jpg");
+  }
+
+  @media (min-width: $tablet) and (max-width: $large-breakpoint) {
+    background-image: url("../../img/piggybank-tablet@1x.jpg");
+    background-size: 289px 260px;
+    background-position: top 60px right 0;
+
+    @media (min-resolution: 2dppx) {
+      background-image: url("../../img/piggybank-tablet@2x.jpg");
+    }
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    background-image: none;
+  }
+// должен крепиться к слайду
+  // @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+  //   background-image: url("../../img/piggybank-phone@1x.jpg");
+  //   background-size: 87px 113px;
+  //   background-position: top 98px right 0;
+
+  //   @media (min-resolution: 2dppx) {
+  //     background-image: url("../../img/piggybank-phone@2x.jpg");
+  //   }
+  // }
+}
+
+.tabs__description--loans {
+  background-image: url("../../img/car-desktop@1x.jpg");
+  background-repeat: no-repeat;
+  background-size: 440px 290px;
+  background-position: top 55px right 135px;
+
+  @media (min-resolution: 2dppx) {
+    background-image: url("../../img/car-desktop@2x.jpg");
+  }
+
+  @media (min-width: $tablet) and (max-width: $large-breakpoint) {
+    background-image: url("../../img/car-tablet@1x.jpg");
+    background-size: 289px 260px;
+    background-position: top 60px right 0;
+
+    @media (min-resolution: 2dppx) {
+      background-image: url("../../img/car-tablet@2x.jpg");
+    }
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    background-image: none;
+  }
+}
+
+.tabs__description--insurance {
+  background-image: url("../../img/lock-desktop@1x.jpg");
+  background-repeat: no-repeat;
+  background-size: 440px 290px;
+  background-position: top 48px right 135px;
+
+  @media (min-resolution: 2dppx) {
+    background-image: url("../../img/lock-desktop@2x.jpg");
+  }
+
+  @media (min-width: $tablet) and (max-width: $large-breakpoint) {
+    background-image: url("../../img/lock-tablet@1x.jpg");
+    background-size: 289px 260px;
+    background-position: top 60px right 0;
+
+    @media (min-resolution: 2dppx) {
+      background-image: url("../../img/lock-tablet@2x.jpg");
+    }
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    background-image: none;
+  }
+}
+
+.tabs__description--services {
+  background-image: url("../../img/telephone-desktop@1x.jpg");
+  background-repeat: no-repeat;
+  background-size: 440px 290px;
+  background-position: top 53px right 135px;
+
+  @media (min-resolution: 2dppx) {
+    background-image: url("../../img/telephone-desktop@2x.jpg");
+  }
+
+  @media (min-width: $tablet) and (max-width: $large-breakpoint) {
+    background-image: url("../../img/telephone-tablet@1x.jpg");
+    background-size: 289px 260px;
+    background-position: top 60px right 0;
+
+    @media (min-resolution: 2dppx) {
+      background-image: url("../../img/telephone-tablet@2x.jpg");
+    }
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    background-image: none;
+  }
+}
+
+.tabs__description-title {
+  font-weight: 500;
+  font-size: 22px;
+  margin: 0;
+  margin-bottom: 40px;
+  padding: 0;
+
+  @media (min-width: $tablet) and (max-width: $large-breakpoint) {
+    font-size: 18px;
+    margin-bottom: 35px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    font-size: 16px;
+    margin-bottom: 30px;
+  }
+}
+
+.tabs__description-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  margin-bottom: 40px;
+  padding: 0;
+
+  @media (min-width: $tablet) and (max-width: $large-breakpoint) {
+    margin-bottom: 35px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    margin-bottom: 30px;
+  }
+}
+
+.tabs__description-list-item {
+  font-size: 18px;
+  margin: 0;
+  margin-bottom: 25px;
+  padding: 0;
+  padding-left: 21px;
+  position: relative;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 0;
+    width: 13px;
+    height: 10px;
+    background-image: url("../../img/list-arrow-icon.svg");
+    display: inline-block;
+  }
+
+  @media (min-width: $tablet) and (max-width: $large-breakpoint) {
+    font-size: 16px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding-left: 15px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 5px;
+      left: 0;
+      width: 10px;
+      height: 8px;
+      background-image: url("../../img/list-arrow-icon-mobile.svg");
+      display: inline-block;
+    }
+  }
+}
+
+.tabs__description-list-item p {
+  margin: 0;
+  padding: 0;
+}
+
+.tabs__description-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 198px;
+  min-height: 51px;
+  background-color: $basic-bright;
+  border-radius: 4px;
+  font-family: $main-font;
+  font-weight: 500;
+  font-size: 16px;
+  color: $background-color;
+  text-decoration: none;
+  cursor: pointer;
+
+  @media (min-width: $tablet) and (max-width: $large-breakpoint) {
+    min-height: 48px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    width: 100%;
+    min-height: 43px;
+    font-size: 14px;
+  }
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:focus {
+    opacity: 0.7;
+  }
+}
+
+.tabs__description-text {
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+
+  @media (min-width: $tablet) and (max-width: $large-breakpoint) {
+    font-size: 16px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    font-size: 14px;
+  }
+}
+
+.tabs__description-text a{
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+  font-size: 18px;
+  text-decoration: none;
+  color: $basic-text-color;
+
+  @media (min-width: $tablet) and (max-width: $large-breakpoint) {
+    font-size: 16px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    font-size: 14px;
+  }
+}
+
+.tabs__swiper-slide {
+  background-color: $background-color;
+}
+
+.tabs__swiper-content {
+  box-sizing: border-box;
 }
