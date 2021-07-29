@@ -27,4 +27,11 @@ const ClassName = {
   VISUALLY_HIDDEN: `visually-hidden`,
 };
 
-export {AppRoute, APIRoute, ClassName, ESC_KEY_CODE, ENTER_KEY_CODE, DEFAULT_LOCALE, RADIX, MULTIPLIER};
+const TabTypes = {
+  DEPOSITS: `deposits`,
+  LOANS: `loans`,
+  INSURANCE: `insurance`,
+  ONLINE_SERVICES: `onlineServices`,
+};
+
+export {AppRoute, APIRoute, ClassName, ESC_KEY_CODE, ENTER_KEY_CODE, DEFAULT_LOCALE, RADIX, MULTIPLIER, TabTypes};

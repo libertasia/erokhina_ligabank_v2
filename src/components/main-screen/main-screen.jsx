@@ -10,6 +10,7 @@ import LoginPopup from '../login-popup/login-popup';
 import Calculator from '../calculator/calculator';
 import ThanksPopup from '../thanks-popup/thanks-popup';
 import MainSwiper from '../main-swiper/main-swiper';
+import Tabs from '../tabs/tabs';
 import {getIsThanksPopupVisibleStatus} from '../../store/selectors';
 import {ActionCreator} from '../../store/action';
 
@@ -118,6 +119,7 @@ const MainScreen = (props) => {
       <main className="main">
         <h1 className="visually-hidden">Лига Банк</h1>
         <MainSwiper onLoanBtnClick={scrollToCalculator} onBranchesBtnClick={scrollToMap}/>
+        <Tabs />
         <div className="main__calculator" ref={calculator}>
           <Calculator />
         </div>
