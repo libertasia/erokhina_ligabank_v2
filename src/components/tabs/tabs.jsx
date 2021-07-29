@@ -1,9 +1,15 @@
 import React from 'react';
+import {Link} from "react-router-dom";
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {TabTypes} from '../../const';
+import {TabTypes, AppRoute} from '../../const';
 import {getActiveTab} from '../../store/selectors';
 import {ActionCreator} from '../../store/action';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import SwiperCore, {Pagination} from 'swiper';
+import 'swiper/components/pagination/pagination.scss';
+import 'swiper/swiper.scss';
+SwiperCore.use([Pagination]);
 
 const TabDetails = [
   {
@@ -62,18 +68,13 @@ const TabDescriptionData = {
   },
 };
 
-const getButtonTemplate = (hasButton) => {
-  if (hasButton) {
-    return (
-      <button className="tab__description-btn" type="button">Узнать подробнее</button>
-    );
-  } else {
-    return (<p className="tab__description-text">Рассчитайте ежемесячный платеж<br /> и ставку по кредиту воспользовавшись<br /> нашим <a href="">кредитным калькулятором</a></p>);
-  }
-};
-
 const Tabs = (props) => {
-  const {activeTab, setActiveTab} = props;
+  const {activeTab, setActiveTab, onLoanLinkClick} = props;
+
+  const handleLoanLinkClick = (evt) => {
+    evt.preventDefault();
+    onLoanLinkClick();
+  };
 
   let tabContent = null;
 
@@ -82,74 +83,92 @@ const Tabs = (props) => {
     setActiveTab(evt.currentTarget.dataset.id);
   };
 
+  const getButtonTemplate = (hasButton) => {
+    if (hasButton) {
+      return (
+        <Link className="tabs__description-btn" to={AppRoute.SERVICES}>Узнать подробнее</Link>
+      );
+    } else {
+      return (<p className="tabs__description-text">Рассчитайте ежемесячный платеж<br /> и ставку по кредиту воспользовавшись<br /> нашим <a href="" onClick={handleLoanLinkClick}>кредитным калькулятором</a></p>);
+    }
+  };
+
+  const tabContentDeposits = (
+    <div className="tabs__description tabs__description--deposits">
+      <p>{TabDescriptionData.DEPOSITS.title}</p>
+      <ul className="tabs__description-list">
+        {TabDescriptionData.DEPOSITS.details.map(
+            (detail, index) => (
+              <li key={`detail-${index}`} className="tabs__description-list-item">
+                <p>{detail}</p>
+              </li>
+            ))
+        }
+      </ul>
+      {getButtonTemplate(TabDescriptionData.DEPOSITS.hasButton)}
+    </div>
+  );
+
+  const tabContentLoans = (
+    <div className="tabs__description tabs__description--deposits">
+      <p>{TabDescriptionData.LOANS.title}</p>
+      <ul className="tabs__description-list">
+        {TabDescriptionData.LOANS.details.map(
+            (detail, index) => (
+              <li key={`detail-${index}`} className="tabs__description-list-item">
+                <p>{detail}</p>
+              </li>
+            ))
+        }
+      </ul>
+      {getButtonTemplate(TabDescriptionData.LOANS.hasButton)}
+    </div>
+  );
+
+  const tabContentInsurance = (
+    <div className="tabs__description tabs__description--deposits">
+      <p>{TabDescriptionData.INSURANCE.title}</p>
+      <ul className="tabs__description-list">
+        {TabDescriptionData.INSURANCE.details.map(
+            (detail, index) => (
+              <li key={`detail-${index}`} className="tabs__description-list-item">
+                <p>{detail}</p>
+              </li>
+            ))
+        }
+      </ul>
+      {getButtonTemplate(TabDescriptionData.INSURANCE.hasButton)}
+    </div>
+  );
+
+  const tabContentOnlineServices = (
+    <div className="tabs__description tabs__description--deposits">
+      <p>{TabDescriptionData.ONLINE_SERVICES.title}</p>
+      <ul className="tabs__description-list">
+        {TabDescriptionData.ONLINE_SERVICES.details.map(
+            (detail, index) => (
+              <li key={`detail-${index}`} className="tabs__description-list-item">
+                <p>{detail}</p>
+              </li>
+            ))
+        }
+      </ul>
+      {getButtonTemplate(TabDescriptionData.ONLINE_SERVICES.hasButton)}
+    </div>
+  );
+
   switch (activeTab) {
     case TabTypes.DEPOSITS:
-      tabContent = (
-        <div className="tab__description tab__description--deposits">
-          <p>{TabDescriptionData.DEPOSITS.title}</p>
-          <ul className="tab__description-list">
-            {TabDescriptionData.DEPOSITS.details.map(
-                (detail, index) => (
-                  <li key={`detail-${index}`} className="tab__description-list-item">
-                    <p>{detail}</p>
-                  </li>
-                ))
-            }
-          </ul>
-          {getButtonTemplate(TabDescriptionData.DEPOSITS.hasButton)}
-        </div>
-      );
+      tabContent = tabContentDeposits;
       break;
     case TabTypes.LOANS:
-      tabContent = (
-        <div className="tab__description tab__description--deposits">
-          <p>{TabDescriptionData.LOANS.title}</p>
-          <ul className="tab__description-list">
-            {TabDescriptionData.LOANS.details.map(
-                (detail, index) => (
-                  <li key={`detail-${index}`} className="tab__description-list-item">
-                    <p>{detail}</p>
-                  </li>
-                ))
-            }
-          </ul>
-          {getButtonTemplate(TabDescriptionData.LOANS.hasButton)}
-        </div>
-      );
+      tabContent = tabContentLoans;
       break;
     case TabTypes.INSURANCE:
-      tabContent = (
-        <div className="tab__description tab__description--deposits">
-          <p>{TabDescriptionData.INSURANCE.title}</p>
-          <ul className="tab__description-list">
-            {TabDescriptionData.INSURANCE.details.map(
-                (detail, index) => (
-                  <li key={`detail-${index}`} className="tab__description-list-item">
-                    <p>{detail}</p>
-                  </li>
-                ))
-            }
-          </ul>
-          {getButtonTemplate(TabDescriptionData.INSURANCE.hasButton)}
-        </div>
-      );
+      tabContent = tabContentInsurance;
       break;
     case TabTypes.ONLINE_SERVICES:
-      tabContent = (
-        <div className="tab__description tab__description--deposits">
-          <p>{TabDescriptionData.ONLINE_SERVICES.title}</p>
-          <ul className="tab__description-list">
-            {TabDescriptionData.ONLINE_SERVICES.details.map(
-                (detail, index) => (
-                  <li key={`detail-${index}`} className="tab__description-list-item">
-                    <p>{detail}</p>
-                  </li>
-                ))
-            }
-          </ul>
-          {getButtonTemplate(TabDescriptionData.ONLINE_SERVICES.hasButton)}
-        </div>
-      );
+      tabContent = tabContentOnlineServices;
       break;
   }
 
@@ -161,16 +180,43 @@ const Tabs = (props) => {
           {
             TabDetails.map((tab) =>
               (
-                <li key={tab.type} data-id={tab.type} onClick={handleTabClick} className={`tab__item ${tab.type === activeTab ? `tab__item--active` : ``}`}>
-                  <a href="#" className={`tab__link ${tab.type === activeTab ? `tab__link--active` : ``}`}>{tab.title}</a>
+                <li key={tab.type} data-id={tab.type} onClick={handleTabClick} className={`tabs__list-item ${tab.type === activeTab ? `tabs__list-item--active` : ``}`}>
+                  <a href="#">{tab.title}</a>
                 </li>
               ))
           }
         </ul>
         {tabContent}
       </div>
-      <div className="tabs__swiper">
-
+      <div className="tabs__swiper display-none">
+        <Swiper
+          spaceBetween={0}
+          slidesPerView={1}
+          pagination={
+            {clickable: false, bulletClass: `main-swiper__bullet`, bulletActiveClass: `main-swiper__bullet-active`}
+          }
+        >
+          <SwiperSlide>
+            <div className="container">
+              {tabContentDeposits}
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="container">
+              {tabContentLoans}
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="container">
+              {tabContentInsurance}
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="container">
+              {tabContentOnlineServices}
+            </div>
+          </SwiperSlide>
+        </Swiper>
       </div>
     </section>
   );
@@ -179,6 +225,7 @@ const Tabs = (props) => {
 Tabs.propTypes = {
   activeTab: PropTypes.string.isRequired,
   setActiveTab: PropTypes.func,
+  onLoanLinkClick: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({

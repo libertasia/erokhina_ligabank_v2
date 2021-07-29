@@ -119,7 +119,7 @@ const MainScreen = (props) => {
       <main className="main">
         <h1 className="visually-hidden">Лига Банк</h1>
         <MainSwiper onLoanBtnClick={scrollToCalculator} onBranchesBtnClick={scrollToMap}/>
-        <Tabs />
+        <Tabs onLoanLinkClick={scrollToCalculator}/>
         <div className="main__calculator" ref={calculator}>
           <Calculator />
         </div>
