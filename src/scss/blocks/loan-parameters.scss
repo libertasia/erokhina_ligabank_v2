@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   width: 600px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 
   &--additional {
     margin-bottom: 0;
@@ -29,7 +29,7 @@
   font-weight: 400;
   font-size: 16px;
   color: $dark;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .loan-parameters__input {
@@ -73,7 +73,7 @@
 
 .loan-parameters__purchase-value-input-wrapper {
   position: relative;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .loan-parameters__wrong-value {
@@ -211,7 +211,7 @@
 .loan-parameters__slider {
   width: 600px;
   min-height: 48px;
-  padding-top: 22px;
+  padding-top: 16px;
   position: relative;
 
   @media (min-width: $desktop) and (max-width: $max-content-breakpoint) {
@@ -270,12 +270,14 @@
 
 .loan-parameters__slider-min-value {
   position: absolute;
-  top: 37px;
+  top: 30px;
   left: 0;
+  font-size: 14px;
 }
 
 .loan-parameters__slider-max-value {
   position: absolute;
-  top: 37px;
+  top: 30px;
   right: 0;
+  font-size: 14px;
 }
