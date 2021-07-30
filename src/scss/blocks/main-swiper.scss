@@ -3,7 +3,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  margin: 0 4px;
+  margin: 0 4px 25px 4px;
   background-color: #2028B6;
 }
 
@@ -12,7 +12,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  margin: 0 4px;
+  margin: 0 4px 25px 4px;
   background-color: $background-color;
 }
 
@@ -153,9 +153,9 @@
   line-height: 1.17;
   padding: 0;
   padding-left: 170px;
-  padding-top: 115px;
+  padding-top: 102px;
   margin: 0;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   color: $basic-text-color;
 
   @media (min-width: $tablet) and (max-width: $large-breakpoint) {
@@ -178,7 +178,7 @@
 .main-swiper__slide-info p {
   font-size: 22px;
   margin: 0;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
   padding: 0;
   padding-left: 170px;
   color: $light-text-color;

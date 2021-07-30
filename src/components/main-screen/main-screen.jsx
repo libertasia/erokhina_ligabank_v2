@@ -133,11 +133,11 @@ const MainScreen = (props) => {
             <img className="logo__image" src={logo} width={150} height={27} alt="Логотип Лига Банк»" />
           </a>
           <p className="footer__copyright">150015, г. Москва, ул. Московская, д. 32 Генеральная лицензия Банка России №1050<br />© Лига Банк, 2019</p>
-          <ul className="footer__navigation footer-navigation">
-            <li className="footer-navigation__item"><Link className="footer-navigation__link" to={AppRoute.SERVICES}>Услуги</Link></li>
-            <li className="footer-navigation__item"><Link className="footer-navigation__link" to={AppRoute.LOAN}>Рассчитать кредит</Link></li>
-            <li className="footer-navigation__item"><Link className="footer-navigation__link" to={AppRoute.CONTACTS}>Контакты</Link></li>
-            <li className="footer-navigation__item"><Link className="footer-navigation__link" to={AppRoute.QUESTION}>Задать вопрос</Link></li>
+          <ul className="footer__navigation">
+            <li className="footer__navigation-item"><Link className="footer__navigation-link" to={AppRoute.SERVICES}>Услуги</Link></li>
+            <li className="footer__navigation-item"><Link className="footer__navigation-link" to={AppRoute.LOAN}>Рассчитать кредит</Link></li>
+            <li className="footer__navigation-item"><Link className="footer__navigation-link" to={AppRoute.CONTACTS}>Контакты</Link></li>
+            <li className="footer__navigation-item"><Link className="footer__navigation-link" to={AppRoute.QUESTION}>Задать вопрос</Link></li>
           </ul>
           <div className="footer__contacts-mobile contacts">
             <a className="contacts__number" href="tel:*0904">*0904</a>

@@ -4,9 +4,10 @@ import {Swiper, SwiperSlide} from 'swiper/react';
 import SwiperCore, {Autoplay, Pagination} from 'swiper';
 import 'swiper/components/pagination/pagination.scss';
 import 'swiper/swiper.scss';
-SwiperCore.use([Autoplay, Pagination]);
+// SwiperCore.use([Autoplay, Pagination]);
+SwiperCore.use([Pagination]);
 
-const SLIDER_DELAY = 4000;
+// const SLIDER_DELAY = 4000;
 
 const MainSwiper = (props) => {
   const {onLoanBtnClick, onBranchesBtnClick} = props;
@@ -27,10 +28,10 @@ const MainSwiper = (props) => {
         pagination={
           {clickable: false, bulletClass: `main-swiper__bullet`, bulletActiveClass: `main-swiper__bullet-active`}
         }
-        autoplay={{
-          "delay": SLIDER_DELAY,
-          "disableOnInteraction": false
-        }}
+        // autoplay={{
+        //   "delay": SLIDER_DELAY,
+        //   "disableOnInteraction": false
+        // }}
       >
         <SwiperSlide className="main-swiper__slide main-swiper__slide--first">
           <div className="main-swiper__slide-info main-swiper__slide-info--first container">
