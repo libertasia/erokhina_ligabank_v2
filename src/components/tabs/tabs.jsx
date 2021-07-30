@@ -32,7 +32,6 @@ const TabDetails = [
 
 const TabDescriptionData = {
   DEPOSITS: {
-    title: `Вклады Лига Банка – это выгодная инвестиция в свое будущее`,
     details: [
       `Проценты по вкладам до 7%`,
       `Разнообразные условия`,
@@ -41,7 +40,6 @@ const TabDescriptionData = {
     hasButton: true,
   },
   LOANS: {
-    title: `Лига Банк выдает кредиты под любые цели`,
     details: [
       `Ипотечный кредит`,
       `Автокредит`,
@@ -50,7 +48,6 @@ const TabDescriptionData = {
     hasButton: false,
   },
   INSURANCE: {
-    title: `Лига Страхование — застрахуем все что захотите`,
     details: [
       `Автомобильное страхование`,
       `Страхование жизни и здоровья`,
@@ -59,7 +56,6 @@ const TabDescriptionData = {
     hasButton: true,
   },
   ONLINE_SERVICES: {
-    title: `Лига Банк — это огромное количество онлайн-сервисов для вашего удобства`,
     details: [
       `Мобильный банк, который всегда под рукой`,
       `Приложение Лига-проездной позволит вам оплачивать билеты по всему миру`,
@@ -95,7 +91,7 @@ const Tabs = (props) => {
 
   const tabContentDeposits = (
     <div className="tabs__description tabs__description--deposits">
-      <p className="tabs__description-title">{TabDescriptionData.DEPOSITS.title}</p>
+      <p className="tabs__description-title">Вклады Лига Банка – это выгодная<br /> инвестиция в свое будущее</p>
       <ul className="tabs__description-list">
         {TabDescriptionData.DEPOSITS.details.map(
             (detail, index) => (
@@ -111,7 +107,7 @@ const Tabs = (props) => {
 
   const tabContentLoans = (
     <div className="tabs__description tabs__description--loans">
-      <p className="tabs__description-title">{TabDescriptionData.LOANS.title}</p>
+      <p className="tabs__description-title">Лига Банк выдает кредиты<br /> под любые цели</p>
       <ul className="tabs__description-list">
         {TabDescriptionData.LOANS.details.map(
             (detail, index) => (
@@ -127,7 +123,7 @@ const Tabs = (props) => {
 
   const tabContentInsurance = (
     <div className="tabs__description tabs__description--insurance">
-      <p className="tabs__description-title">{TabDescriptionData.INSURANCE.title}</p>
+      <p className="tabs__description-title">Лига Страхование — застрахуем<br /> все что захотите</p>
       <ul className="tabs__description-list">
         {TabDescriptionData.INSURANCE.details.map(
             (detail, index) => (
@@ -143,7 +139,7 @@ const Tabs = (props) => {
 
   const tabContentOnlineServices = (
     <div className="tabs__description tabs__description--services">
-      <p className="tabs__description-title">{TabDescriptionData.ONLINE_SERVICES.title}</p>
+      <p className="tabs__description-title">Лига Банк — это огромное количество<br /> онлайн-сервисов для вашего удобства</p>
       <ul className="tabs__description-list">
         {TabDescriptionData.ONLINE_SERVICES.details.map(
             (detail, index) => (
@@ -197,22 +193,22 @@ const Tabs = (props) => {
           }
         >
           <SwiperSlide className="tabs__swiper-slide">
-            <div className="tabs__swiper-content container">
+            <div className="tabs__swiper-content tabs__swiper-content--first container">
               {tabContentDeposits}
             </div>
           </SwiperSlide>
           <SwiperSlide className="tabs__swiper-slide">
-            <div className="tabs__swiper-content container">
+            <div className="tabs__swiper-content tabs__swiper-content--second container">
               {tabContentLoans}
             </div>
           </SwiperSlide>
           <SwiperSlide className="tabs__swiper-slide">
-            <div className="tabs__swiper-content container">
+            <div className="tabs__swiper-content tabs__swiper-content--third container">
               {tabContentInsurance}
             </div>
           </SwiperSlide>
           <SwiperSlide className="tabs__swiper-slide">
-            <div className="tabs__swiper-content container">
+            <div className="tabs__swiper-content tabs__swiper-content--fourth container">
               {tabContentOnlineServices}
             </div>
           </SwiperSlide>
