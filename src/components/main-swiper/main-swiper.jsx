@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import SwiperCore, {Autoplay, Pagination} from 'swiper';
+// import SwiperCore, {Autoplay, Pagination} from 'swiper';
+import SwiperCore, {Pagination} from 'swiper';
 import 'swiper/components/pagination/pagination.scss';
 import 'swiper/swiper.scss';
 // SwiperCore.use([Autoplay, Pagination]);

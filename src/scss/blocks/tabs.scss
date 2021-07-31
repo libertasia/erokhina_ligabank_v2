@@ -269,12 +269,12 @@
   width: 392px;
 
   @media (min-width: $tablet) and (max-width: $large-breakpoint) {
-    margin-bottom: 35px;
-    width: 330px;
+    margin-bottom: 29px;
+    width: 351px;
   }
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     width: 227px;
   }
 }
@@ -304,6 +304,7 @@
 
   @media (min-width: $tablet) and (max-width: $large-breakpoint) {
     font-size: 16px;
+    margin-bottom: 14px;
   }
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
