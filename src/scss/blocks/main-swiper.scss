@@ -5,6 +5,10 @@
   border-radius: 50%;
   margin: 0 4px 25px 4px;
   background-color: #2028B6;
+
+  @media (min-width: $mobile) and (max-width: $large-breakpoint) {
+    margin-bottom: 0;
+  }
 }
 
 .main-swiper__bullet-active {
@@ -14,6 +18,10 @@
   border-radius: 50%;
   margin: 0 4px 25px 4px;
   background-color: $background-color;
+
+  @media (min-width: $mobile) and (max-width: $large-breakpoint) {
+    margin-bottom: 0;
+  }
 }
 
 .main-swiper__slide {
@@ -77,7 +85,7 @@
     @media (min-width: $tablet) and (max-width: $large-breakpoint) {
       background-image: url("../../img/cards-tablet@1x.png");
       background-size: 357px 232px;
-      background-position: 326px 57px;
+      background-position: 348px 38px;
 
       @media (min-resolution: 2dppx) {
         background-image: url("../../img/cards-tablet@2x.png");
@@ -161,13 +169,14 @@
   @media (min-width: $tablet) and (max-width: $large-breakpoint) {
     font-size: 46px;
     padding-left: 41px;
-    padding-top: 76px;
+    padding-top: 66px;
+    margin-bottom: 4px;
   }
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
     font-size: 38px;
     padding-left: 0;
-    padding-top: 48px;
+    padding-top: 38px;
   }
 }
 
@@ -185,7 +194,7 @@
 
   @media (min-width: $tablet) and (max-width: $large-breakpoint) {
     font-size: 18px;
-    margin-bottom: 35px;
+    margin-bottom: 28px;
     padding-left: 41px;
   }
 
