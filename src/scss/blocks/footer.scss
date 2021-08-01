@@ -14,10 +14,6 @@
   margin-top: 49px;
   margin-bottom: 55px;
 
-  @media (min-width: $desktop) and (max-width: $large-breakpoint) {
-    column-gap: 55px;
-  }
-
   @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: auto;
@@ -27,6 +23,7 @@
     "copyright social";
     column-gap: 30px;
     margin-top: 51px;
+    margin-bottom: 49px;
   }
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
@@ -54,6 +51,11 @@
   color: $grey;
   margin-top: 0;
 
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    margin-top: 27px;
+    width: 252px;
+  }
+
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
     display: none;
   }
@@ -71,7 +73,7 @@
 
   @media (min-width: $mobile) and (max-width: $desktop-breakpoint) {
     margin-left: 0;
-    margin-top: 0;
+    margin-top: -8px;
   }
 }
 
@@ -85,7 +87,7 @@
   }
 
   @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
   }
 }
 
@@ -120,7 +122,7 @@
   }
 
   @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
-    margin-top: 0;
+    margin-top: 5px;
     padding-left: 29px;
 
     &::before {
@@ -162,6 +164,6 @@
   margin-top: 10px;
 
   @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
-    margin-top: 0;
+    margin-top: 4px;
   }
 }
