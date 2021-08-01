@@ -25,7 +25,8 @@
     "logo mobile"
     "navigation tel"
     "copyright social";
-    column-gap: 100px;
+    column-gap: 30px;
+    margin-top: 51px;
   }
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
@@ -67,6 +68,11 @@
   margin: 0;
   margin-left: 65px;
   margin-top: 5px;
+
+  @media (min-width: $mobile) and (max-width: $desktop-breakpoint) {
+    margin-left: 0;
+    margin-top: 0;
+  }
 }
 
 .footer__navigation-item {
@@ -76,6 +82,10 @@
 
   &:last-child {
       margin-bottom: 0;
+  }
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    margin-bottom: 5px;
   }
 }
 
@@ -108,6 +118,15 @@
     background-image: url("../../img/mobile.svg");
     display: inline-block;
   }
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    margin-top: 0;
+    padding-left: 29px;
+
+    &::before {
+      left: 0;
+    }
+  }
 }
 
 .footer__contacts {
@@ -127,9 +146,22 @@
     background-image: url("../../img/tel.svg");
     display: inline-block;
   }
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    margin-top: 26px;
+    padding-left: 32px;
+
+    &::before {
+      left: 0;
+    }
+  }
 }
 
 .footer__social {
   grid-area: social;
   margin-top: 10px;
+
+  @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    margin-top: 0;
+  }
 }

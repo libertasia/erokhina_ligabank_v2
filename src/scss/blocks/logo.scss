@@ -1,6 +1,8 @@
 .logo {
   display: flex;
   flex: 0 0 auto;
+  justify-content: center;
+  align-items: center;
   width: 150px;
   margin: 0;
   margin-right: 103px;
@@ -14,6 +16,7 @@
 
   @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
     width: 133px;
+    height: 22px;
     margin-right: 61px;
     padding-top: 23px;
     padding-bottom: 24px;
