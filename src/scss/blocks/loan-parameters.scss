@@ -21,7 +21,7 @@
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
     min-width: 290px;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
   }
 }
 
@@ -32,6 +32,10 @@
   margin-bottom: 10px;
 
   @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
+    margin-bottom: 8px;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
     margin-bottom: 8px;
   }
 }
@@ -104,12 +108,22 @@
     position: absolute;
     top: 22px;
     left: 22px;
+
+    @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+      top: 21px;
+      left: 24px;
+    }
   }
 
   &--plus {
     position: absolute;
     top: 22px;
     right: 22px;
+
+    @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+      top: 21px;
+      right: 15px;
+    }
   }
 }
 

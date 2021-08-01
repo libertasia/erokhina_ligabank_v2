@@ -83,7 +83,7 @@ const MainScreen = (props) => {
         <nav className={`header__navigation ${hiddenHeaderClassName} container`}>
           <button className="header__navigation-btn" type="button" onClick={handleOpenMenuBtnClick}>
             <span className="visually-hidden">Открыть меню</span>
-            <svg width={16} height={10}>
+            <svg width={16} height={12}>
               <use href={sprite + `#menu`} />
             </svg>
           </button>

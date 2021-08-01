@@ -6,8 +6,16 @@
   margin: 0 4px 25px 4px;
   background-color: #2028B6;
 
-  @media (min-width: $mobile) and (max-width: $large-breakpoint) {
+  @media (min-width: $tablet) and (max-width: $large-breakpoint) {
     margin-bottom: 0;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    width: 6px;
+    height: 6px;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom: -5px;
   }
 }
 
@@ -19,8 +27,16 @@
   margin: 0 4px 25px 4px;
   background-color: $background-color;
 
-  @media (min-width: $mobile) and (max-width: $large-breakpoint) {
+  @media (min-width: $tablet) and (max-width: $large-breakpoint) {
     margin-bottom: 0;
+  }
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    width: 6px;
+    height: 6px;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-bottom: -5px;
   }
 }
 
@@ -200,7 +216,7 @@
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
     font-size: 16px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     padding-left: 0;
   }
 }
