@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 import logo from '../../img/logo.svg';
 import sprite from '../../img/sprite.svg';
-import {AppRoute, ESC_KEY_CODE} from '../../const';
+import {AppRoute, ESC_KEY_CODE, Event} from '../../const';
 import MainMap from '../main-map/main-map';
 import LoginPopup from '../login-popup/login-popup';
 import Calculator from '../calculator/calculator';
@@ -13,8 +13,6 @@ import MainSwiper from '../main-swiper/main-swiper';
 import Tabs from '../tabs/tabs';
 import {getIsThanksPopupVisibleStatus} from '../../store/selectors';
 import {ActionCreator} from '../../store/action';
-
-const KEY_DOWN = `keydown`;
 
 const MainScreen = (props) => {
   const {isThanksPopupVisible, handleCloseThanksPopup} = props;
@@ -70,10 +68,10 @@ const MainScreen = (props) => {
   };
 
   useEffect(() => {
-    document.addEventListener(KEY_DOWN, handleEscPress);
+    document.addEventListener(Event.KEY_DOWN, handleEscPress);
 
     return () => {
-      document.removeEventListener(KEY_DOWN, handleEscPress);
+      document.removeEventListener(Event.KEY_DOWN, handleEscPress);
     };
   }, []);
 

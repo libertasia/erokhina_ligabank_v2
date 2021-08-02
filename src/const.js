@@ -34,4 +34,9 @@ const TabTypes = {
   ONLINE_SERVICES: `onlineServices`,
 };
 
-export {AppRoute, APIRoute, ClassName, ESC_KEY_CODE, ENTER_KEY_CODE, DEFAULT_LOCALE, RADIX, MULTIPLIER, TabTypes};
+const Event = {
+  WHEEL: `wheel`,
+  KEY_DOWN: `keydown`,
+};
+
+export {AppRoute, APIRoute, ClassName, ESC_KEY_CODE, ENTER_KEY_CODE, DEFAULT_LOCALE, RADIX, MULTIPLIER, TabTypes, Event};

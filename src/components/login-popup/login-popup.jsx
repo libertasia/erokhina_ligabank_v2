@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {onOverlayClick} from '../../utils';
 import {login} from "../../store/api-actions";
-import {ENTER_KEY_CODE, ClassName} from '../../const';
+import {ENTER_KEY_CODE, ClassName, Event} from '../../const';
 
 const PasswordType = {
   PASSWORD: `password`,
@@ -117,10 +117,10 @@ const LoginPopup = (props) => {
 
   useEffect(() => {
     if (isVisible) {
-      window.addEventListener(`wheel`, handleOverlayScroll, {passive: false});
+      window.addEventListener(Event.WHEEL, handleOverlayScroll, {passive: false});
     }
     return () => {
-      window.removeEventListener(`wheel`, handleOverlayScroll);
+      window.removeEventListener(Event.WHEEL, handleOverlayScroll);
     };
   }, [isVisible]);
 

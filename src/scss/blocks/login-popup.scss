@@ -1,22 +1,22 @@
 .login-popup {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   width: 544px;
   min-height: 493px;
   margin: 0;
-  padding: 60px 60px;
+  padding: 56px 56px 50px 56px;
   border: 4px solid $basic-bright;
 
   @media (min-width: $tablet) and (max-width: $desktop-breakpoint) {
     min-width: 678px;
     width: calc(100% - 90px);
-    padding: 60px 88px;
+    padding: 56px 84px;
   }
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
     width: 290px;
-    padding: 50px 20px;
+    min-height: 455px;
+    padding: 45px 16px 38px 16px;
   }
 }
 
@@ -26,10 +26,10 @@
   justify-content: space-between;
   align-items: flex-start;
   margin: 0;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
-    margin-bottom: 10px;
+    margin-bottom: 24px;
   }
 }
 
@@ -37,6 +37,7 @@
   background: none;
   border: none;
   cursor: pointer;
+  padding: 0;
 }
 
 .login-popup__btn-close svg {
@@ -56,10 +57,11 @@
   display: flex;
   flex-direction: column;
   margin: 0;
-  margin-top: 30px;
+  margin-bottom: 25px;
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
-    margin-top: 25px;
+    margin-top: 0;
+    margin-bottom: 20px;
   }
 }
 
@@ -69,7 +71,11 @@
 
 .login-popup__form-label {
   color: $dark;
-  margin-bottom: 10px;
+  margin-bottom: 4px;
+
+  @media (min-width: $mobile) and (max-width: $table-breakpoint) {
+    margin-bottom: 3px;
+  }
 }
 
 .login-popup__form-label span {
@@ -100,13 +106,13 @@
 .login-popup__show-password-btn {
   position: absolute;
   bottom: 20px;
-  right: 24px;
+  right: 18px;
   background: none;
   border: none;
   cursor: pointer;
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
-    right: 15px;
+    right: 10px;
   }
 }
 
@@ -123,14 +129,14 @@
   color: $grey;
   font-size: 12px;
   margin: 0;
-  margin-top: 10px;
-  margin-bottom: 30px;
+  margin-top: -20px;
+  margin-bottom: 28px;
 
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
     order: 4;
     align-self: center;
     font-size: 14px;
-    margin-top: 15px;
+    margin-top: 12px;
     margin-bottom: 0;
   }
 
@@ -156,7 +162,7 @@
   @media (min-width: $mobile) and (max-width: $table-breakpoint) {
     font-size: 14px;
     min-height: 51px;
-    margin-top: 30px;
+    margin-top: 10px;
   }
 
   &:hover {

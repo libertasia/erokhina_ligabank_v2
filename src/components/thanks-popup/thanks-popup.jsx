@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import sprite from '../../img/sprite.svg';
 import PropTypes from 'prop-types';
 import {onOverlayClick} from '../../utils';
-import {ClassName} from '../../const';
+import {ClassName, Event} from '../../const';
 import {ActionCreator} from '../../store/action';
 
 const ThanksPopup = (props) => {
@@ -25,10 +25,10 @@ const ThanksPopup = (props) => {
 
   useEffect(() => {
     if (isVisible) {
-      window.addEventListener(`wheel`, handleOverlayScroll, {passive: false});
+      window.addEventListener(Event.WHEEL, handleOverlayScroll, {passive: false});
     }
     return () => {
-      window.removeEventListener(`wheel`, handleOverlayScroll);
+      window.removeEventListener(Event.WHEEL, handleOverlayScroll);
     };
   }, [isVisible]);
 
