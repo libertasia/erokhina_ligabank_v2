@@ -1,7 +1,9 @@
+import {APIRoute} from "../const";
+
 export const login = ({username, password}) => (dispatch, _getState, api) => (
-  api.post(`/`, {username, password})
+  api.post(APIRoute.ROOT, {username, password})
 );
 
 export const sendApplication = ({name, phone, email}) => (dispatch, _getState, api) => (
-  api.post(`/`, {name, phone, email})
+  api.post(APIRoute.ROOT, {name, phone, email})
 );
