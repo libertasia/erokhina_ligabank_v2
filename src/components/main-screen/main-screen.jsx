@@ -89,7 +89,7 @@ const MainScreen = (props) => {
           </button>
           <button className={`header__navigation-btn-close ${hiddenCloseBtnClassName}`} type="button" onClick={handleCloseMenuBtnClick}>
             <span className="visually-hidden">Закрыть меню</span>
-            <svg width={13} height={13}>
+            <svg width={15} height={15}>
               <use href={sprite + `#menu-close`} />
             </svg>
           </button>
