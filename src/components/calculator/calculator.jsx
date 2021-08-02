@@ -653,7 +653,7 @@ const Calculator = (props) => {
                   <p className="calculator__offer-description-text">{offerDescriptionText}</p>
                 </li>
                 <li className="calculator__offer-item calculator__offer-item--percent">
-                  <p className="calculator__offer-amount">{`${offer.rate}%`}</p>
+                  <p className="calculator__offer-amount">{`${offer.rate.toFixed(2)}%`}</p>
                   <p className="calculator__offer-description-text">Процентная ставка</p>
                 </li>
                 <li className="calculator__offer-item">
