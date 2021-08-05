@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import InputMask from 'react-input-mask';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import {ClassName, DEFAULT_LOCALE, RADIX, MULTIPLIER} from '../../const';
+import {ClassName, DEFAULT_LOCALE, RADIX, MULTIPLIER, YearsNumber, YearsString} from '../../const';
 import sprite from '../../img/sprite.svg';
 import {ActionCreator} from '../../store/action';
 import {sendApplication} from '../../store/api-actions';
@@ -149,6 +149,18 @@ const getOfferRequiredIncome = (monthlyPayment) => {
   return Math.round(monthlyPayment / MAX_MONTHLY_PAYMENT_RATIO);
 };
 
+const getYearsStringValue = (yearsNum) => {
+  let yearsStringValue = ``;
+  if (yearsNum === YearsNumber.ONE || yearsNum === YearsNumber.TWENTY_ONE) {
+    yearsStringValue = YearsString.TYPE1;
+  } else if ((yearsNum >= YearsNumber.TWO && yearsNum <= YearsNumber.FOUR) || (yearsNum >= YearsNumber.TWENTY_TWO && yearsNum <= YearsNumber.TWENTY_FOUR)) {
+    yearsStringValue = YearsString.TYPE2;
+  } else {
+    yearsStringValue = YearsString.TYPE3;
+  }
+  return yearsStringValue;
+};
+
 const Calculator = (props) => {
   const {onSubmitBtnClick, onApplicationFormSubmit} = props;
 
@@ -167,7 +179,7 @@ const Calculator = (props) => {
   const [initialPaymentInputType, setInitialPaymentInputType] = useState(InputType.TEXT);
 
   const [loanDuration, setloanDuration] = useState(getMinLoanDuration(LoanType.MORTGAGE));
-  const [loanDurationValue, setloanDurationValue] = useState(`${loanDuration.toLocaleString(DEFAULT_LOCALE)} лет`);
+  const [loanDurationValue, setloanDurationValue] = useState(`${loanDuration.toLocaleString(DEFAULT_LOCALE)} ${YearsString.TYPE3}`);
   const [loanDurationInputType, setloanDurationInputType] = useState(InputType.TEXT);
 
   const [isMaternalDiscountChecked, setIsMaternalDiscountChecked] = useState(false);
@@ -403,7 +415,7 @@ const Calculator = (props) => {
     setloanDurationInputType(InputType.TEXT);
     const newLoanDuration = validateLoanDuration(loanDuration, loanType);
     setloanDuration(newLoanDuration);
-    setloanDurationValue(`${newLoanDuration.toLocaleString(DEFAULT_LOCALE)} лет`);
+    setloanDurationValue(`${newLoanDuration.toLocaleString(DEFAULT_LOCALE)} ${getYearsStringValue(newLoanDuration)}`);
     setLoanDurationSliderValue(newLoanDuration);
   };
 
@@ -431,7 +443,7 @@ const Calculator = (props) => {
       }
       setloanDurationValue(updatedDuration);
     } else {
-      setloanDurationValue(`${updatedDuration.toLocaleString(DEFAULT_LOCALE)} лет`);
+      setloanDurationValue(`${updatedDuration.toLocaleString(DEFAULT_LOCALE)} ${getYearsStringValue(updatedDuration)}`);
     }
   };
 
@@ -683,55 +695,56 @@ const Calculator = (props) => {
             </div>
           }
         </div>
+        {offer.isValid &&
+          <div className={`calculator__third-step ${hiddenThirdStepClassName}`}>
+            <h3 className="calculator__step-title calculator__step-title--third">Шаг 3. Оформление заявки</h3>
+            <div className="calculator__application-wrapper application">
+              <ul className="application__list">
+                <li className="application__list-item">
+                  <p className="application__list-item-title">Номер заявки</p>
+                  <p className="application__list-item-value">{`№ ${zeroPad(offerNumber, 4)}`}</p>
+                </li>
+                <li className="application__list-item">
+                  <p className="application__list-item-title">Цель кредита</p>
+                  <p className="application__list-item-value">{loanPurposeText}</p>
+                </li>
+                <li className="application__list-item">
+                  <p className="application__list-item-title">{loanPriceText}</p>
+                  <p className="application__list-item-value">{`${totalCost.toLocaleString(DEFAULT_LOCALE)} рублей`}</p>
+                </li>
+                <li className="application__list-item">
+                  <p className="application__list-item-title">Первоначальный взнос</p>
+                  <p className="application__list-item-value">{`${initialPayment.toLocaleString(DEFAULT_LOCALE)} рублей`}</p>
+                </li>
+                <li className="application__list-item">
+                  <p className="application__list-item-title">Срок кредитования</p>
+                  <p className="application__list-item-value">{`${loanDuration} ${getYearsStringValue(loanDuration)}`}</p>
+                </li>
+              </ul>
 
-        <div className={`calculator__third-step ${hiddenThirdStepClassName}`}>
-          <h3 className="calculator__step-title calculator__step-title--third">Шаг 3. Оформление заявки</h3>
-          <div className="calculator__application-wrapper application">
-            <ul className="application__list">
-              <li className="application__list-item">
-                <p className="application__list-item-title">Номер заявки</p>
-                <p className="application__list-item-value">{`№ ${zeroPad(offerNumber, 4)}`}</p>
-              </li>
-              <li className="application__list-item">
-                <p className="application__list-item-title">Цель кредита</p>
-                <p className="application__list-item-value">{loanPurposeText}</p>
-              </li>
-              <li className="application__list-item">
-                <p className="application__list-item-title">{loanPriceText}</p>
-                <p className="application__list-item-value">{`${totalCost.toLocaleString(DEFAULT_LOCALE)} рублей`}</p>
-              </li>
-              <li className="application__list-item">
-                <p className="application__list-item-title">Первоначальный взнос</p>
-                <p className="application__list-item-value">{`${initialPayment.toLocaleString(DEFAULT_LOCALE)} рублей`}</p>
-              </li>
-              <li className="application__list-item">
-                <p className="application__list-item-title">Срок кредитования</p>
-                <p className="application__list-item-value">{`${loanDuration} лет`}</p>
-              </li>
-            </ul>
-
-            <div className="application__fields-wrapper">
-              <span className={hiddenErrorMessageClassName}>Все поля обязательны для заполнения</span>
-              <label className="visually-hidden" htmlFor="name">Укажите ваше имя</label>
-              <input className="application__field-name" type="text" id="name" name="name" placeholder="ФИО" minLength="1" ref={inputNameEl} autoFocus={true} value={userData.userName} onChange={setUserName} />
-              <label className="visually-hidden" htmlFor="tel">Укажите ваш телефон</label>
-              <InputMask
-                mask="+7 (999) 999-99-99"
-                className="application__field-tel"
-                type="tel"
-                id="tel"
-                name="tel"
-                placeholder="Телефон"
-                value={userData.userTel}
-                onChange={setUserTel}
-              />
-              <label className="visually-hidden" htmlFor="email">Укажите ваш адрес электронной почты</label>
-              <input className="application__field-email" type="email" id="email" name="email" placeholder="E-mail" value={userData.userEmail} onChange={setUserEmail} />
+              <div className="application__fields-wrapper">
+                <span className={hiddenErrorMessageClassName}>Все поля обязательны для заполнения</span>
+                <label className="visually-hidden" htmlFor="name">Укажите ваше имя</label>
+                <input className="application__field-name" type="text" id="name" name="name" placeholder="ФИО" minLength="1" ref={inputNameEl} autoFocus={true} value={userData.userName} onChange={setUserName} />
+                <label className="visually-hidden" htmlFor="tel">Укажите ваш телефон</label>
+                <InputMask
+                  mask="+7 (999) 999-99-99"
+                  className="application__field-tel"
+                  type="tel"
+                  id="tel"
+                  name="tel"
+                  placeholder="Телефон"
+                  value={userData.userTel}
+                  onChange={setUserTel}
+                />
+                <label className="visually-hidden" htmlFor="email">Укажите ваш адрес электронной почты</label>
+                <input className="application__field-email" type="email" id="email" name="email" placeholder="E-mail" value={userData.userEmail} onChange={setUserEmail} />
+              </div>
+              <button type="submit" disabled className={ClassName.DISPLAY_NONE} aria-hidden="true"></button>
+              <button className="application__submit-btn" type="submit">Отправить</button>
             </div>
-            <button type="submit" disabled className={ClassName.DISPLAY_NONE} aria-hidden="true"></button>
-            <button className="application__submit-btn" type="submit">Отправить</button>
           </div>
-        </div>
+        }
       </form>
     </section>
   );
