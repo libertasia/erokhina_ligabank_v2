@@ -523,7 +523,7 @@ const Calculator = (props) => {
     const amount = getOfferLoanAmount(totalCost, initialPayment, discount);
     let rate = 0;
     if (loanType === LoanType.MORTGAGE) {
-      rate = getOfferMortgageRate(Math.round(initialPayment / totalCost) * MULTIPLIER);
+      rate = getOfferMortgageRate(Math.round(initialPayment * MULTIPLIER / totalCost));
     } else {
       rate = getOfferAutoRate(totalCost, isCascoInsuranceChecked, isLifeInsuranceChecked);
     }
