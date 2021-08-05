@@ -193,6 +193,7 @@ const Calculator = (props) => {
     monthlyPayment: 0,
     requiredIncome: 0,
     isValid: true,
+    errorMessage: ``,
   });
 
   const closeForm = () => {
@@ -517,10 +518,16 @@ const Calculator = (props) => {
     const monthlyPayment = getOfferMonthlyPayment(amount, rate, loanDuration);
     const requiredIncome = getOfferRequiredIncome(monthlyPayment);
     let isValid = true;
-    if (loanType === LoanType.MORTGAGE && amount < MIN_MORTGAGE_LOAN_AMOUNT) {
+    let errorMessage = ``;
+    if (loanType === LoanType.MORTGAGE && (amount < MIN_MORTGAGE_LOAN_AMOUNT || isTotalCostInvalid)) {
       isValid = false;
-    } else if (loanType === LoanType.AUTO && amount < MIN_AUTO_LOAN_AMOUNT) {
+      errorMessage = loanTooSmallText;
+    } else if (loanType === LoanType.AUTO && (amount < MIN_AUTO_LOAN_AMOUNT || isTotalCostInvalid)) {
       isValid = false;
+      errorMessage = loanTooSmallText;
+    }
+    if (isTotalCostInvalid) {
+      errorMessage = `Некорректные параметры`;
     }
 
     setOffer({
@@ -529,7 +536,8 @@ const Calculator = (props) => {
       rate,
       monthlyPayment,
       requiredIncome,
-      isValid
+      isValid,
+      errorMessage
     });
   }, [loanType, totalCost, initialPayment, isMaternalDiscountChecked, isCascoInsuranceChecked, isLifeInsuranceChecked, loanDuration]);
 
@@ -670,7 +678,7 @@ const Calculator = (props) => {
           }
           {!offer.isValid &&
             <div className="calculator__message">
-              <p className="calculator__message-loan-too-small">{loanTooSmallText}</p>
+              <p className="calculator__message-loan-too-small">{offer.errorMessage}</p>
               <p className="calculator__message-change-calc-params">Попробуйте использовать другие <br />параметры для расчёта.</p>
             </div>
           }
