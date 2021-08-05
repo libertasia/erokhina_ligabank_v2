@@ -67,6 +67,19 @@ const MainScreen = (props) => {
     setIsLoginPopupVisible(false);
   };
 
+  const handleOverlayScroll = (evt) => {
+    evt.preventDefault();
+  };
+
+  useEffect(() => {
+    if (isMenuOpened) {
+      window.addEventListener(Event.WHEEL, handleOverlayScroll, {passive: false});
+    }
+    return () => {
+      window.removeEventListener(Event.WHEEL, handleOverlayScroll);
+    };
+  }, [isMenuOpened]);
+
   useEffect(() => {
     document.addEventListener(Event.KEY_DOWN, handleEscPress);
 
