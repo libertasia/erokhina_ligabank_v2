@@ -169,7 +169,7 @@ const Tabs = (props) => {
   }
 
   return (
-    <section className="tabs">
+    <section className="tabs main-swiper">
       <h2 className="visually-hidden">Услуги</h2>
       <div className="tabs__desktop container">
         <ul className="tabs__list">
